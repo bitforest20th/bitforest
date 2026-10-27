@@ -39,16 +39,18 @@ button{cursor:pointer}
 .statue{position:absolute;width:388px;height:291px;margin:-226px 0 0 -194px;pointer-events:none}
 .statue img{width:100%;height:100%;display:block;filter:drop-shadow(0 6px 8px rgba(120,90,10,.28))}
 .statue .tw{position:absolute;width:18px;height:18px;background:#fffbe6;clip-path:polygon(50% 0,61% 39%,100% 50%,61% 61%,50% 100%,39% 61%,0 50%,39% 39%);animation:tw 2.4s ease-in-out infinite;opacity:0}
+.ff{position:absolute;width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:50%;background:#fff6c2;box-shadow:0 0 8px 3px rgba(255,214,110,.7);pointer-events:none;opacity:0;animation:ff 6s ease-in-out infinite}
+@keyframes ff{0%{opacity:0;transform:translate(0,0)}25%{opacity:1}55%{transform:translate(16px,-20px)}80%{opacity:.7}100%{opacity:0;transform:translate(-6px,-38px)}}
 @keyframes tw{0%,100%{opacity:0;transform:scale(.3) rotate(0)}50%{opacity:1;transform:scale(1) rotate(45deg)}}
 #chars,#signs{position:absolute;inset:0;pointer-events:none}
 .hide-bots .char.bot{display:none}
 
 /* ---------- world signs ---------- */
-.sign{position:absolute;pointer-events:auto;transform:translate(-50%,-100%);display:grid;grid-template-columns:auto 28px;align-items:center;column-gap:12px;padding:10px 12px 11px 18px;background:var(--paper);border:3px solid var(--paper-line);border-radius:14px;box-shadow:0 4px 0 #c5b083,0 12px 22px rgba(40,30,10,.25);text-align:left;transition:transform .15s}
+.sign{position:absolute;pointer-events:auto;transform:translate(-50%,-100%);display:grid;grid-template-columns:auto 42px;align-items:center;column-gap:16px;padding:14px 16px 16px 26px;background:var(--paper);border:4px solid var(--paper-line);border-radius:20px;box-shadow:0 6px 0 #c5b083,0 16px 28px rgba(40,30,10,.28);white-space:nowrap;text-align:left;transition:transform .15s}
 .sign:hover{transform:translate(-50%,-100%) translateY(-3px)}
-.sign .t{font-family:var(--font-display);font-size:23px;line-height:1;letter-spacing:.02em;color:var(--ink)}
-.sign .s{grid-column:1;font-size:14px;color:var(--ink-soft);margin-top:5px}
-.sign .chev{grid-column:2;grid-row:1/span 2;width:28px;height:28px;border-radius:9px;background:var(--ink);color:var(--paper);display:grid;place-items:center}
+.sign .t{font-family:var(--font-display);font-size:36px;line-height:1;letter-spacing:.02em;color:var(--ink)}
+.sign .s{grid-column:1;font-size:20px;color:var(--ink-soft);margin-top:7px}
+.sign .chev{grid-column:2;grid-row:1/span 2;width:42px;height:42px;border-radius:13px;background:var(--ink);color:var(--paper);display:grid;place-items:center}
 .gate-sign{position:absolute;transform:translate(-50%,-50%);padding:8px 26px 10px;border-radius:16px;background:var(--leaf);border:4px solid var(--wood);color:var(--paper);text-align:center;font-family:var(--font-display);line-height:1.05;box-shadow:0 5px 0 var(--wood-dk)}
 .gate-sign small{display:block;font-size:15px;opacity:.9}
 .gate-sign span{font-size:30px;color:var(--mint)}
@@ -61,7 +63,7 @@ button{cursor:pointer}
 .char .body::before{content:"";position:absolute;left:50%;bottom:0;width:38px;height:10px;margin-left:-19px;border-radius:50%;background:radial-gradient(closest-side,rgba(30,50,25,.38),rgba(30,50,25,0))}
 .av3{display:block}
 .char .ui{position:absolute;left:50%;bottom:calc(100% - 6px);transform:translateX(-50%) scale(var(--inv));transform-origin:50% 100%;display:flex;flex-direction:column;align-items:center;gap:5px;pointer-events:none}
-.char .tag{white-space:nowrap;font-size:10.5px;line-height:1.35;padding:0 6px 1px;opacity:.94;border-radius:999px;background:rgba(253,248,234,.95);color:var(--ink);box-shadow:0 1px 0 rgba(95,58,32,.3)}
+.char .tag{white-space:nowrap;font-size:12.5px;line-height:1.35;padding:1px 8px 2px;border-radius:999px;background:#fdf8ea;color:var(--ink);box-shadow:0 1px 0 rgba(95,58,32,.3)}
 .char .tag b{font-family:var(--font-display);font-weight:400;color:var(--leaf);margin-right:3px}
 .char .bubble{position:relative;max-width:150px;width:max-content;padding:4px 9px;border-radius:11px;background:#fff;color:var(--ink);font-size:11.5px;line-height:1.35;box-shadow:0 2px 6px rgba(30,50,40,.2);word-break:keep-all;overflow-wrap:anywhere;animation:pop .25s ease-out}
 .char .bubble::after{content:"";position:absolute;left:50%;bottom:-6px;margin-left:-6px;border:6px solid transparent;border-bottom:0;border-top-color:#fff}
@@ -88,10 +90,8 @@ button{cursor:pointer}
 /* ---------- HUD ---------- */
 .hud-top{position:absolute;top:0;left:0;right:0;z-index:20;display:flex;justify-content:space-between;align-items:flex-start;gap:10px;pointer-events:none;padding:calc(env(safe-area-inset-top,0px) + 10px) max(12px,env(safe-area-inset-right,0px)) 0 max(12px,env(safe-area-inset-left,0px))}
 .hud-top>*{pointer-events:auto}
-.logo{position:relative;padding:8px 16px 9px;border-radius:16px;background:linear-gradient(180deg,#a26a40,#7d4f2e);border:3px solid var(--wood-dk);box-shadow:0 4px 0 var(--wood-dk),0 10px 20px rgba(40,30,10,.25);color:var(--paper);font-family:var(--font-display);line-height:1;text-align:center}
-.logo small{display:block;font-size:13px;opacity:.9}
-.logo strong{display:block;font-weight:400;font-size:27px;color:var(--mint);margin:2px 0 4px;text-shadow:0 2px 0 var(--wood-dk)}
-.logo em{display:inline-block;font-style:normal;font-family:var(--font-body);font-size:10px;letter-spacing:.12em;padding:2px 7px;border-radius:999px;background:var(--paper);color:var(--wood)}
+.logo{width:220px;filter:drop-shadow(0 6px 8px rgba(40,30,10,.32))}
+.logo-svg{display:block;width:100%;height:auto;overflow:visible}
 .hud-right{display:flex;gap:8px;align-items:center;justify-content:flex-end;flex:none}
 .pill{display:flex;align-items:center;gap:8px;height:44px;padding:0 16px;border-radius:999px;background:var(--paper);border:0;box-shadow:var(--lift);white-space:nowrap}
 .pill svg{flex:none}
@@ -222,10 +222,7 @@ button{cursor:pointer}
 .entry{position:absolute;inset:0;z-index:50;display:grid;place-items:center;background:rgba(30,64,56,.35);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);padding:calc(env(safe-area-inset-top,0px) + 14px) max(14px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 14px) max(14px,env(safe-area-inset-left,0px));overflow:auto;touch-action:pan-y}
 .entry-card{position:relative;width:min(100%,440px);background:var(--paper);border:4px solid var(--wood);border-radius:28px;box-shadow:0 6px 0 var(--wood-dk),0 24px 50px rgba(20,30,20,.35);padding:26px 22px 22px;animation:pop .35s ease-out}
 .entry-card h1,.entry-card h2{font-family:var(--font-display);font-weight:400;margin:0;text-wrap:balance}
-.entry-logo{text-align:center;font-family:var(--font-display);line-height:1}
-.entry-logo small{display:block;font-size:20px;color:var(--wood)}
-.entry-logo strong{display:block;font-weight:400;font-size:56px;color:var(--leaf);margin:4px 0 8px;letter-spacing:.01em}
-.entry-logo em{display:inline-block;font-style:normal;font-family:var(--font-body);font-size:12px;letter-spacing:.16em;padding:4px 12px;border-radius:999px;background:var(--wood);color:var(--paper)}
+.entry-logo{width:min(300px,88%);margin:-4px auto 0;filter:drop-shadow(0 5px 6px rgba(40,30,10,.25))}
 .lede{text-align:center;font-size:17px;line-height:1.6;margin:18px 0 20px}
 .big{width:100%;height:54px;font-size:20px}
 .linkish{display:block;margin:12px auto 0;border:0;background:none;color:var(--ink-soft);text-decoration:underline;text-underline-offset:3px}
@@ -316,10 +313,7 @@ button{cursor:pointer}
 .bd-empty{grid-column:1/-1;text-align:center;color:#fff8e6;padding:30px 10px;line-height:1.6;font-size:15px;text-shadow:0 1px 1px rgba(80,40,0,.4)}
 @media (max-width:480px){.ty-cols{grid-template-columns:1fr}.ty-row{grid-template-columns:96px minmax(0,1fr)}.cork{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}}
 @media (max-width:560px){
-  .logo{padding:6px 11px 7px}
-  .logo small{font-size:11px}
-  .logo strong{font-size:21px}
-  .logo em{display:none}
+  .logo{width:148px}
   .hud-right{gap:6px}
   .iconbtn{width:40px;height:40px}
   .pill{height:40px}
@@ -327,8 +321,6 @@ button{cursor:pointer}
   .pill .long{display:none}
   .pill .short{display:inline}
   #mini{width:104px;height:78px;border-radius:12px}
-  .entry-logo strong{font-size:46px}
-  .sign .t{font-size:23px}
 }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
@@ -346,9 +338,7 @@ button{cursor:pointer}
   </div>
 
   <header class="hud-top">
-    <div class="logo" aria-label="모여봐요 뱌티의 숲, BIT 20th Homecoming">
-      <small>모여봐요</small><strong>뱌티의 숲</strong><em>BIT 20TH HOMECOMING</em>
-    </div>
+    <div class="logo"><svg class="logo-svg" viewBox="0 0 320 172" role="img" aria-label="모여봐요 뱌티의 숲, BIT 20th Homecoming"><defs><linearGradient id="wd-hud" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c08a55"/><stop offset="1" stop-color="#8a5732"/></linearGradient><linearGradient id="mt-hud" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#effff6"/><stop offset="1" stop-color="#8fdcbc"/></linearGradient></defs><g font-family="Jua, 'Gowun Dodum', sans-serif" text-anchor="middle" stroke-linejoin="round" stroke-linecap="round"><g fill="#4e2f19" stroke="#4e2f19"><text x="146" y="52" font-size="35" stroke-width="30">모여봐요</text><text x="160" y="120" font-size="62" stroke-width="34">뱌티의 숲</text></g><g fill="url(#wd-hud)" stroke="url(#wd-hud)" transform="translate(0 -3)"><text x="146" y="52" font-size="35" stroke-width="23">모여봐요</text><text x="160" y="120" font-size="62" stroke-width="27">뱌티의 숲</text></g><text x="146" y="48" font-size="35" fill="#fdf4dc" stroke="#5f3a20" stroke-width="3" paint-order="stroke">모여봐요</text><text x="160" y="116" font-size="62" fill="url(#mt-hud)" stroke="#2c5b4b" stroke-width="5" paint-order="stroke">뱌티의 숲</text></g><g transform="translate(160 150)"><rect x="-106" y="-15" width="212" height="32" rx="16" fill="#4e2f19"/><rect x="-102" y="-17" width="204" height="28" rx="14" fill="#fdf4dc"/><text y="2" font-family="'Gowun Dodum', sans-serif" font-size="12" letter-spacing="1.4" fill="#7d4f2e" text-anchor="middle" font-weight="700" textLength="176" lengthAdjust="spacingAndGlyphs">BIT 20TH HOMECOMING</text></g><g transform="translate(52 12) rotate(-30)"><path d="M0 0 C10 -18 30 -16 34 -2 C24 8 8 8 0 0Z" fill="#6cbf5c" stroke="#2f6a3a" stroke-width="2.5" stroke-linejoin="round"/><path d="M3 -1 Q17 -5 30 -3" stroke="#2f6a3a" stroke-width="1.6" fill="none"/></g><g transform="translate(62 18) rotate(22)"><path d="M0 0 C7 -12 21 -11 24 -1 C17 6 6 6 0 0Z" fill="#8fd27a" stroke="#2f6a3a" stroke-width="2.2" stroke-linejoin="round"/></g><g transform="translate(284 64) rotate(-10)"><path d="M0 -9 L2.6 -2.6 L9 0 L2.6 2.6 L0 9 L-2.6 2.6 L-9 0 L-2.6 -2.6Z" fill="#fff3b0" class="sparkle"/></g></svg></div>
     <div class="hud-right">
       <button class="pill" id="countPill" type="button" aria-label="참석자 찾아보기">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 19c.6-3.3 3-5 6-5s5.4 1.7 6 5"/><circle cx="17" cy="9" r="2.5"/><path d="M16 14.2c2.6.2 4.4 1.8 5 4.8"/></svg>
@@ -841,13 +831,14 @@ const PLAZA = { x: 1200, y: 960, rx: 530, ry: 345 };
 const FOUNTAIN = { x: 1200, y: 935, r: 215 };
 const GATE = { x: 1200, y: 1690 };
 const BUILDINGS = [
-  { id:'board',   style:'board',    x:560,  y:640,  w:280, h:220, roof:'#5f8a4a', wall:'#a26a40', title:'마을 게시판',   sub:'Thanks to · 방명록' },
-  { id:'bridge',  style:'hall',     x:1200, y:440,  w:400, h:260, roof:'#3f8f87', wall:'#efe5cf', title:'BIT BRIDGE',   sub:'동문 네트워크' },
-  { id:'people',  style:'cafe',     x:1840, y:640,  w:300, h:210, roof:'#5f7fa8', wall:'#f1e6cf', title:'OUR PEOPLE',   sub:'참석자 찾아보기' },
-  { id:'memory',  style:'studio',   x:560,  y:1290, w:300, h:230, roof:'#5c6a7d', wall:'#efdcbc', title:'MEMORY LANE',  sub:'추억의 사진관' },
-  { id:'closet',  style:'boutique', x:1840, y:1290, w:300, h:220, roof:'#d48a5a', wall:'#f7ead4', title:'MY CHARACTER', sub:'내 캐릭터 꾸미기' }
+  { id:'board',   style:'board',    x:510,  y:600,  w:280, h:220, roof:'#5f8a4a', wall:'#a26a40', title:'마을 게시판',   sub:'Thanks to · 방명록' },
+  { id:'bridge',  style:'hall',     x:1200, y:395,  w:400, h:260, roof:'#3f8f87', wall:'#efe5cf', title:'BIT BRIDGE',   sub:'동문 네트워크' },
+  { id:'people',  style:'cafe',     x:1890, y:600,  w:300, h:210, roof:'#5f7fa8', wall:'#f1e6cf', title:'OUR PEOPLE',   sub:'참석자 찾아보기' },
+  { id:'memory',  style:'studio',   x:510,  y:1300, w:300, h:230, roof:'#5c6a7d', wall:'#efdcbc', title:'MEMORY LANE',  sub:'추억의 사진관' },
+  { id:'closet',  style:'boutique', x:1890, y:1300, w:300, h:220, roof:'#d48a5a', wall:'#f7ead4', title:'MY CHARACTER', sub:'내 캐릭터 꾸미기' }
 ];
-BUILDINGS.forEach(b => { b.door = { x: b.x, y: b.y + b.h/2 + 14 }; b.top = b.y - b.h/2 - ({ hall: 70, studio: 40, boutique: 20, library: 10, cafe: 6, board: 4 }[b.style] || 0); });
+const BS = 1.25;
+BUILDINGS.forEach(b => { b.door = { x: b.x, y: b.y + b.h/2*BS + 14 }; b.top = b.y - (b.h/2 + ({ hall: 70, studio: 40, boutique: 20, library: 10, cafe: 6, board: 4 }[b.style] || 0)) * BS; });
 const SEGMENTS = BUILDINGS.map(b => ({ a: { x: PLAZA.x, y: PLAZA.y }, b: b.door })).concat([{ a: { x: PLAZA.x, y: PLAZA.y }, b: GATE }]);
 const ISL = { cx: 1200, cy: 900, a: 1130, b: 830, n: 5 };
 function inIsland(x, y, k = 1){ return Math.pow(Math.abs((x-ISL.cx)/ISL.a), ISL.n) + Math.pow(Math.abs((y-ISL.cy)/ISL.b), ISL.n) < k; }
@@ -874,7 +865,7 @@ function buildMap(){
   const P = PLAZA;
 
   let s = '';
-  s += `<defs><radialGradient id="glow"><stop offset="0" stop-color="#fff3b8" stop-opacity=".9"/><stop offset="1" stop-color="#fff3b8" stop-opacity="0"/></radialGradient>
+  s += `<defs><radialGradient id="glow"><stop offset="0" stop-color="#ffe9a0" stop-opacity=".95"/><stop offset=".45" stop-color="#ffd27a" stop-opacity=".45"/><stop offset="1" stop-color="#ffd27a" stop-opacity="0"/></radialGradient><radialGradient id="winglow"><stop offset="0" stop-color="#ffd77a" stop-opacity=".95"/><stop offset="1" stop-color="#ffd77a" stop-opacity="0"/></radialGradient><radialGradient id="spill" cx=".5" cy=".5"><stop offset="0" stop-color="#ffe2a0" stop-opacity=".55"/><stop offset="1" stop-color="#ffe2a0" stop-opacity="0"/></radialGradient><radialGradient id="bulb"><stop offset="0" stop-color="#fff6d0"/><stop offset=".35" stop-color="#ffd477" stop-opacity=".7"/><stop offset="1" stop-color="#ffc35a" stop-opacity="0"/></radialGradient><radialGradient id="dusk" cx=".5" cy=".48" r=".75"><stop offset="0" stop-color="#ffd9a0" stop-opacity=".1"/><stop offset=".5" stop-color="#ffb070" stop-opacity=".08"/><stop offset="1" stop-color="#f08a50" stop-opacity=".32"/></radialGradient>
     <pattern id="tiles" width="46" height="46" patternUnits="userSpaceOnUse"><rect width="46" height="46" fill="#efe4c6"/><path d="M0 0H46M0 0V46" stroke="#e2d4b0" stroke-width="2"/><rect x="23" y="23" width="23" height="23" fill="#ece0bf"/></pattern>
     <clipPath id="plazaClip"><ellipse cx="${P.x}" cy="${P.y}" rx="${P.rx}" ry="${P.ry}"/></clipPath>
     <radialGradient id="water" cx=".5" cy=".4"><stop offset="0" stop-color="#bfeef6"/><stop offset="1" stop-color="#6cc4da"/></radialGradient></defs>`;
@@ -883,6 +874,19 @@ function buildMap(){
   s += `<path d="${d}" fill="#7a6a48" transform="translate(0 18)"/>`;
   s += `<path d="${d}" fill="#efe1b6" stroke="#efe1b6" stroke-width="34" stroke-linejoin="round"/>`;
   s += `<path d="${d}" fill="#a4d476"/>`;
+  // lawn variation: soft patches of deeper, lighter and autumn-tinted grass
+  const LAWN = ['#95c965', '#b2da82', '#8bbf5c', '#a9cf6c', '#bcd87a'];
+  s += `<clipPath id="islClip"><path d="${d}"/></clipPath><g clip-path="url(#islClip)">`;
+  for (let i = 0, n = 0; i < 400 && n < 46; i++){
+    const x = rnd()*W, y = rnd()*H; if (!inIsland(x, y, .82) || inPlaza(x, y, 60)) continue; n++;
+    const rx = 70 + rnd()*120, ry = rx * (.45 + rnd()*.25), c = LAWN[Math.floor(rnd()*LAWN.length)];
+    s += `<ellipse cx="${f(x)}" cy="${f(y)}" rx="${f(rx)}" ry="${f(ry)}" fill="${c}" opacity="${(.55 + rnd()*.35).toFixed(2)}" transform="rotate(${(rnd()*40-20).toFixed(1)} ${f(x)} ${f(y)})"/>`;
+  }
+  s += `</g>`;
+  for (let i = 0, n = 0; i < 1400 && n < 320; i++){
+    const x = rnd()*W, y = rnd()*H; if (!inIsland(x, y, .88) || inPlaza(x, y, 30)) continue; n++;
+    s += `<ellipse cx="${f(x)}" cy="${f(y)}" rx="3.4" ry="2" fill="${['#e9893a', '#d9622f', '#f2c14e', '#c8572c'][Math.floor(rnd()*4)]}" transform="rotate(${(rnd()*180).toFixed(0)} ${f(x)} ${f(y)})" opacity=".85"/>`;
+  }
   for (let i = 0; i < 380; i++){ const x = 80 + rnd()*(W-160), y = 80 + rnd()*(H-160); if (!inIsland(x, y, .9) || inPlaza(x, y, 40)) continue; s += `<path d="M${f(x)} ${f(y)} l3 -7 l3 7 l3 -6 l3 6" stroke="#8cc260" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`; }
   PONDS.forEach(p => { s += `<ellipse cx="${p.x}" cy="${p.y+5}" rx="${p.rx+10}" ry="${p.ry+10}" fill="#cbb98d"/><ellipse cx="${p.x}" cy="${p.y}" rx="${p.rx}" ry="${p.ry}" fill="#7fd0e3"/><ellipse cx="${p.x-28}" cy="${p.y-8}" rx="15" ry="9" fill="#6db36a"/><ellipse cx="${p.x+30}" cy="${p.y+14}" rx="12" ry="8" fill="#6db36a"/><circle cx="${p.x-22}" cy="${p.y-12}" r="4" fill="#f6a6c1"/>`; });
   // paths to each building and the gate (drawn under the plaza)
@@ -895,7 +899,6 @@ function buildMap(){
   s += `<ellipse cx="${P.x}" cy="${P.y}" rx="${P.rx}" ry="${P.ry}" fill="url(#tiles)"/>`;
   s += `<ellipse cx="${P.x}" cy="${P.y}" rx="${P.rx-70}" ry="${P.ry-52}" fill="none" stroke="#dcca9f" stroke-width="5" stroke-dasharray="26 12"/>`;
   s += `<ellipse cx="${P.x}" cy="${P.y}" rx="${P.rx-14}" ry="${P.ry-12}" fill="none" stroke="#e4d6b2" stroke-width="3"/>`;
-  s += `<text x="${P.x}" y="${P.y+196}" text-anchor="middle" font-family="Jua,sans-serif" font-size="32" letter-spacing="14" fill="#dccaa0">BIT · 20 YEARS</text>`;
   // fountain (the golden 20 statue is placed on top as its own layer)
   const FX = FOUNTAIN.x, FY = FOUNTAIN.y;
   s += `<ellipse cx="${FX}" cy="${FY+26}" rx="262" ry="156" fill="rgba(70,60,30,.16)"/>`;
@@ -917,9 +920,28 @@ function buildMap(){
   // benches facing the fountain, lamps around the rim
   const bench = (x, y) => `<g transform="translate(${f(x)} ${f(y)})"><ellipse cx="0" cy="10" rx="34" ry="5" fill="rgba(60,50,20,.18)"/><rect x="-30" y="-6" width="60" height="11" rx="3" fill="#8b5a35"/><rect x="-30" y="-16" width="60" height="7" rx="3" fill="#a26a40"/><rect x="-25" y="4" width="5" height="8" fill="#5f3a20"/><rect x="20" y="4" width="5" height="8" fill="#5f3a20"/></g>`;
   [[-.66, -.5], [.66, -.5], [-.82, .3], [.82, .3], [-.42, .8], [.42, .8]].forEach(([a, b]) => { s += bench(P.x + a * (P.rx - 70), P.y + b * (P.ry - 50)); });
-  const lampAt = (x, y) => `<circle cx="${f(x)}" cy="${f(y-46)}" r="30" fill="url(#glow)"/><ellipse cx="${f(x)}" cy="${f(y+2)}" rx="9" ry="4" fill="rgba(40,60,30,.25)"/><rect x="${f(x-2.5)}" y="${f(y-42)}" width="5" height="44" fill="#3d4a4a"/><rect x="${f(x-9)}" y="${f(y-58)}" width="18" height="18" rx="4" fill="#ffe9a3" stroke="#3d4a4a" stroke-width="3"/><path d="M${f(x-11)} ${f(y-58)} h22 l-4 -6 h-14z" fill="#3d4a4a"/>`;
+  const lampAt = (x, y) => `<circle cx="${f(x)}" cy="${f(y-50)}" r="46" fill="url(#glow)"/><ellipse cx="${f(x)}" cy="${f(y+4)}" rx="34" ry="12" fill="url(#spill)"/><ellipse cx="${f(x)}" cy="${f(y+2)}" rx="9" ry="4" fill="rgba(40,60,30,.25)"/><rect x="${f(x-2.5)}" y="${f(y-42)}" width="5" height="44" fill="#3d4a4a"/><rect x="${f(x-9)}" y="${f(y-58)}" width="18" height="18" rx="4" fill="#ffe9a3" stroke="#3d4a4a" stroke-width="3"/><path d="M${f(x-11)} ${f(y-58)} h22 l-4 -6 h-14z" fill="#3d4a4a"/>`;
   for (let i = 0; i < 12; i++){ const t = (i + .5) / 12 * Math.PI * 2; s += lampAt(P.x + Math.cos(t) * (P.rx - 30), P.y + Math.sin(t) * (P.ry - 24) + 10); }
   // buildings
+  // strings of bulbs between the rim lamps and over the gate path
+  const strand = (ax, ay, bx, by, sag, k0) => {
+    const cx = (ax + bx) / 2, cy = (ay + by) / 2 + sag;
+    let st = `<path d="M${f(ax)} ${f(ay)} Q${f(cx)} ${f(cy)} ${f(bx)} ${f(by)}" stroke="#4a3b2c" stroke-width="1.6" fill="none" opacity=".75"/>`;
+    const n = Math.max(4, Math.round(Math.hypot(bx - ax, by - ay) / 26));
+    for (let i = 1; i < n; i++){
+      const t = i / n, x = (1-t)*(1-t)*ax + 2*(1-t)*t*cx + t*t*bx, y = (1-t)*(1-t)*ay + 2*(1-t)*t*cy + t*t*by + 4;
+      const c = ['#fff3c4', '#ffd27a', '#ffb3a8', '#fff3c4', '#c9f2dc'][(i + k0) % 5];
+      st += `<circle cx="${f(x)}" cy="${f(y)}" r="13" fill="url(#bulb)"${(i + k0) % 3 ? '' : ' class="sparkle" style="animation-delay:' + ((i * .37) % 2.4).toFixed(2) + 's"'}/><circle cx="${f(x)}" cy="${f(y)}" r="3.4" fill="${c}"/>`;
+    }
+    return st;
+  };
+  const rim = []; for (let i = 0; i < 12; i++){ const t = (i + .5) / 12 * Math.PI * 2; rim.push([P.x + Math.cos(t) * (P.rx - 30), P.y + Math.sin(t) * (P.ry - 24) + 10 - 58]); }
+  for (let i = 0; i < 12; i++){ const a = rim[i], b2 = rim[(i + 1) % 12]; s += strand(a[0], a[1], b2[0], b2[1], 26, i); }
+  [[GATE.x - 80, GATE.y - 330, GATE.x + 80, GATE.y - 330], [GATE.x - 90, GATE.y - 150, GATE.x + 90, GATE.y - 150]].forEach(([a, b1, c, d2], i) => { s += strand(a, b1, c, d2, 30, i * 2); });
+  // a little dock and rowing boat on the south-west shore
+  s += `<g transform="translate(420 1688)"><rect x="-14" y="0" width="28" height="92" fill="#a26a40"/>${[0, 1, 2, 3, 4, 5].map(i => `<rect x="-14" y="${i * 15 + 4}" width="28" height="3" fill="#7d4f2e"/>`).join('')}<rect x="-18" y="10" width="5" height="88" fill="#5f3a20"/><rect x="13" y="10" width="5" height="88" fill="#5f3a20"/><circle cx="-16" cy="96" r="5" fill="#5f3a20"/><circle cx="16" cy="96" r="5" fill="#5f3a20"/>
+    <g transform="translate(58 70) rotate(-12)"><ellipse cx="0" cy="8" rx="44" ry="10" fill="rgba(30,80,100,.25)"/><path d="M-42 -6 Q0 22 42 -6 L36 -14 H-36Z" fill="#b5764a" stroke="#6b4026" stroke-width="3" stroke-linejoin="round"/><path d="M-30 -10 H30" stroke="#f7ead4" stroke-width="4"/></g>
+    <circle cx="0" cy="-10" r="34" fill="url(#glow)"/><rect x="-3" y="-36" width="6" height="36" fill="#3d4a4a"/><rect x="-9" y="-48" width="18" height="16" rx="4" fill="#ffe9a3" stroke="#3d4a4a" stroke-width="3"/></g>`;
   BUILDINGS.forEach(b => { s += building(b); });
   // gate: bridge, arch, banners
   const G = GATE;
@@ -936,16 +958,52 @@ function buildMap(){
   // trees: only out on the edges, well away from the plaza and buildings
   const blocked = (x, y, m) => {
     if (!inIsland(x, y, .86)) return true;
-    if (inPlaza(x, y, 120 + m)) return true;
-    for (const sg of SEGMENTS) if (segDist({x, y}, sg) < 90 + m) return true;
-    for (const b of BUILDINGS) if (x > b.x-b.w/2-70-m && x < b.x+b.w/2+70+m && y > b.y-b.h/2-130-m && y < b.y+b.h/2+50+m) return true;
+    if (inPlaza(x, y, 112 + m)) return true;
+    for (const sg of SEGMENTS) if (segDist({x, y}, sg) < 82 + m) return true;
+    for (const b of BUILDINGS) if (x > b.x-b.w/2*BS-60-m && x < b.x+b.w/2*BS+60+m && y > b.y-b.h/2*BS-150-m && y < b.y+b.h/2*BS+50+m) return true;
     for (const p of PONDS) if (Math.hypot((x-p.x)/(p.rx+70), (y-p.y)/(p.ry+70)) < 1) return true;
     if (Math.abs(x - G.x) < 170 && y > G.y - 320) return true;
     return false;
   };
+  // ----- decorations -----
+  const SH = 'rgba(40,70,30,.22)';
+  const bush = (x, y, k, fl) => `<ellipse cx="${f(x)}" cy="${f(y+2)}" rx="${f(30*k)}" ry="${f(8*k)}" fill="${SH}"/><circle cx="${f(x-14*k)}" cy="${f(y-11*k)}" r="${f(15*k)}" fill="#4a9449"/><circle cx="${f(x+14*k)}" cy="${f(y-11*k)}" r="${f(15*k)}" fill="#4a9449"/><circle cx="${f(x)}" cy="${f(y-20*k)}" r="${f(17*k)}" fill="#5cab57"/><circle cx="${f(x-5*k)}" cy="${f(y-27*k)}" r="${f(7*k)}" fill="#77c06b"/>` + (fl ? [[-14, -16], [6, -26], [16, -12], [-2, -10]].map(([dx, dy]) => `<circle cx="${f(x+dx*k)}" cy="${f(y+dy*k)}" r="${f(3.4*k)}" fill="${fl}"/>`).join('') : '');
+  const rock = (x, y, k) => `<ellipse cx="${f(x)}" cy="${f(y+2)}" rx="${f(20*k)}" ry="${f(6*k)}" fill="${SH}"/><path d="M${f(x-18*k)} ${f(y)} Q${f(x-20*k)} ${f(y-14*k)} ${f(x-5*k)} ${f(y-18*k)} Q${f(x+15*k)} ${f(y-20*k)} ${f(x+18*k)} ${f(y)}Z" fill="#aeb0a8"/><path d="M${f(x-12*k)} ${f(y-10*k)} Q${f(x-6*k)} ${f(y-17*k)} ${f(x+6*k)} ${f(y-16*k)}" stroke="#d6d6cf" stroke-width="${f(3*k)}" fill="none" stroke-linecap="round"/>`;
+  const patch = (x, y, c) => { let o = ''; for (let i = 0; i < 7; i++){ const a = rnd() * 6.28, r = rnd() * 16; o += `<circle cx="${f(x + Math.cos(a)*r)}" cy="${f(y + Math.sin(a)*r*.6)}" r="2.6" fill="#5c9e48"/><circle cx="${f(x + Math.cos(a)*r)}" cy="${f(y + Math.sin(a)*r*.6 - 3)}" r="3.6" fill="${c}"/>`; } return o; };
+  const mush = (x, y) => `<rect x="${f(x-2)}" y="${f(y-8)}" width="4" height="8" fill="#f4ead6"/><path d="M${f(x-8)} ${f(y-7)} Q${f(x)} ${f(y-18)} ${f(x+8)} ${f(y-7)}Z" fill="#e0533f"/><circle cx="${f(x-2)}" cy="${f(y-11)}" r="1.4" fill="#fff"/><circle cx="${f(x+3)}" cy="${f(y-9)}" r="1.2" fill="#fff"/>`;
+  const FL = ['#f6a6c1', '#ffffff', '#f6d36a', '#f39a7a', '#c9a6f2'];
+  // rocks along the shoreline
+  for (let i = 0; i < N; i += 2){
+    const [px, py] = pts[i], dx = ISL.cx - px, dy = ISL.cy - py, L = Math.hypot(dx, dy), x = px + dx/L*42, y = py + dy/L*42;
+    if (Math.abs(x - GATE.x) < 150 && y > GATE.y - 120) continue;
+    if (Math.abs(x - 420) < 90 && y > 1600) continue;
+    s += rock(x, y, .9 + rnd()*.6); if (rnd() < .5) s += rock(x + 26, y + 6, .55 + rnd()*.3);
+  }
+  // a hedge ring around the plaza lawn, broken where the paths come in
+  for (let i = 0; i < 40; i++){
+    const t = i / 40 * Math.PI * 2, x = P.x + Math.cos(t) * (P.rx + 92), y = P.y + Math.sin(t) * (P.ry + 82) + 10;
+    if (SEGMENTS.some(sg => segDist({ x, y }, sg) < 85)) continue;
+    if (BUILDINGS.some(b => Math.abs(x - b.x) < b.w/2*BS + 30 && Math.abs(y - b.y) < b.h/2*BS + 40)) continue;
+    s += bush(x, y, .78 + rnd()*.2, rnd() < .5 ? FL[i % 5] : '');
+  }
+  // a picnic by the west pond, a signpost by the gate
+  s += `<g transform="translate(250 1075) rotate(-8)"><rect x="-46" y="-24" width="92" height="52" rx="4" fill="#fdf8ea"/>${[0, 1, 2, 3, 4, 5].map(i => [0, 1, 2, 3].map(j => (i + j) % 2 ? '' : `<rect x="${-46 + i*15.3}" y="${-24 + j*13}" width="15.3" height="13" fill="#f2785c" opacity=".85"/>`).join('')).join('')}<path d="M16 -6 h26 l-4 18 h-18z" fill="#c48a52" stroke="#8b5a35" stroke-width="2"/><path d="M20 -6 q9 -12 18 0" stroke="#8b5a35" stroke-width="2.5" fill="none"/><circle cx="-20" cy="2" r="7" fill="#e0533f"/><circle cx="-8" cy="8" r="6" fill="#f6d36a"/></g>`;
+  s += `<g transform="translate(1365 1565)"><ellipse cx="0" cy="4" rx="20" ry="6" fill="${SH}"/><rect x="-4" y="-92" width="8" height="96" rx="3" fill="#7d4f2e"/>${[['마을 게시판', -1, -84, '#f2e3c2'], ['BIT BRIDGE', 1, -62, '#d8ecd8'], ['MY CHARACTER', 1, -40, '#f6dccf']].map(([t, d, y, c]) => `<path d="M${d < 0 ? 6 : -6} ${y} h${d*86} l${d*12} 9 l${-d*12} 9 h${-d*86}z" fill="${c}" stroke="#8b5a35" stroke-width="2.5" stroke-linejoin="round"/><text x="${d*46}" y="${y + 13}" text-anchor="middle" font-family="Jua,sans-serif" font-size="11" fill="#5f3a20">${t}</text>`).join('')}</g>`;
+  // bushes, flower patches and mushrooms over the lawn
+  for (let i = 0, n = 0; i < 900 && n < 70; i++){ const x = rnd()*W, y = rnd()*H; if (blocked(x, y, -55)) continue; n++; s += bush(x, y, .7 + rnd()*.5, rnd() < .45 ? FL[Math.floor(rnd()*5)] : ''); }
+  for (let i = 0, n = 0; i < 900 && n < 60; i++){ const x = rnd()*W, y = rnd()*H; if (blocked(x, y, -60)) continue; n++; s += patch(x, y, FL[Math.floor(rnd()*5)]); }
+  for (let i = 0, n = 0; i < 400 && n < 14; i++){ const x = rnd()*W, y = rnd()*H; if (blocked(x, y, -40)) continue; n++; s += mush(x, y) + mush(x + 12, y + 4); }
   for (let i = 0; i < 260; i++){ const x = rnd()*W, y = rnd()*H; if (blocked(x, y, -40)) continue; const col = ['#f6a6c1','#ffffff','#f6d36a','#f39a7a','#c9a6f2'][Math.floor(rnd()*5)]; s += `<circle cx="${f(x)}" cy="${f(y)}" r="4" fill="${col}"/>`; }
   const trees = [];
-  for (let i = 0; i < 1600 && trees.length < 95; i++){ const x = rnd()*W, y = rnd()*H; if (blocked(x, y, 0)) continue; if (trees.some(t => Math.hypot(t.x-x, t.y-y) < 72)) continue; trees.push({ x, y, k: .95 + rnd()*.45, pine: rnd() < .4 }); }
+  // trees on a jittered hex grid so they spread evenly instead of clumping
+  const GS = 90, GR = GS * .87;
+  for (let gy = 30, row = 0; gy < H; gy += GR, row++) for (let gx = 30 + (row % 2 ? GS / 2 : 0); gx < W; gx += GS){
+    if (rnd() < .05) continue;
+    const x = gx + (rnd() - .5) * GS * .5, y = gy + (rnd() - .5) * GR * .5;
+    if (blocked(x, y, -10)) continue;
+    if (trees.some(t => Math.hypot(t.x - x, (t.y - y) * 1.3) < 64)) continue;
+    const pine = rnd() < .38; trees.push({ x, y, k: 1.25 + rnd() * .4, pine, maple: !pine && rnd() < .42 ? Math.floor(rnd()*3) + 1 : 0 });
+  }
   trees.sort((a, b) => a.y - b.y).forEach(t => {
     const k = t.k;
     s += `<ellipse cx="${f(t.x)}" cy="${f(t.y)}" rx="${f(24*k)}" ry="${f(9*k)}" fill="rgba(40,70,30,.25)"/>`;
@@ -954,15 +1012,18 @@ function buildMap(){
       s += `<path d="M${f(t.x)} ${f(t.y-84*k)} L${f(t.x+26*k)} ${f(t.y-40*k)} L${f(t.x-26*k)} ${f(t.y-40*k)}Z M${f(t.x)} ${f(t.y-68*k)} L${f(t.x+33*k)} ${f(t.y-15*k)} L${f(t.x-33*k)} ${f(t.y-15*k)}Z" fill="#3f8a55"/>`;
       s += `<path d="M${f(t.x)} ${f(t.y-84*k)} L${f(t.x+11*k)} ${f(t.y-64*k)} L${f(t.x-7*k)} ${f(t.y-62*k)}Z" fill="#5aa86b"/>`;
     } else {
-      s += `<circle cx="${f(t.x)}" cy="${f(t.y-44*k)}" r="${f(31*k)}" fill="#5aa65a"/><circle cx="${f(t.x-15*k)}" cy="${f(t.y-33*k)}" r="${f(20*k)}" fill="#4f9a50"/><circle cx="${f(t.x+16*k)}" cy="${f(t.y-35*k)}" r="${f(20*k)}" fill="#4f9a50"/><circle cx="${f(t.x-9*k)}" cy="${f(t.y-57*k)}" r="${f(11*k)}" fill="#7cc274"/>`;
-      if (rnd() < .3) s += `<circle cx="${f(t.x+10*k)}" cy="${f(t.y-42*k)}" r="${f(4*k)}" fill="#f39a7a"/><circle cx="${f(t.x-13*k)}" cy="${f(t.y-29*k)}" r="${f(4*k)}" fill="#f39a7a"/>`;
+      const MP = [null, ['#ec7f35', '#d4622a', '#f6a95a'], ['#d9472f', '#b8362a', '#ee7a55'], ['#f0b93c', '#d99a2b', '#f8d77a']][t.maple || 0];
+      const pink = !!MP, c1 = MP ? MP[0] : '#5aa65a', c2 = MP ? MP[1] : '#4f9a50', c3 = MP ? MP[2] : '#7cc274';
+      s += `<circle cx="${f(t.x)}" cy="${f(t.y-44*k)}" r="${f(31*k)}" fill="${c1}"/><circle cx="${f(t.x-15*k)}" cy="${f(t.y-33*k)}" r="${f(20*k)}" fill="${c2}"/><circle cx="${f(t.x+16*k)}" cy="${f(t.y-35*k)}" r="${f(20*k)}" fill="${c2}"/><circle cx="${f(t.x-9*k)}" cy="${f(t.y-57*k)}" r="${f(11*k)}" fill="${c3}"/>`;
+      if (pink) s += [[-22, 8], [18, 12], [-4, 16], [28, 4], [-30, 2]].map(([dx, dy], j) => `<ellipse cx="${f(t.x+dx*k)}" cy="${f(t.y+dy*k*.4)}" rx="${f(3.2*k)}" ry="${f(1.8*k)}" fill="${j % 2 ? MP[0] : MP[2]}"/>`).join('');
+      if (!pink && rnd() < .3) s += `<circle cx="${f(t.x+10*k)}" cy="${f(t.y-42*k)}" r="${f(4*k)}" fill="#f39a7a"/><circle cx="${f(t.x-13*k)}" cy="${f(t.y-29*k)}" r="${f(4*k)}" fill="#f39a7a"/>`;
     }
   });
   $('#map').innerHTML = s;
 
   // building signs + gate sign
   let sg = '';
-  BUILDINGS.forEach(b => { sg += `<button class="sign" type="button" data-b="${b.id}" style="left:${b.x}px;top:${b.top - 8}px"><span class="t">${b.title}</span><span class="s">${b.sub}</span><span class="chev" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"><path d="m9 5 7 7-7 7"/></svg></span></button>`; });
+  BUILDINGS.forEach(b => { sg += `<button class="sign" type="button" data-b="${b.id}" style="left:${b.x}px;top:${b.top - 8}px"><span class="t">${b.title}</span><span class="s">${b.sub}</span><span class="chev" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"><path d="m9 5 7 7-7 7"/></svg></span></button>`; });
   sg += `<div class="gate-sign" style="left:${G.x}px;top:${G.y-158}px"><small>모여봐요</small><span>뱌티의 숲</span></div>`;
   $('#signs').innerHTML = sg;
 
@@ -971,12 +1032,20 @@ function buildMap(){
   st.className = 'statue'; st.style.left = FX + 'px'; st.style.top = (FY + 4) + 'px'; st.style.zIndex = FY + 60;
   st.innerHTML = `<img alt="" src="${statueURL()}"><span class="tw" style="left:8%;top:22%"></span><span class="tw" style="left:86%;top:12%;animation-delay:.7s"></span><span class="tw" style="left:52%;top:2%;animation-delay:1.3s"></span><span class="tw" style="left:30%;top:58%;animation-delay:1.9s"></span><span class="tw" style="left:74%;top:52%;animation-delay:.4s"></span>`;
   $('#chars').appendChild(st);
+  // fireflies drifting over the grass
+  let ff = '';
+  for (let i = 0, n = 0; i < 400 && n < 34; i++){
+    const x = rnd() * W, y = rnd() * H;
+    if (!inIsland(x, y, .9) || inPlaza(x, y, -40)) continue;
+    n++; ff += `<span class="ff" style="left:${x | 0}px;top:${y | 0}px;animation-delay:${(rnd() * 7).toFixed(2)}s;animation-duration:${(5 + rnd() * 4).toFixed(2)}s"></span>`;
+  }
+  $('#signs').insertAdjacentHTML('afterbegin', ff);
 }
 
 /* ---------- buildings: five different shapes ---------- */
 function building(b){
   const r = b.roof, rd = shade(r, -20), rl = shade(r, 18), wl = b.wall, wd = shade(wl, -14), wood = '#7b5434';
-  const win = (x, y, w, h, arched) => `<path d="M${x} ${y+h} V${arched ? y + w/2 : y} ${arched ? `A${w/2} ${w/2} 0 0 1 ${x+w} ${y+w/2}` : `H${x+w}`} V${y+h}Z" fill="#ffe7a3" stroke="${wood}" stroke-width="3"/><path d="M${x+w/2} ${y+3} V${y+h} M${x} ${y+h*.55} H${x+w}" stroke="${wood}" stroke-width="2"/>`;
+  const win = (x, y, w, h, arched) => `<ellipse cx="${x+w/2}" cy="${y+h/2}" rx="${w*1.15}" ry="${h*.95}" fill="url(#winglow)"/><path d="M${x} ${y+h} V${arched ? y + w/2 : y} ${arched ? `A${w/2} ${w/2} 0 0 1 ${x+w} ${y+w/2}` : `H${x+w}`} V${y+h}Z" fill="#ffe7a3" stroke="${wood}" stroke-width="3"/><path d="M${x+w/2} ${y+3} V${y+h} M${x} ${y+h*.55} H${x+w}" stroke="${wood}" stroke-width="2"/>`;
   const box = (x, y, w) => `<rect x="${x-3}" y="${y}" width="${w+6}" height="9" rx="3" fill="#8b5a35"/>` + [0, .5, 1].map((t, i) => `<circle cx="${x + 6 + t*(w-12)}" cy="${y-1}" r="4.5" fill="${['#f6a6c1', '#fff', '#f6d36a'][i]}"/>`).join('');
   const door = (w, h, y0, col = wood) => `<path d="M${-w/2} ${y0} V${y0-h+w/2} A${w/2} ${w/2} 0 0 1 ${w/2} ${y0-h+w/2} V${y0}Z" fill="${col}"/><circle cx="${w/2-8}" cy="${y0-h*.45}" r="2.8" fill="#f6d36a"/>`;
   let g = '';
@@ -1031,7 +1100,7 @@ function building(b){
       g += `<text x="0" y="-64" text-anchor="middle" font-family="Jua,sans-serif" font-size="17" letter-spacing="4" fill="#fdf8ea">LOUNGE</text>`;
       for (let i = 0; i < 9; i++){ const x = -135 + i * 30; g += `<rect x="${x}" y="-44" width="30" height="30" fill="${i % 2 ? '#fdf8ea' : r}"/><circle cx="${x+15}" cy="-14" r="15" fill="${i % 2 ? '#fdf8ea' : r}"/>`; }
       g += `<rect x="-138" y="-50" width="276" height="8" rx="3" fill="${rd}"/>`;
-      [[-118, 6], [38, 6]].forEach(([x, y]) => { g += `<rect x="${x}" y="${y}" width="80" height="62" rx="5" fill="#ffe7a3" stroke="${wood}" stroke-width="3"/><path d="M${x+40} ${y} V${y+62}" stroke="${wood}" stroke-width="2"/><rect x="${x+8}" y="${y+40}" width="64" height="5" fill="#e8c27a"/>`; });
+      [[-118, 6], [38, 6]].forEach(([x, y]) => { g += `<ellipse cx="${x+40}" cy="${y+31}" rx="78" ry="56" fill="url(#winglow)"/><rect x="${x}" y="${y}" width="80" height="62" rx="5" fill="#ffe7a3" stroke="${wood}" stroke-width="3"/><path d="M${x+40} ${y} V${y+62}" stroke="${wood}" stroke-width="2"/><rect x="${x+8}" y="${y+40}" width="64" height="5" fill="#e8c27a"/>`; });
       g += `<rect x="-22" y="${H2-80}" width="44" height="80" rx="5" fill="#9bc6d6" stroke="${wood}" stroke-width="3"/><path d="M0 ${H2-80} V${H2}" stroke="${wood}" stroke-width="2"/>`;
       const umb = (x, y, c) => `<ellipse cx="${x}" cy="${y+40}" rx="40" ry="8" fill="rgba(40,70,30,.2)"/><rect x="${x-2}" y="${y-30}" width="4" height="66" fill="#6b4a2c"/><path d="M${x-44} ${y-24} Q${x} ${y-66} ${x+44} ${y-24}Z" fill="${c}"/><path d="M${x-15} ${y-24} Q${x} ${y-66} ${x+15} ${y-24}Z" fill="#fdf8ea"/><ellipse cx="${x}" cy="${y+14}" rx="24" ry="8" fill="#f2e8cf" stroke="#c9b38a" stroke-width="2"/><rect x="${x-34}" y="${y+16}" width="14" height="16" rx="3" fill="#a26a40"/><rect x="${x+20}" y="${y+16}" width="14" height="16" rx="3" fill="#a26a40"/>`;
       g += umb(-200, 60, '#f2785c') + umb(200, 60, '#5f7fa8');
@@ -1042,7 +1111,7 @@ function building(b){
       g += `<rect x="-128" y="-30" width="204" height="${H2+28}" rx="6" fill="${wl}" stroke="${wd}" stroke-width="3"/>`;
       g += `<path d="M-148 -24 L-26 -${H2-6} L96 -24Z" fill="${r}" stroke="${rd}" stroke-width="4" stroke-linejoin="round"/>`;
       g += `<rect x="-144" y="-34" width="236" height="12" rx="4" fill="${rd}"/>`;
-      g += `<rect x="-112" y="2" width="118" height="70" rx="6" fill="#ffe7a3" stroke="${wood}" stroke-width="3"/>`;
+      g += `<ellipse cx="-53" cy="37" rx="110" ry="66" fill="url(#winglow)"/><rect x="-112" y="2" width="118" height="70" rx="6" fill="#ffe7a3" stroke="${wood}" stroke-width="3"/>`;
       [[-102, 12, '#f6a6c1'], [-66, 8, '#9fd171'], [-30, 14, '#7fd0e3']].forEach(([x, y, c], i) => { g += `<g transform="rotate(${[-6, 4, -3][i]} ${x+14} ${y+18})"><rect x="${x}" y="${y}" width="28" height="34" fill="#fff" stroke="#ddd" stroke-width="1"/><rect x="${x+3}" y="${y+3}" width="22" height="20" fill="${c}"/></g>`; });
       g += `<rect x="-118" y="76" width="130" height="9" rx="3" fill="#8b5a35"/>`;
       g += `<g transform="translate(40 0)">${door(40, 70, H2)}</g>`;
@@ -1061,7 +1130,7 @@ function building(b){
       g += `<circle cx="0" cy="-${H2+14}" r="9" fill="#f6c453" stroke="${rd}" stroke-width="3"/>`;
       g += `<rect x="-142" y="-42" width="284" height="12" rx="4" fill="${rd}"/>`;
       for (let i = 0; i < 9; i++){ const x = -132 + i * 29.3; g += `<rect x="${x}" y="-30" width="29.3" height="26" fill="${i % 2 ? '#fdf8ea' : '#f2a7b5'}"/><circle cx="${x+14.6}" cy="-4" r="14.6" fill="${i % 2 ? '#fdf8ea' : '#f2a7b5'}"/>`; }
-      g += `<path d="M-112 ${H2-14} V40 A38 38 0 0 1 -36 40 V${H2-14}Z" fill="#ffe7a3" stroke="${wood}" stroke-width="3"/>`;
+      g += `<ellipse cx="-74" cy="60" rx="74" ry="64" fill="url(#winglow)"/><ellipse cx="74" cy="60" rx="74" ry="64" fill="url(#winglow)"/><path d="M-112 ${H2-14} V40 A38 38 0 0 1 -36 40 V${H2-14}Z" fill="#ffe7a3" stroke="${wood}" stroke-width="3"/>`;
       g += `<circle cx="-74" cy="28" r="7" fill="#e9c9a8"/><path d="M-86 40 h24 l8 46 h-40z" fill="#f2785c"/><rect x="-75" y="86" width="2" height="12" fill="#6b4a2c"/>`;
       g += `<path d="M36 ${H2-14} V40 A38 38 0 0 1 112 40 V${H2-14}Z" fill="#ffe7a3" stroke="${wood}" stroke-width="3"/>`;
       g += `<path d="M46 34 H102" stroke="#6b4a2c" stroke-width="3"/>` + [['#5b9fd6', 52], ['#f3c653', 68], ['#76bf86', 84]].map(([c, x]) => `<path d="M${x+6} 34 v6 M${x} 46 l6 -6 l6 6 v28 h-12z" stroke="#6b4a2c" stroke-width="1.5" fill="${c}"/>`).join('');
@@ -1070,7 +1139,7 @@ function building(b){
       break;
     }
   }
-  return `<g data-b="${b.id}" class="bld" transform="translate(${b.x} ${b.y})">${g}</g>`;
+  return `<g data-b="${b.id}" class="bld" transform="translate(${b.x} ${b.y}) scale(${BS})"><ellipse cx="0" cy="${H2+22}" rx="${b.w*.42}" ry="30" fill="url(#spill)"/>${g}</g>`;
 }
 
 /* ---------- golden 20 ---------- */
@@ -1128,7 +1197,7 @@ function applyCam(){
   cam.x = mw <= w ? (w - mw) / 2 : clamp(cam.x, w - mw, 0);
   cam.y = mh <= h ? (h - mh) / 2 : clamp(cam.y, h - mh, 0);
   worldEl.style.transform = `translate3d(${cam.x.toFixed(1)}px,${cam.y.toFixed(1)}px,0) scale(${cam.s.toFixed(4)})`;
-  worldEl.style.setProperty('--inv', clamp(.78 / cam.s, .5, 2.1).toFixed(3));
+  worldEl.style.setProperty('--inv', clamp(.98 / cam.s, .55, 2.5).toFixed(3));
 }
 function centerOn(x, y, s = cam.s, glide = false){
   const { w, h } = vpSize();
@@ -1583,7 +1652,7 @@ function openEntry(step){ entry.hidden = false; renderEntry(step); }
 function closeEntry(){ entry.hidden = true; }
 function renderEntry(step){
   if (step === 'welcome'){
-    card.innerHTML = `<div class="entry-logo"><small>모여봐요</small><strong>뱌티의 숲</strong><em>BIT 20TH HOMECOMING</em></div>
+    card.innerHTML = `<div class="entry-logo"><svg class="logo-svg" viewBox="0 0 320 172" role="img" aria-label="모여봐요 뱌티의 숲, BIT 20th Homecoming"><defs><linearGradient id="wd-entry" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c08a55"/><stop offset="1" stop-color="#8a5732"/></linearGradient><linearGradient id="mt-entry" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#effff6"/><stop offset="1" stop-color="#8fdcbc"/></linearGradient></defs><g font-family="Jua, 'Gowun Dodum', sans-serif" text-anchor="middle" stroke-linejoin="round" stroke-linecap="round"><g fill="#4e2f19" stroke="#4e2f19"><text x="146" y="52" font-size="35" stroke-width="30">모여봐요</text><text x="160" y="120" font-size="62" stroke-width="34">뱌티의 숲</text></g><g fill="url(#wd-entry)" stroke="url(#wd-entry)" transform="translate(0 -3)"><text x="146" y="52" font-size="35" stroke-width="23">모여봐요</text><text x="160" y="120" font-size="62" stroke-width="27">뱌티의 숲</text></g><text x="146" y="48" font-size="35" fill="#fdf4dc" stroke="#5f3a20" stroke-width="3" paint-order="stroke">모여봐요</text><text x="160" y="116" font-size="62" fill="url(#mt-entry)" stroke="#2c5b4b" stroke-width="5" paint-order="stroke">뱌티의 숲</text></g><g transform="translate(160 150)"><rect x="-106" y="-15" width="212" height="32" rx="16" fill="#4e2f19"/><rect x="-102" y="-17" width="204" height="28" rx="14" fill="#fdf4dc"/><text y="2" font-family="'Gowun Dodum', sans-serif" font-size="12" letter-spacing="1.4" fill="#7d4f2e" text-anchor="middle" font-weight="700" textLength="176" lengthAdjust="spacingAndGlyphs">BIT 20TH HOMECOMING</text></g><g transform="translate(52 12) rotate(-30)"><path d="M0 0 C10 -18 30 -16 34 -2 C24 8 8 8 0 0Z" fill="#6cbf5c" stroke="#2f6a3a" stroke-width="2.5" stroke-linejoin="round"/><path d="M3 -1 Q17 -5 30 -3" stroke="#2f6a3a" stroke-width="1.6" fill="none"/></g><g transform="translate(62 18) rotate(22)"><path d="M0 0 C7 -12 21 -11 24 -1 C17 6 6 6 0 0Z" fill="#8fd27a" stroke="#2f6a3a" stroke-width="2.2" stroke-linejoin="round"/></g><g transform="translate(284 64) rotate(-10)"><path d="M0 -9 L2.6 -2.6 L9 0 L2.6 2.6 L0 9 L-2.6 2.6 L-9 0 L-2.6 -2.6Z" fill="#fff3b0" class="sparkle"/></g></svg></div>
       <p class="lede">20년, 우리 여기서 다시 만나요.<br>내 캐릭터를 만들면 광장에 바로 나타나요.</p>
       <button class="btn big" type="button" id="goWho">숲에 들어가기</button>
       <p class="hint" style="text-align:center;margin:12px 0 0">지금 <b id="entryCount">${visibleChars().length}</b>명의 뱌티가 광장에 있어요</p>
@@ -1747,7 +1816,7 @@ function drawMini(){
   SEGMENTS.forEach(s => { ctx.beginPath(); ctx.moveTo(s.a.x, s.a.y); ctx.lineTo(s.b.x, s.b.y); ctx.stroke(); });
   ctx.fillStyle = '#ecdfbf'; ctx.beginPath(); ctx.ellipse(PLAZA.x, PLAZA.y, PLAZA.rx, PLAZA.ry, 0, 0, 7); ctx.fill();
   ctx.fillStyle = '#7fd0e3'; ctx.beginPath(); ctx.ellipse(FOUNTAIN.x, FOUNTAIN.y, 160, 95, 0, 0, 7); ctx.fill(); ctx.fillStyle = '#f2c24b'; ctx.beginPath(); ctx.arc(FOUNTAIN.x, FOUNTAIN.y - 20, 45, 0, 7); ctx.fill();
-  BUILDINGS.forEach(b => { ctx.fillStyle = b.roof; ctx.fillRect(b.x - b.w/2, b.y - b.h/2, b.w, b.h); });
+  BUILDINGS.forEach(b => { ctx.fillStyle = b.roof; ctx.fillRect(b.x - b.w/2*BS, b.y - b.h/2*BS, b.w*BS, b.h*BS); });
   for (const o of chars.values()){ if (o.bot && !showBots) continue; ctx.fillStyle = o.id === meId ? '#f2785c' : '#22453e'; ctx.beginPath(); ctx.arc(o.x, o.y, o.id === meId ? 26 : 13, 0, 7); ctx.fill(); }
   const { w: vw, h: vh } = vpSize();
   ctx.strokeStyle = '#fff'; ctx.lineWidth = 14; ctx.strokeRect(-cam.x/cam.s, -cam.y/cam.s, vw/cam.s, vh/cam.s);
