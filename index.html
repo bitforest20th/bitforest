@@ -423,9 +423,10 @@ const genLabel = g => g === 'G' ? '게스트' : g + '기';
 const AV = {
   skin:['#ffe3cc','#f7cfab','#e6b088','#c68a5f','#93603f'],
   hairColor:['#2a211f','#4f3424','#7f5233','#b98a52','#e6cf98','#8c3f33','#475a80','#d985a8'],
-  hairM:['short','side','buzz','curly','mop'],
-  hairF:['bob','long','pony','bun','mop'],
-  hairAll:['short','side','buzz','curly','mop','bob','long','pony','bun'],
+  hairM:['short','side','buzz','curly','mop','twoblock'],
+  hairF:['bob','long','pony','bun','mop','wavy','twin','halfup'],
+  hairAll:['short','side','buzz','curly','mop','twoblock','bob','long','wavy','pony','twin','bun','halfup'],
+  beard:['none','stubble','mustache','goatee','full'],
   eyes:['dot','round','smile','sleepy','wink'],
   mouth:['smile','open','cat','small','grin'],
   top:['tee','long','sweater','bit'],
@@ -436,7 +437,7 @@ const AV = {
   acc:['none','glasses','round','cap','beanie','flower','headphones','ribbon','tie'],
   accColor:['#e05a6b','#5b9fd6','#f3c653','#3c4a5e','#76bf86','#ad88d6']
 };
-const LABEL = {short:'짧은 머리',side:'옆가르마',buzz:'까까머리',curly:'곱슬',mop:'덥수룩 앞머리',bob:'단발',long:'긴 머리',pony:'포니테일',bun:'똥머리',
+const LABEL = {short:'짧은 머리',side:'옆가르마',buzz:'까까머리',curly:'곱슬',mop:'덥수룩 앞머리',bob:'단발',long:'긴 머리',pony:'포니테일',bun:'똥머리',twoblock:'투블럭',comma:'쉼표머리',pixie:'숏컷',wavy:'웨이브',twin:'양갈래',halfup:'반묶음',stubble:'수염 자국',mustache:'콧수염',goatee:'턱수염',full:'덥수룩 수염',
   dot:'콩눈',round:'반짝눈',smile:'웃는 눈',sleepy:'졸린 눈',wink:'윙크',open:'활짝',cat:'고양이 입',small:'오',grin:'이 보이게',
   tee:'반팔',long:'긴팔',hoodie:'후드',shirt:'셔츠',stripe:'줄무늬',bit:'BIT 티',sweater:'스웨터',pants:'긴 바지',shorts:'반바지',skirt:'치마',
   none:'없음',glasses:'안경',cap:'모자',beanie:'비니',flower:'꽃핀',headphones:'헤드폰',ribbon:'리본',tie:'넥타이'};
@@ -453,7 +454,8 @@ function randomAvatar(g, rnd = Math.random){
     top: p(AV.top), topColor: p(AV.topColor),
     bottom: gender === 'm' ? (rnd() < .75 ? 'pants' : 'shorts') : p(['pants','skirt','skirt','shorts']),
     bottomColor: p(AV.bottomColor), shoe: p(AV.shoe),
-    acc: rnd() < .42 ? 'none' : p(AV.acc.slice(1)), accColor: p(AV.accColor)
+    acc: rnd() < .42 ? 'none' : p(AV.acc.slice(1)), accColor: p(AV.accColor),
+    beard: gender === 'm' && rnd() < .2 ? p(AV.beard.slice(1)) : 'none'
   };
 }
 
@@ -517,30 +519,62 @@ const HAIR = {
   curly: { vol: 1.1,  faceW: .95, side: -.22, back: -.6, curl: .075, fringe: y => .42 - .1 * Math.pow(Math.abs(Math.cos(y * 6)), 2) },
   mop:   { vol: 1.12, faceW: 1.0, side: -.35, back: -.55, fringe: y => .2 - .05 * Math.pow(Math.abs(Math.cos(y * 10)), 4) },
   bob:   { vol: 1.11, faceW: .78, side: -.85, back: -.85, flare: .1, fringe: y => .32 - .05 * Math.pow(Math.abs(Math.cos(y * 8)), 3) },
-  long:  { vol: 1.1,  faceW: .8,  side: -.95, back: -1.0, flare: .05, fringe: y => .58 - .4 * Math.min(1, Math.abs(y) / .8) },
+  long:  { vol: 1.08, faceW: .8,  side: -1.6, back: -1.6, drape: 1.45, drapeFlare: -.1, fringe: y => .58 - .4 * Math.min(1, Math.abs(y) / .8) },
   pony:  { vol: 1.06, faceW: .95, side: -.08, back: -.4,  fringe: y => .42 - .07 * Math.pow(Math.abs(Math.cos(y * 7)), 3) },
-  bun:   { vol: 1.06, faceW: .95, side: -.08, back: -.45, fringe: y => .4 - .06 * Math.pow(Math.abs(Math.cos(y * 7)), 3) }
+  bun:   { vol: 1.06, faceW: .95, side: -.08, back: -.45, fringe: y => .4 - .06 * Math.pow(Math.abs(Math.cos(y * 7)), 3) },
+  twoblock: { vol: 1.1, faceW: .9, side: .05, back: -.4, tight: .5, fringe: y => .36 - .1 * smooth(-.6, .7, y) - .05 * Math.pow(Math.abs(Math.cos(y * 6)), 3) },
+  comma: { vol: 1.09, faceW: .95, side: -.1, back: -.5, fringe: y => .52 - .34 * smooth(-.7, .75, y) },
+  pixie: { vol: 1.08, faceW: .9, side: -.3, back: -.5, fringe: y => .38 - .2 * smooth(-.9, .6, y) - .04 * Math.pow(Math.abs(Math.cos(y * 8)), 3) },
+  wavy:  { vol: 1.1, faceW: .8, side: -1.6, back: -1.6, drape: 1.42, drapeFlare: .17, wave: .1, curl: .07, fringe: y => .58 - .4 * Math.min(1, Math.abs(y) / .8) },
+  twin:  { vol: 1.07, faceW: .9, side: -.2, back: -.45, fringe: y => .3 - .05 * Math.pow(Math.abs(Math.cos(y * 8)), 3) },
+  halfup: { vol: 1.05, faceW: .95, side: .12, back: -1.0, flare: .04, fringe: y => .58 - .16 * Math.min(1, Math.abs(y) / .9) }
 };
+function beardGeo(rad){
+  // a shell over the jaw and chin, with the mouth left open
+  return geo('beard_' + rad, () => {
+    const g = new THREE.SphereGeometry(1, 72, 48), p = g.attributes.position, v = new THREE.Vector3();
+    for (let i = 0; i < p.count; i++){
+      v.fromBufferAttribute(p, i);
+      const yaw = Math.atan2(v.x, v.z), pitch = Math.asin(clamp(v.y, -1, 1)), ay = Math.abs(yaw);
+      const bound = -.2 - .26 * smooth(.25, 1.35, ay);
+      const mouth = ay < .2 && pitch > -.43 && pitch < -.26;
+      const r = (pitch < bound && ay < 1.45 && !mouth) ? rad + (rad > 1.01 ? .025 * Math.abs(Math.sin(yaw * 11) * Math.sin(pitch * 9)) : 0) : .9;
+      p.setXYZ(i, v.x * r * HEAD.sx, v.y * r * HEAD.sy, v.z * r * HEAD.sz);
+    }
+    g.computeVertexNormals();
+    return g;
+  });
+}
 function hairBound(s, yaw){
   const a = Math.abs(yaw), fy = s.fringe(clamp(yaw, -s.faceW, s.faceW));
   const t1 = smooth(s.faceW, s.faceW + .3, a), t2 = smooth(1.75, 2.45, a);
   return fy + (s.side - fy) * t1 + (s.back - s.side) * t2;
 }
-function hairGeo(style){
-  return geo('hair_' + style, () => {
+function hairGeo(style, cut){
+  // cut: under a hat, hair above this height is tucked inside and the rest is kept snug to the brim
+  return geo('hair_' + style + (cut == null ? '' : '_' + cut), () => {
     const s = HAIR[style] || HAIR.short;
     const g = new THREE.SphereGeometry(1, 96, 64);
     const p = g.attributes.position, v = new THREE.Vector3();
     for (let i = 0; i < p.count; i++){
       v.fromBufferAttribute(p, i);
       const yaw = Math.atan2(v.x, v.z), pitch = Math.asin(clamp(v.y, -1, 1));
-      let r = .86;
+      let r = .86, hang = false;
       if (pitch >= hairBound(s, yaw)){
         r = s.vol;
         if (s.curl) r += s.curl * Math.abs(Math.sin(yaw * 7) * Math.sin(pitch * 7 + .6));
+        if (s.tight && pitch < s.tight && Math.abs(yaw) > .75) r = 1.012 + (s.vol - 1.012) * smooth(s.tight - .12, s.tight, pitch);
         if (s.flare && pitch < 0) r += s.flare * smooth(0, -.9, pitch);
+        if (cut != null){ if (pitch > cut) r = .97; else if (pitch > cut - .22) r = Math.min(r, 1.06); }
+        hang = !!s.drape && pitch < 0;
       }
-      p.setXYZ(i, v.x * r * HEAD.sx, v.y * r * HEAD.sy, v.z * r * HEAD.sz);
+      if (hang){
+        const t = -pitch / (Math.PI / 2);
+        let rh = r * (1 + s.drapeFlare * t);
+        if (s.wave) rh *= 1 + s.wave * Math.sin(t * 13 + Math.sin(yaw * 4) * .8) * Math.min(1, t * 4) + .035 * Math.abs(Math.sin(yaw * 9));
+        if (Math.abs(v.y) > .9995) p.setXYZ(i, 0, -s.drape * HEAD.sy, 0);
+        else p.setXYZ(i, Math.sin(yaw) * rh * HEAD.sx, -t * s.drape * HEAD.sy, Math.cos(yaw) * rh * HEAD.sz);
+      } else p.setXYZ(i, v.x * r * HEAD.sx, v.y * r * HEAD.sy, v.z * r * HEAD.sz);
     }
     g.computeVertexNormals();
     return g;
@@ -677,11 +711,30 @@ function buildAvatar(a){
   }
 
   // hair
-  mesh(hairGeo(a.hair), hairM, head).position.y = HEAD.y;
-  if (a.hair === 'long'){ const c = mesh(geo('curtain', () => new THREE.CylinderGeometry(.9, .8, 1.25, 40, 1, true, Math.PI / 2, Math.PI)), hairBack, head, 1, 1, .78); c.position.set(0, 1.6, -.04); }
+  const hatCut = a.acc === 'beanie' ? .26 : a.acc === 'cap' ? .14 : null;
+  mesh(hairGeo(a.hair, hatCut), hairM, head).position.y = HEAD.y;
+  if (a.hair === 'halfup'){ const c = mesh(geo('curtain', () => new THREE.CylinderGeometry(.9, .8, 1.25, 40, 1, true, Math.PI / 2, Math.PI)), hairBack, head, 1, 1, .78); c.position.set(0, 1.6, -.04); }
   if (a.hair === 'pony'){ const t = mesh(S, hairM, head, .24, .44, .24); t.position.set(0, 2.05, -1.02); t.rotation.x = -.5; const tie = mesh(geo('tie', () => new THREE.TorusGeometry(.13, .045, 8, 20)), M(shade(a.hairColor, -35)), head); tie.position.set(0, 2.42, -.9); tie.rotation.x = 1.1; }
-  if (a.hair === 'bun'){ mesh(S, hairM, head, .33, .3, .33).position.set(0, 3.0, -.22); const tie = mesh(geo('tie', () => new THREE.TorusGeometry(.13, .045, 8, 20)), M(shade(a.hairColor, -35)), head, 1.6); tie.position.set(0, 2.8, -.18); tie.rotation.x = Math.PI / 2 + .2; }
+  if (a.hair === 'twin') [-1, 1].forEach(sg => { const t = mesh(S, hairM, head, .2, .42, .2); t.position.set(sg * 1.02, 1.82, -.12); t.rotation.z = sg * .28; const tie = mesh(geo('tie', () => new THREE.TorusGeometry(.13, .045, 8, 20)), M(a.accColor && a.acc === 'none' ? shade(a.hairColor, -35) : shade(a.hairColor, -35)), head, .9); tie.position.set(sg * .97, 2.12, -.1); tie.rotation.set(Math.PI / 2, 0, sg * .3); });
+  if (a.hair === 'halfup' && hatCut == null){
+    // centre parting running back from the hairline
+    const pts = []; for (let i = 0; i <= 12; i++){ const pp = .56 + i / 12 * .75; pts.push(headPt(0, pp, .052).p); }
+    mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 24, .014, 6, false), M(shade(a.hairColor, -38), { roughness: .6 }), head);
+    // long strands tucked behind the ears, falling to the shoulders
+    [-1, 1].forEach(sg => { const l = mesh(S, hairM, head, .2, .62, .22); l.position.set(sg * .9, 1.62, -.3); l.rotation.z = sg * .12; });
+  }
+  if (a.hair === 'halfup' && hatCut == null){ mesh(S, hairM, head, .2, .18, .2).position.set(0, 2.62, -.92); const tie = mesh(geo('tie', () => new THREE.TorusGeometry(.13, .045, 8, 20)), M(shade(a.hairColor, -35)), head, .9); tie.position.set(0, 2.6, -.8); tie.rotation.x = .3; }
+  if (a.hair === 'comma' && hatCut == null){ const g = new THREE.Group(); head.add(g); onHead(g, .3, .3, .07); const c = mesh(geo('comma', () => new THREE.TorusGeometry(.09, .045, 10, 20, Math.PI * 1.4)), hairM, g); c.rotation.z = -.4; }
+  if (a.hair === 'bun' && hatCut == null){ mesh(S, hairM, head, .33, .3, .33).position.set(0, 3.0, -.22); const tie = mesh(geo('tie', () => new THREE.TorusGeometry(.13, .045, 8, 20)), M(shade(a.hairColor, -35)), head, 1.6); tie.position.set(0, 2.8, -.18); tie.rotation.x = Math.PI / 2 + .2; }
 
+  // beard
+  if (a.beard && a.beard !== 'none'){
+    const bc = shade(a.hairColor, -8);
+    if (a.beard === 'stubble'){ const m = new THREE.MeshStandardMaterial({ color: lin(shade(a.hairColor, -38)), transparent: true, opacity: .2, roughness: .9, depthWrite: false }); own.push(m); mesh(beardGeo(1.004), m, head).position.y = HEAD.y; }
+    if (a.beard === 'full') mesh(beardGeo(1.045), M(bc, { roughness: .6, bumpMap: strandTex(), bumpScale: .02 }), head).position.y = HEAD.y;
+    if (a.beard === 'mustache' || a.beard === 'full'){ const g = new THREE.Group(); head.add(g); onHead(g, 0, -.245, .02); [-1, 1].forEach(sg => { const m = mesh(s, M(shade(a.hairColor, -14), { roughness: .55 }), g, .095, .036, .035); m.position.x = sg * .07; m.rotation.z = -sg * .22; }); }
+    if (a.beard === 'goatee'){ onHead(mesh(s, M(bc, { roughness: .6 }), head, .1, .085, .045), 0, -.55, .01); const g = new THREE.Group(); head.add(g); onHead(g, 0, -.245, .02); [-1, 1].forEach(sg => { const m = mesh(s, M(shade(a.hairColor, -14), { roughness: .55 }), g, .075, .028, .03); m.position.x = sg * .06; m.rotation.z = -sg * .2; }); }
+  }
   // accessories
   switch (a.acc){
     case 'glasses': case 'round': {
@@ -1555,7 +1608,7 @@ function cleanAv(a){
   return {
     g: pickFrom(a.g, ['m', 'f'], d.g),
     skin: isHex(a.skin) ? a.skin : d.skin, hairColor: isHex(a.hairColor) ? a.hairColor : d.hairColor,
-    hair: pickFrom(a.hair, AV.hairAll, d.hair), eyes: pickFrom(a.eyes, AV.eyes, d.eyes), mouth: pickFrom(a.mouth, AV.mouth, d.mouth), blush: !!a.blush,
+    hair: pickFrom(a.hair, AV.hairAll, d.hair), beard: pickFrom(a.beard, AV.beard, 'none'), eyes: pickFrom(a.eyes, AV.eyes, d.eyes), mouth: pickFrom(a.mouth, AV.mouth, d.mouth), blush: !!a.blush,
     top: pickFrom(a.top, ['tee', 'long', 'sweater', 'bit', 'hoodie', 'shirt', 'stripe'], d.top), topColor: isHex(a.topColor) ? a.topColor : d.topColor,
     bottom: pickFrom(a.bottom, AV.bottom, d.bottom), bottomColor: isHex(a.bottomColor) ? a.bottomColor : d.bottomColor,
     shoe: isHex(a.shoe) ? a.shoe : d.shoe, acc: pickFrom(a.acc, AV.acc, 'none'), accColor: isHex(a.accColor) ? a.accColor : d.accColor
@@ -1761,7 +1814,7 @@ function openBuilding(id){
 function mountEditor(root, av, onChange){
   let tab = 'face';
   const GROUPS = {
-    face: [ { k:'skin', label:'피부', type:'color', vals:AV.skin }, { k:'eyes', label:'눈', type:'part', vals:AV.eyes, head:true }, { k:'mouth', label:'입', type:'part', vals:AV.mouth, head:true }, { k:'blush', label:'볼터치', type:'toggle' } ],
+    face: [ { k:'skin', label:'피부', type:'color', vals:AV.skin }, { k:'eyes', label:'눈', type:'part', vals:AV.eyes, head:true }, { k:'mouth', label:'입', type:'part', vals:AV.mouth, head:true }, { k:'beard', label:'수염', type:'part', vals:AV.beard, head:true }, { k:'blush', label:'볼터치', type:'toggle' } ],
     hair: [ { k:'hair', label:'헤어스타일', type:'part', vals:AV.hairAll, head:true }, { k:'hairColor', label:'머리색', type:'color', vals:AV.hairColor } ],
     wear: [ { k:'top', label:'상의', type:'part', vals:AV.top }, { k:'topColor', label:'상의 색', type:'color', vals:AV.topColor }, { k:'bottom', label:'하의', type:'part', vals:AV.bottom }, { k:'bottomColor', label:'하의 색', type:'color', vals:AV.bottomColor }, { k:'shoe', label:'신발', type:'color', vals:AV.shoe } ],
     acc: [ { k:'acc', label:'소품', type:'part', vals:AV.acc, head:true }, { k:'accColor', label:'소품 색', type:'color', vals:AV.accColor } ]
