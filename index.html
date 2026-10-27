@@ -360,7 +360,7 @@ button{cursor:pointer}
     <button type="button" data-act="stage"><span>전광판 모드</span><span id="stageState">꺼짐</span></button>
     <button type="button" data-act="bots"><span>예시 캐릭터 보이기</span><span id="botState">켜짐</span></button>
     <button type="button" data-act="reset" class="danger" id="resetBtn">내 캐릭터 지우고 처음부터</button>
-    <div class="note">초안이에요. 지금 광장에 있는 캐릭터 대부분은 분위기를 보여주는 예시 캐릭터예요. 같은 브라우저에서 탭을 두 개 열면 서로의 캐릭터가 보여요.</div>
+    <div class="note" id="menuNote">초안이에요. 지금 광장에 있는 캐릭터 대부분은 분위기를 보여주는 예시 캐릭터예요. 같은 브라우저에서 탭을 두 개 열면 서로의 캐릭터가 보여요.</div>
   </div>
 
   <div class="hud-bottom">
@@ -399,6 +399,7 @@ button{cursor:pointer}
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js"></script>
 <script>
 (() => {
 'use strict';
@@ -1297,10 +1298,16 @@ function tick(now){
 /* ================= demo network (to be swapped for Supabase realtime) ================= */
 const bc = ('BroadcastChannel' in window) ? (() => { try { return new BroadcastChannel('bitforest'); } catch(e){ return null; } })() : null;
 const Net = {
-  post(type, data){ try { bc && bc.postMessage({ type, data }); } catch(e){} },
+  post(type, data){ if (Cloud.on){ if (type === 'say' || type === 'move') cloudSend(type, data); return; } try { bc && bc.postMessage({ type, data }); } catch(e){} },
   people(){ return store.get('bitforest.people', []); },
-  savePerson(p){ const list = Net.people().filter(x => x.id !== p.id); list.push({ id: p.id, gen: p.gen, name: p.name, av: p.av }); store.set('bitforest.people', list); },
-  dropPerson(id){ store.set('bitforest.people', Net.people().filter(x => x.id !== id)); }
+  savePerson(p){
+    if (Cloud.on) return Cloud.c.from('players').upsert({ id: p.id, gen: String(p.gen), name: p.name, av: p.av }).then(r => { if (r.error) throw r.error; });
+    const list = Net.people().filter(x => x.id !== p.id); list.push({ id: p.id, gen: p.gen, name: p.name, av: p.av }); store.set('bitforest.people', list);
+  },
+  dropPerson(id){
+    if (Cloud.on) return Cloud.c.from('players').delete().eq('id', id).then(() => {});
+    store.set('bitforest.people', Net.people().filter(x => x.id !== id));
+  }
 };
 if (bc) bc.onmessage = e => {
   const { type, data } = e.data || {};
@@ -1406,6 +1413,10 @@ function loadInbox(){ inbox = meId ? store.get(inboxKey(), []) : []; renderBadge
 function renderBadge(){ const n = inbox.filter(m => !m.read).length; const b = $('#badge'); b.hidden = !n; b.textContent = n; }
 function sendMessage(to, text){
   const me = chars.get(meId); if (!me) return;
+  if (Cloud.on && !to.bot){
+    Cloud.c.from('messages').insert({ to_id: to.id, text: text.slice(0, 200) }).then(({ error }) => toast(error ? '메시지를 보내지 못했어요. 잠시 뒤 다시 보내 주세요' : `<b>${esc(to.name)}</b>님께 보냈어요`));
+    return;
+  }
   const m = { from: meId, fromName: me.name, fromGen: me.gen, fromAv: me.av, to: to.id, text, ts: Date.now() };
   Net.post('msg', m);
   toast(`<b>${esc(to.name)}</b>님께 보냈어요`);
@@ -1442,11 +1453,14 @@ const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 
 const thanksGen = g => g === '' || g == null ? '' : (/^\d+$/.test(String(g)) ? g + '기' : String(g));
 function fmtWhen(ts){ const d = new Date(ts); return d.toLocaleString('ko-KR', { month: 'numeric', day: 'numeric', hour: 'numeric', minute: '2-digit' }); }
 
-function openBoard(){ openPanel('마을 게시판', '함께해 주신 분들께 감사 인사, 그리고 방명록', '', renderBoard, true); }
+function openBoard(){
+  openPanel('마을 게시판', '함께해 주신 분들께 감사 인사, 그리고 방명록', '', renderBoard, true);
+  if (Cloud.on) boardFetch().then(() => { if (boardOpen()) renderBoard(); }).catch(e => { console.warn(e); toast('게시판을 불러오지 못했어요. 잠시 뒤 다시 열어 주세요'); });
+}
 function renderBoard(body){
   body = body || $('#panelBody');
   const draft = $('#bdText', body) ? $('#bdText', body).value : '';
-  const b = loadBoard(), me = chars.get(meId), U = boardUI;
+  const b = Cloud.on ? (boardCache || { thanks: [], posts: [] }) : loadBoard(), me = chars.get(meId), U = boardUI;
   const fund = b.thanks.filter(t => t.kind === 'fund'), gift = b.thanks.filter(t => t.kind === 'gift');
   const person = t => `<li><b>${esc([thanksGen(t.gen), t.name].filter(Boolean).join(' '))}</b>${t.what ? `<span>${esc(t.what)}</span>` : ''}</li>`;
   const col = (title, list) => `<div class="ty-col"><h4>${title} <em>${list.length ? list.length + '명' : ''}</em></h4>${list.length ? `<ul>${list.map(person).join('')}</ul>` : `<p class="ty-empty">운영진이 명단을 올리면 여기에 표시돼요</p>`}</div>`;
@@ -1461,6 +1475,7 @@ function renderBoard(body){
       <div class="seg">${[['fund', '후원'], ['gift', '상품 찬조']].map(([k, l]) => `<button type="button" data-kind="${k}" aria-pressed="${U.kind === k}">${l}</button>`).join('')}</div>
       <div class="ty-row"><input id="tyGen" maxlength="6" placeholder="기수 (예: 12)" aria-label="기수"><input id="tyName" maxlength="20" placeholder="이름 또는 단체명" aria-label="이름"></div>
       <input id="tyWhat" maxlength="40" placeholder="${U.kind === 'gift' ? '찬조 상품 (예: 무선 이어폰 2개)' : '한 줄 메모 (선택)'}" aria-label="내용">
+      ${Cloud.on && !Cloud.code ? '<input id="tyCode" type="password" maxlength="40" placeholder="운영진 코드" aria-label="운영진 코드" autocomplete="off">' : ''}
       <button class="btn" type="submit">명단에 올리기</button>
       ${b.thanks.length ? `<p class="hint">잘못 올렸다면 이름을 눌러 지울 수 있어요</p><div class="ty-del">${b.thanks.map(t => `<button type="button" class="chip" data-del-thanks="${esc(t.id)}">${U.arm === t.id ? '한 번 더 누르면 지워져요' : '✕ ' + esc([thanksGen(t.gen), t.name].filter(Boolean).join(' '))}</button>`).join('')}</div>` : ''}
     </form>` : ''}
@@ -1487,34 +1502,161 @@ function renderBoard(body){
   body.innerHTML = chips + (U.filter !== 'posts' ? thanks : '') + (U.filter !== 'thanks' ? guest : '');
   const ta = $('#bdText', body); if (ta && draft) ta.value = draft;
 
+  const busy = async (fn, okMsg, failMsg) => {
+    try { await fn(); U.arm = null; renderBoard(body); if (okMsg) toast(okMsg); }
+    catch (err) { console.warn(err); U.arm = null; renderBoard(body); toast(failMsg || '저장하지 못했어요. 잠시 뒤 다시 시도해 주세요'); }
+  };
   body.onclick = e => {
     const t = e.target.closest('button'); if (!t) return;
-    const bb = loadBoard();
     if (t.dataset.bf){ U.filter = t.dataset.bf; return renderBoard(body); }
     if (t.dataset.bd === 'toggle'){ U.open = !U.open; U.arm = null; return renderBoard(body); }
     if (t.dataset.bd === 'join'){ closePanel(); return openEntry('who'); }
     if (t.dataset.kind){ U.kind = t.dataset.kind; return renderBoard(body); }
     if (t.dataset.color){ U.color = t.dataset.color; const f = $('#bdForm', body); if (f) f.style.setProperty('--note', NOTE_COLORS[U.color]); body.querySelectorAll('[data-color]').forEach(x => x.setAttribute('aria-pressed', x === t)); return; }
-    if (t.dataset.like){ if (!meId) return toast('내 캐릭터를 만들면 좋아요를 누를 수 있어요'); const p = bb.posts.find(x => x.id === t.dataset.like); if (!p) return; p.likes = p.likes || []; p.likes = p.likes.includes(meId) ? p.likes.filter(x => x !== meId) : p.likes.concat(meId); saveBoard(bb); return renderBoard(body); }
-    if (t.dataset.del){ if (U.arm !== t.dataset.del){ U.arm = t.dataset.del; return renderBoard(body); } bb.posts = bb.posts.filter(x => x.id !== t.dataset.del); U.arm = null; saveBoard(bb); return renderBoard(body); }
-    if (t.dataset.delThanks){ if (U.arm !== t.dataset.delThanks){ U.arm = t.dataset.delThanks; return renderBoard(body); } bb.thanks = bb.thanks.filter(x => x.id !== t.dataset.delThanks); U.arm = null; saveBoard(bb); return renderBoard(body); }
+    if (t.dataset.like){ if (!meId) return toast('내 캐릭터를 만들면 좋아요를 누를 수 있어요'); t.disabled = true; return busy(() => Board.like(t.dataset.like)); }
+    if (t.dataset.del){ if (U.arm !== t.dataset.del){ U.arm = t.dataset.del; return renderBoard(body); } return busy(() => Board.remove(t.dataset.del), '메모를 지웠어요'); }
+    if (t.dataset.delThanks){
+      if (U.arm !== t.dataset.delThanks){ U.arm = t.dataset.delThanks; return renderBoard(body); }
+      const codeEl = $('#tyCode', body), code = Cloud.code || (codeEl ? codeEl.value.trim() : '');
+      if (Cloud.on && !code){ U.arm = null; renderBoard(body); return toast('운영진 코드를 먼저 입력해 주세요'); }
+      return busy(() => Board.removeThanks(t.dataset.delThanks, code).then(() => { Cloud.code = code; }), '명단에서 지웠어요', '운영진 코드가 맞지 않거나 지우지 못했어요');
+    }
   };
   body.onsubmit = e => {
     e.preventDefault();
-    const bb = loadBoard();
     if (e.target.id === 'bdForm'){
-      const me2 = chars.get(meId), text = $('#bdText', body).value.trim();
+      const me2 = chars.get(meId), ta = $('#bdText', body), text = ta.value.trim();
       if (!me2 || !text) return;
-      bb.posts.push({ id: uid(), author: meId, gen: me2.gen, name: me2.name, av: me2.av, text, color: U.color, ts: Date.now(), likes: [] });
-      saveBoard(bb); $('#bdText', body).value = ''; renderBoard(body); toast('방명록에 메모를 붙였어요');
+      const btn = e.target.querySelector('[type=submit]'); btn.disabled = true;
+      Board.post(text, U.color).then(() => { ta.value = ''; renderBoard(body); toast('방명록에 메모를 붙였어요'); })
+        .catch(err => { console.warn(err); btn.disabled = false; toast('메모를 붙이지 못했어요. 잠시 뒤 다시 시도해 주세요'); });
     }
     if (e.target.id === 'tyForm'){
       const name = $('#tyName', body).value.trim(); if (!name) return $('#tyName', body).focus();
-      bb.thanks.push({ id: uid(), kind: U.kind, gen: $('#tyGen', body).value.trim().replace(/기$/, ''), name, what: $('#tyWhat', body).value.trim(), ts: Date.now() });
-      saveBoard(bb); renderBoard(body); toast(`<b>${esc(name)}</b>님을 Thanks to 명단에 올렸어요`);
+      const codeEl = $('#tyCode', body), code = Cloud.code || (codeEl ? codeEl.value.trim() : '');
+      if (Cloud.on && !code) return codeEl && codeEl.focus();
+      const entry = { kind: U.kind, gen: $('#tyGen', body).value.trim().replace(/기$/, ''), name, what: $('#tyWhat', body).value.trim() };
+      busy(() => Board.addThanks(entry, code).then(() => { Cloud.code = code; }), `<b>${esc(name)}</b>님을 Thanks to 명단에 올렸어요`, '운영진 코드가 맞지 않거나 올리지 못했어요');
     }
   };
 }
+
+/* ================= shared mode (Supabase) ================= */
+// When the site runs on its own address, everyone shares one plaza through Supabase.
+// If the database can't be reached (e.g. inside a preview), the page falls back to this-browser-only mode.
+const SB = { url: 'https://jrxpfenmulteniqaujwy.supabase.co', key: 'sb_publishable_oA2BK4zAnJm1czOvV-_TwQ_-YvJ_mLS' };
+const Cloud = { on: false, c: null, uid: null, ch: null, inboxCh: null, gaveUp: false, code: '' };
+const pickFrom = (v, list, d) => list.includes(v) ? v : d;
+const isHex = v => typeof v === 'string' && /^#[0-9a-f]{6}$/i.test(v);
+function cleanAv(a){
+  a = a && typeof a === 'object' ? a : {};
+  const d = randomAvatar(null, mulberry32(7));
+  return {
+    g: pickFrom(a.g, ['m', 'f'], d.g),
+    skin: isHex(a.skin) ? a.skin : d.skin, hairColor: isHex(a.hairColor) ? a.hairColor : d.hairColor,
+    hair: pickFrom(a.hair, AV.hairAll, d.hair), eyes: pickFrom(a.eyes, AV.eyes, d.eyes), mouth: pickFrom(a.mouth, AV.mouth, d.mouth), blush: !!a.blush,
+    top: pickFrom(a.top, ['tee', 'long', 'sweater', 'bit', 'hoodie', 'shirt', 'stripe'], d.top), topColor: isHex(a.topColor) ? a.topColor : d.topColor,
+    bottom: pickFrom(a.bottom, AV.bottom, d.bottom), bottomColor: isHex(a.bottomColor) ? a.bottomColor : d.bottomColor,
+    shoe: isHex(a.shoe) ? a.shoe : d.shoe, acc: pickFrom(a.acc, AV.acc, 'none'), accColor: isHex(a.accColor) ? a.accColor : d.accColor
+  };
+}
+const normP = p => ({ id: p.id, gen: p.gen === 'G' ? 'G' : (parseInt(p.gen, 10) || 0), name: String(p.name || '').slice(0, 10), av: cleanAv(p.av) });
+
+async function cloudStart(){
+  if (!window.supabase || !window.supabase.createClient) return false;
+  try {
+    const c = window.supabase.createClient(SB.url, SB.key, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false } });
+    const { data, error } = await c.from('players').select('id,gen,name,av').order('created_at').limit(600);
+    if (error) throw error;
+    if (Cloud.gaveUp) return false;
+    const { data: s } = await c.auth.getSession();
+    Object.assign(Cloud, { on: true, c, uid: s && s.session ? s.session.user.id : null });
+    return data || [];
+  } catch (e) { console.warn('[bitforest] shared mode unavailable, using this browser only', e); return false; }
+}
+async function ensureAuth(){
+  if (!Cloud.on) return true;
+  if (Cloud.uid) return true;
+  const { data, error } = await Cloud.c.auth.signInAnonymously();
+  if (error || !data || !data.user){ console.warn('[bitforest] sign-in failed', error); return false; }
+  Cloud.uid = data.user.id;
+  subscribeInbox();
+  return true;
+}
+function cloudSubscribe(){
+  const ch = Cloud.c.channel('plaza', { config: { broadcast: { self: false } } });
+  ch.on('broadcast', { event: 'say' }, ({ payload: d }) => { if (d && chars.has(d.id)) say(d.id, String(d.text || '').slice(0, 40)); })
+    .on('broadcast', { event: 'move' }, ({ payload: d }) => { const o = d && chars.get(d.id); if (o && isFinite(d.x) && isFinite(d.y) && inIsland(d.x, d.y, .95)){ walkTo(o, { x: +d.x, y: +d.y }); o.holdUntil = performance.now() + 25000; } })
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'players' }, ({ new: p }) => { if (p && !chars.has(p.id)){ const c = normP(p); addChar(c, { arrive: true }); arrivalToast(c); } })
+    .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'players' }, ({ new: p }) => { const o = p && chars.get(p.id); if (o && p.id !== meId){ Object.assign(o, normP(p)); refreshChar(o); } })
+    .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'players' }, ({ old }) => { if (old && old.id && old.id !== meId) removeChar(old.id); })
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'posts' }, boardChanged)
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'post_likes' }, boardChanged)
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'thanks' }, boardChanged)
+    .subscribe();
+  Cloud.ch = ch;
+}
+function cloudSend(event, payload){ if (Cloud.ch) Cloud.ch.send({ type: 'broadcast', event, payload }).catch(() => {}); }
+async function subscribeInbox(){
+  if (!Cloud.on || !Cloud.uid || Cloud.inboxCh) return;
+  const toMsg = m => ({ id: m.id, from: m.from_id, fromName: m.from_name || '뱌티', fromGen: m.from_gen === 'G' ? 'G' : (parseInt(m.from_gen, 10) || 0), fromAv: cleanAv(m.from_av), to: m.to_id, text: m.text, ts: Date.parse(m.created_at) || Date.now() });
+  Cloud.inboxCh = Cloud.c.channel('inbox-' + Cloud.uid)
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages', filter: 'to_id=eq.' + Cloud.uid }, ({ new: m }) => { if (m && !inbox.some(x => x.id === m.id)) receive(toMsg(m)); })
+    .subscribe();
+  const { data } = await Cloud.c.from('messages').select('id,from_id,to_id,from_gen,from_name,from_av,text,created_at').eq('to_id', Cloud.uid).order('created_at', { ascending: false }).limit(60);
+  if (!data) return;
+  const read = new Set(store.get('bitforest.inbox.' + Cloud.uid, []).filter(m => m.read).map(m => m.id));
+  const fresh = data.map(m => Object.assign(toMsg(m), { read: read.has(m.id) }));
+  const ids = new Set(fresh.map(m => m.id));
+  inbox = fresh.concat(inbox.filter(m => !ids.has(m.id))).sort((a, b) => b.ts - a.ts).slice(0, 60);
+  store.set('bitforest.inbox.' + Cloud.uid, inbox); renderBadge();
+}
+
+/* ----- board storage: Supabase when shared, this browser otherwise ----- */
+let boardCache = null, boardTimer = 0;
+async function boardFetch(){
+  const c = Cloud.c;
+  const [p, l, t] = await Promise.all([
+    c.from('posts').select('id,author,author_gen,author_name,author_av,text,color,created_at').order('created_at', { ascending: false }).limit(300),
+    c.from('post_likes').select('post_id,user_id').limit(5000),
+    c.from('thanks').select('id,kind,gen,name,what,created_at').order('created_at').limit(500)
+  ]);
+  if (p.error || l.error || t.error) throw (p.error || l.error || t.error);
+  boardCache = {
+    posts: p.data.map(x => ({ id: String(x.id), author: x.author, gen: x.author_gen === 'G' ? 'G' : (parseInt(x.author_gen, 10) || 0), name: x.author_name || '뱌티', av: cleanAv(x.author_av), text: x.text, color: x.color, ts: Date.parse(x.created_at), likes: l.data.filter(k => k.post_id === x.id).map(k => k.user_id) })),
+    thanks: t.data.map(x => ({ id: String(x.id), kind: x.kind, gen: x.gen, name: x.name, what: x.what, ts: Date.parse(x.created_at) }))
+  };
+  return boardCache;
+}
+function boardOpen(){ return !panel.hidden && panel.classList.contains('wide'); }
+function boardChanged(){
+  clearTimeout(boardTimer);
+  boardTimer = setTimeout(async () => { if (!boardOpen()) return; try { await boardFetch(); renderBoard(); } catch (e) {} }, 250);
+}
+const Board = {
+  async post(text, color){
+    if (!Cloud.on){ const bb = loadBoard(), me = chars.get(meId); bb.posts.push({ id: uid(), author: meId, gen: me.gen, name: me.name, av: me.av, text, color, ts: Date.now(), likes: [] }); saveBoard(bb); return; }
+    const { error } = await Cloud.c.from('posts').insert({ text, color }); if (error) throw error; await boardFetch();
+  },
+  async like(id){
+    if (!Cloud.on){ const bb = loadBoard(), p = bb.posts.find(x => x.id === id); if (!p) return; p.likes = p.likes || []; p.likes = p.likes.includes(meId) ? p.likes.filter(x => x !== meId) : p.likes.concat(meId); saveBoard(bb); return; }
+    const p = boardCache && boardCache.posts.find(x => x.id === id); if (!p) return;
+    const q = p.likes.includes(meId) ? Cloud.c.from('post_likes').delete().eq('post_id', +id).eq('user_id', meId) : Cloud.c.from('post_likes').insert({ post_id: +id });
+    const { error } = await q; if (error) throw error; await boardFetch();
+  },
+  async remove(id){
+    if (!Cloud.on){ const bb = loadBoard(); bb.posts = bb.posts.filter(x => x.id !== id); saveBoard(bb); return; }
+    const { error } = await Cloud.c.from('posts').delete().eq('id', +id); if (error) throw error; await boardFetch();
+  },
+  async addThanks(t, code){
+    if (!Cloud.on){ const bb = loadBoard(); bb.thanks.push(Object.assign({ id: uid(), ts: Date.now() }, t)); saveBoard(bb); return; }
+    const { error } = await Cloud.c.rpc('add_thanks', { p_code: code, p_kind: t.kind, p_gen: t.gen, p_name: t.name, p_what: t.what }); if (error) throw error; await boardFetch();
+  },
+  async removeThanks(id, code){
+    if (!Cloud.on){ const bb = loadBoard(); bb.thanks = bb.thanks.filter(x => x.id !== id); saveBoard(bb); return; }
+    const { error } = await Cloud.c.rpc('delete_thanks', { p_code: code, p_id: +id }); if (error) throw error; await boardFetch();
+  }
+};
 
 /* ================= panels / buildings ================= */
 function openPanel(title, sub, html, after, wide){
@@ -1609,7 +1751,7 @@ function openBuilding(id){
       prev();
       const ed = mountEditor($('#edRoot', body), draft, prev);
       $('#edRand', body).onclick = () => { Object.assign(draft, randomAvatar(draft.g)); prev(); ed.render(); };
-      $('#edSave', body).onclick = () => { me.av = Object.assign({}, draft); refreshChar(me); Net.savePerson(me); Net.post('update', { id: me.id, av: me.av, name: me.name, gen: me.gen }); closePanel(); toast('새 모습으로 광장에 반영했어요!', me.av); };
+      $('#edSave', body).onclick = () => { me.av = Object.assign({}, draft); refreshChar(me); Promise.resolve(Net.savePerson(me)).catch(() => toast('저장하지 못했어요. 잠시 뒤 다시 시도해 주세요')); Net.post('update', { id: me.id, av: me.av, name: me.name, gen: me.gen }); closePanel(); toast('새 모습으로 광장에 반영했어요!', me.av); };
     });
   }
 }
@@ -1707,12 +1849,18 @@ function renderEntry(step){
     $('#enter').onclick = () => enterForest();
   }
 }
-function enterForest(){
+async function enterForest(){
+  const btn = $('#enter'); if (btn) btn.disabled = true;
+  await bootReady;
+  const fail = () => { if (btn) btn.disabled = false; toast('입장하지 못했어요. 잠시 뒤 다시 눌러 주세요'); };
+  if (Cloud.on && !(await ensureAuth())) return fail();
   const oldId = meId;
-  if (oldId){ removeChar(oldId); Net.dropPerson(oldId); Net.post('leave', { id: oldId }); }
-  meId = 'u-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+  if (oldId){ removeChar(oldId); if (!Cloud.on){ Net.dropPerson(oldId); Net.post('leave', { id: oldId }); } }
+  meId = Cloud.on ? Cloud.uid : 'u-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
   const me = { id: meId, gen: draft.gen, name: draft.name.trim().slice(0, 10), av: Object.assign({}, draft.av) };
-  store.set('bitforest.me', meId); Net.savePerson(me);
+  try { await Net.savePerson(me); } catch (e){ console.warn(e); meId = null; return fail(); }
+  store.set('bitforest.me', meId);
+  if (Cloud.on) subscribeInbox();
   closeEntry();
   const o = addChar(me, { arrive: true });
   o.holdUntil = performance.now() + 12000;
@@ -1791,7 +1939,7 @@ menu.onclick = e => {
     menu.hidden = true; closeSheet(); closePanel(); defaultView(true);
     if (on) toast('전광판 모드예요. 큰 화면에 띄워 두면 새로 온 뱌티가 바로 보여요');
   }
-  if (act === 'bots'){ showBots = !showBots; app.classList.toggle('hide-bots', !showBots); $('#botState').textContent = showBots ? '켜짐' : '꺼짐'; updateCount(); }
+  if (act === 'bots'){ showBots = !showBots; if (showBots) ensureDemo(); app.classList.toggle('hide-bots', !showBots); $('#botState').textContent = showBots ? '켜짐' : '꺼짐'; updateCount(); }
   if (act === 'reset'){
     if (!meId){ menu.hidden = true; openEntry('who'); return; }
     if (!resetArmed){ resetArmed = true; a.textContent = '한 번 더 누르면 지워져요'; return; }
@@ -1825,17 +1973,32 @@ mini.addEventListener('click', e => { const r = mini.getBoundingClientRect(); ce
 setInterval(drawMini, 300);
 
 /* ================= boot ================= */
+let demoOn = false;
+function ensureDemo(){ if (!demoOn){ demoOn = true; startDemo(); } }
+function welcomeBack(mine){ addChar(mine); loadInbox(); $('#talk').hidden = false; closeEntry(); setTimeout(() => toast(`다시 오셨네요, <b>${esc(genLabel(mine.gen))} ${esc(mine.name)}</b>님!`, mine.av), 400); }
 buildMap();
 defaultView(false);
-startDemo();
-Net.people().forEach(p => { if (p.id !== meId) addChar(p); });
-if (meId){
-  const mine = Net.people().find(p => p.id === meId);
-  if (mine){ addChar(mine); loadInbox(); $('#talk').hidden = false; entry.hidden = true; setTimeout(() => toast(`다시 오셨네요, <b>${esc(genLabel(mine.gen))} ${esc(mine.name)}</b>님!`, mine.av), 400); }
-  else { meId = null; store.del('bitforest.me'); openEntry('welcome'); }
-} else openEntry('welcome');
+openEntry('welcome');
 requestAnimationFrame(tick);
 drawMini();
+const bootReady = (async () => {
+  const people = await Promise.race([cloudStart(), new Promise(r => setTimeout(() => r(false), 7000))]);
+  if (!people){
+    Cloud.gaveUp = true; Cloud.on = false; ensureDemo();
+    Net.people().forEach(p => { if (p.id !== meId) addChar(p); });
+    const mine = meId && Net.people().find(p => p.id === meId);
+    if (mine) welcomeBack(mine); else { meId = null; store.del('bitforest.me'); }
+    return;
+  }
+  showBots = false; app.classList.add('hide-bots'); $('#botState').textContent = '꺼짐';
+  $('#menuNote').textContent = '광장에 보이는 캐릭터는 모두 실제로 입장한 뱌티들이에요. 예시 캐릭터를 켜면 분위기를 미리 볼 수 있어요.';
+  cloudSubscribe();
+  meId = null;
+  people.forEach(p => { if (p.id !== Cloud.uid) addChar(normP(p)); });
+  const mine = Cloud.uid && people.find(p => p.id === Cloud.uid);
+  if (mine){ meId = mine.id; welcomeBack(normP(mine)); subscribeInbox(); }
+  updateCount();
+})();
 })();
 </script>
 
