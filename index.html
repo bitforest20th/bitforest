@@ -63,7 +63,7 @@ button{cursor:pointer}
 .char .body::before{content:"";position:absolute;left:50%;bottom:0;width:38px;height:10px;margin-left:-19px;border-radius:50%;background:radial-gradient(closest-side,rgba(30,50,25,.38),rgba(30,50,25,0))}
 .av3{display:block}
 .char .ui{position:absolute;left:50%;bottom:calc(100% - 6px);transform:translateX(-50%) scale(var(--inv));transform-origin:50% 100%;display:flex;flex-direction:column;align-items:center;gap:5px;pointer-events:none}
-.char .tag{white-space:nowrap;font-size:12.5px;line-height:1.35;padding:1px 8px 2px;border-radius:999px;background:#fdf8ea;color:var(--ink);box-shadow:0 1px 0 rgba(95,58,32,.3)}
+.char .tag{white-space:nowrap;font-size:11px;line-height:1.35;padding:1px 7px 2px;border-radius:999px;background:#fdf8ea;color:var(--ink);box-shadow:0 1px 0 rgba(95,58,32,.3)}
 .char .tag b{font-family:var(--font-display);font-weight:400;color:var(--leaf);margin-right:3px}
 .char .bubble{position:relative;max-width:150px;width:max-content;padding:4px 9px;border-radius:11px;background:#fff;color:var(--ink);font-size:11.5px;line-height:1.35;box-shadow:0 2px 6px rgba(30,50,40,.2);word-break:keep-all;overflow-wrap:anywhere;animation:pop .25s ease-out}
 .char .bubble::after{content:"";position:absolute;left:50%;bottom:-6px;margin-left:-6px;border:6px solid transparent;border-bottom:0;border-top-color:#fff}
@@ -828,15 +828,15 @@ function drawChar(o){
 
 /* ================= map ================= */
 const W = 2400, H = 1800;
-const PLAZA = { x: 1200, y: 960, rx: 530, ry: 345 };
+const PLAZA = { x: 1200, y: 960, rx: 605, ry: 392 };
 const FOUNTAIN = { x: 1200, y: 935, r: 215 };
 const GATE = { x: 1200, y: 1690 };
 const BUILDINGS = [
-  { id:'board',   style:'board',    x:510,  y:600,  w:280, h:220, roof:'#5f8a4a', wall:'#a26a40', title:'마을 게시판',   sub:'Thanks to · 방명록' },
-  { id:'bridge',  style:'hall',     x:1200, y:395,  w:400, h:260, roof:'#3f8f87', wall:'#efe5cf', title:'BIT BRIDGE',   sub:'동문 네트워크' },
-  { id:'people',  style:'cafe',     x:1890, y:600,  w:300, h:210, roof:'#5f7fa8', wall:'#f1e6cf', title:'OUR PEOPLE',   sub:'참석자 찾아보기' },
-  { id:'memory',  style:'studio',   x:510,  y:1300, w:300, h:230, roof:'#5c6a7d', wall:'#efdcbc', title:'MEMORY LANE',  sub:'추억의 사진관' },
-  { id:'closet',  style:'boutique', x:1890, y:1300, w:300, h:220, roof:'#d48a5a', wall:'#f7ead4', title:'MY CHARACTER', sub:'내 캐릭터 꾸미기' }
+  { id:'board',   style:'board',    x:470,  y:595,  w:280, h:220, roof:'#5f8a4a', wall:'#a26a40', title:'마을 게시판',   sub:'Thanks to · 방명록' },
+  { id:'bridge',  style:'hall',     x:1200, y:375,  w:400, h:260, roof:'#3f8f87', wall:'#efe5cf', title:'BIT BRIDGE',   sub:'동문 네트워크' },
+  { id:'people',  style:'cafe',     x:1930, y:595,  w:300, h:210, roof:'#5f7fa8', wall:'#f1e6cf', title:'OUR PEOPLE',   sub:'참석자 찾아보기' },
+  { id:'memory',  style:'studio',   x:470,  y:1320, w:300, h:230, roof:'#5c6a7d', wall:'#efdcbc', title:'MEMORY LANE',  sub:'추억의 사진관' },
+  { id:'closet',  style:'boutique', x:1930, y:1320, w:300, h:220, roof:'#d48a5a', wall:'#f7ead4', title:'MY CHARACTER', sub:'내 캐릭터 꾸미기' }
 ];
 const BS = 1.25;
 BUILDINGS.forEach(b => { b.door = { x: b.x, y: b.y + b.h/2*BS + 14 }; b.top = b.y - (b.h/2 + ({ hall: 70, studio: 40, boutique: 20, library: 10, cafe: 6, board: 4 }[b.style] || 0)) * BS; });
@@ -915,9 +915,9 @@ function buildMap(){
     for (let yy = cy - h/2 + 14; yy < cy + h/2 - 8; yy += 15) for (let xx = cx - w/2 + 16; xx < cx + w/2 - 10; xx += 17){ const c = cols[Math.floor(rnd()*cols.length)]; b += `<circle cx="${f(xx + (rnd()-.5)*4)}" cy="${f(yy)}" r="5.5" fill="${c}"/><circle cx="${f(xx + (rnd()-.5)*4)}" cy="${f(yy)}" r="2" fill="#fff6c8"/>`; }
     return b;
   };
-  [[860, 590], [1540, 590]].forEach(([x, y]) => { s += bed(x, y, 170, 70, ['#c9b6f2', '#b9c8f4', '#f6a6c1']); });
-  [[595, 960], [1805, 960]].forEach(([x, y]) => { s += bed(x, y, 74, 150, ['#f6d36a', '#f8e08f']); });
-  [[880, 1345], [1520, 1345]].forEach(([x, y]) => { s += bed(x, y, 170, 70, ['#f6a6c1', '#f39a7a', '#fff']); });
+  [[830, 560], [1570, 560]].forEach(([x, y]) => { s += bed(x, y, 170, 70, ['#c9b6f2', '#b9c8f4', '#f6a6c1']); });
+  [[530, 960], [1870, 960]].forEach(([x, y]) => { s += bed(x, y, 74, 150, ['#f6d36a', '#f8e08f']); });
+  [[850, 1385], [1550, 1385]].forEach(([x, y]) => { s += bed(x, y, 170, 70, ['#f6a6c1', '#f39a7a', '#fff']); });
   // benches facing the fountain, lamps around the rim
   const bench = (x, y) => `<g transform="translate(${f(x)} ${f(y)})"><ellipse cx="0" cy="10" rx="34" ry="5" fill="rgba(60,50,20,.18)"/><rect x="-30" y="-6" width="60" height="11" rx="3" fill="#8b5a35"/><rect x="-30" y="-16" width="60" height="7" rx="3" fill="#a26a40"/><rect x="-25" y="4" width="5" height="8" fill="#5f3a20"/><rect x="20" y="4" width="5" height="8" fill="#5f3a20"/></g>`;
   [[-.66, -.5], [.66, -.5], [-.82, .3], [.82, .3], [-.42, .8], [.42, .8]].forEach(([a, b]) => { s += bench(P.x + a * (P.rx - 70), P.y + b * (P.ry - 50)); });
@@ -1013,9 +1013,10 @@ function buildMap(){
       s += `<path d="M${f(t.x)} ${f(t.y-84*k)} L${f(t.x+26*k)} ${f(t.y-40*k)} L${f(t.x-26*k)} ${f(t.y-40*k)}Z M${f(t.x)} ${f(t.y-68*k)} L${f(t.x+33*k)} ${f(t.y-15*k)} L${f(t.x-33*k)} ${f(t.y-15*k)}Z" fill="#3f8a55"/>`;
       s += `<path d="M${f(t.x)} ${f(t.y-84*k)} L${f(t.x+11*k)} ${f(t.y-64*k)} L${f(t.x-7*k)} ${f(t.y-62*k)}Z" fill="#5aa86b"/>`;
     } else {
-      const MP = [null, ['#ec7f35', '#d4622a', '#f6a95a'], ['#d9472f', '#b8362a', '#ee7a55'], ['#f0b93c', '#d99a2b', '#f8d77a']][t.maple || 0];
+      const MP = [null, ['#ec7f35', '#d4622a', '#f6a95a'], ['#c75a3a', '#a8472f', '#e0875e'], ['#f0b93c', '#d99a2b', '#f8d77a']][t.maple || 0];
       const pink = !!MP, c1 = MP ? MP[0] : '#5aa65a', c2 = MP ? MP[1] : '#4f9a50', c3 = MP ? MP[2] : '#7cc274';
       s += `<circle cx="${f(t.x)}" cy="${f(t.y-44*k)}" r="${f(31*k)}" fill="${c1}"/><circle cx="${f(t.x-15*k)}" cy="${f(t.y-33*k)}" r="${f(20*k)}" fill="${c2}"/><circle cx="${f(t.x+16*k)}" cy="${f(t.y-35*k)}" r="${f(20*k)}" fill="${c2}"/><circle cx="${f(t.x-9*k)}" cy="${f(t.y-57*k)}" r="${f(11*k)}" fill="${c3}"/>`;
+      if (pink) s += `<circle cx="${f(t.x+22*k)}" cy="${f(t.y-52*k)}" r="${f(13*k)}" fill="${c1}"/><circle cx="${f(t.x-23*k)}" cy="${f(t.y-50*k)}" r="${f(12*k)}" fill="${c1}"/><circle cx="${f(t.x+4*k)}" cy="${f(t.y-70*k)}" r="${f(12*k)}" fill="${c3}"/>`;
       if (pink) s += [[-22, 8], [18, 12], [-4, 16], [28, 4], [-30, 2]].map(([dx, dy], j) => `<ellipse cx="${f(t.x+dx*k)}" cy="${f(t.y+dy*k*.4)}" rx="${f(3.2*k)}" ry="${f(1.8*k)}" fill="${j % 2 ? MP[0] : MP[2]}"/>`).join('');
       if (!pink && rnd() < .3) s += `<circle cx="${f(t.x+10*k)}" cy="${f(t.y-42*k)}" r="${f(4*k)}" fill="#f39a7a"/><circle cx="${f(t.x-13*k)}" cy="${f(t.y-29*k)}" r="${f(4*k)}" fill="#f39a7a"/>`;
     }
@@ -1198,7 +1199,7 @@ function applyCam(){
   cam.x = mw <= w ? (w - mw) / 2 : clamp(cam.x, w - mw, 0);
   cam.y = mh <= h ? (h - mh) / 2 : clamp(cam.y, h - mh, 0);
   worldEl.style.transform = `translate3d(${cam.x.toFixed(1)}px,${cam.y.toFixed(1)}px,0) scale(${cam.s.toFixed(4)})`;
-  worldEl.style.setProperty('--inv', clamp(.98 / cam.s, .55, 2.5).toFixed(3));
+  worldEl.style.setProperty('--inv', clamp(.86 / cam.s, .52, 2.2).toFixed(3));
 }
 function centerOn(x, y, s = cam.s, glide = false){
   const { w, h } = vpSize();
