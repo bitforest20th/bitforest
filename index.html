@@ -207,7 +207,7 @@ button{cursor:pointer}
 .ed-opts{display:flex;gap:8px;flex-wrap:wrap}
 .opt{width:64px;height:64px;padding:0;border-radius:14px;border:3px solid transparent;background:#fff;display:grid;place-items:center;box-shadow:0 2px 0 var(--paper-line)}
 .opt img.head{width:60px;height:60px}
-.opt img.body{width:56px;height:48px}
+.opt img.body,.opt img.chest{width:56px;height:48px}
 .opt[aria-pressed="true"]{border-color:var(--pop)}
 .sw{width:36px;height:36px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 2px var(--paper-line)}
 .sw[aria-pressed="true"]{box-shadow:0 0 0 3px var(--pop)}
@@ -389,17 +389,17 @@ const AV = {
   hairAll:['short','side','buzz','curly','mop','bob','long','pony','bun'],
   eyes:['dot','round','smile','sleepy','wink'],
   mouth:['smile','open','cat','small','grin'],
-  top:['tee','hoodie','shirt','stripe','bit','sweater'],
+  top:['tee','long','sweater','bit'],
   topColor:['#5b9fd6','#ef8a6b','#76bf86','#f3c653','#ad88d6','#fbfbf7','#3c4a5e','#de5b6c'],
   bottom:['pants','shorts','skirt'],
-  bottomColor:['#3a4a6c','#2d2d34','#8a6b4e','#cfc6b2','#5a7f9e','#a24f5c'],
+  bottomColor:['#3a4a6c','#2d2d34','#5a7f9e','#a24f5c','#6b7d4f','#7a5a8c'],
   shoe:['#4a3a32','#f4f1ea','#2d2d34','#c0573f'],
   acc:['none','glasses','round','cap','beanie','flower','headphones','ribbon','tie'],
   accColor:['#e05a6b','#5b9fd6','#f3c653','#3c4a5e','#76bf86','#ad88d6']
 };
 const LABEL = {short:'짧은 머리',side:'옆가르마',buzz:'까까머리',curly:'곱슬',mop:'덥수룩 앞머리',bob:'단발',long:'긴 머리',pony:'포니테일',bun:'똥머리',
   dot:'콩눈',round:'반짝눈',smile:'웃는 눈',sleepy:'졸린 눈',wink:'윙크',open:'활짝',cat:'고양이 입',small:'오',grin:'이 보이게',
-  tee:'반팔',hoodie:'후드',shirt:'셔츠',stripe:'줄무늬',bit:'BIT 티',sweater:'니트',pants:'긴 바지',shorts:'반바지',skirt:'치마',
+  tee:'반팔',long:'긴팔',hoodie:'후드',shirt:'셔츠',stripe:'줄무늬',bit:'BIT 티',sweater:'스웨터',pants:'긴 바지',shorts:'반바지',skirt:'치마',
   none:'없음',glasses:'안경',cap:'모자',beanie:'비니',flower:'꽃핀',headphones:'헤드폰',ribbon:'리본',tie:'넥타이'};
 LABEL.smileM = '미소';
 
@@ -563,7 +563,7 @@ function buildAvatar(a){
   const inkM = M('#1b1413', { roughness: .15 });
   const whiteM = M('#ffffff', { roughness: .3, emissive: lin('#ffffff').multiplyScalar(.7) });
   const mouthM = M('#8a3a3d', { roughness: .4, side: THREE.DoubleSide });
-  const longS = a.top === 'hoodie' || a.top === 'shirt' || a.top === 'sweater';
+  const longS = a.top === 'long' || a.top === 'hoodie' || a.top === 'shirt' || a.top === 'sweater';
 
   // torso
   const torsoG = geo('torso', () => {
@@ -580,7 +580,7 @@ function buildAvatar(a){
   const mkLeg = x => {
     const g = new THREE.Group(); g.position.set(x, .98, 0); root.add(g);
     mesh(capsuleGeo(.15, .82), a.bottom === 'pants' ? botM : skinM, g);
-    if (a.bottom === 'shorts') mesh(capsuleGeo(.175, .36), botM, g);
+    if (a.bottom === 'shorts') mesh(capsuleGeo(.18, .47), botM, g);
     const shoe = mesh(S, shoeM, g, .17, .12, .25); shoe.position.set(0, -.86, .07);
     return g;
   };
@@ -679,8 +679,18 @@ function buildAvatar(a){
       break;
     }
     case 'tie': {
-      const knot = mesh(s, accDk, body, .09, .075, .05); knot.position.set(0, 1.47, .37);
-      const blade = mesh(geo('tieBlade2', () => new THREE.ConeGeometry(.15, .56, 4)), accM, body, 1, 1, .3); blade.rotation.set(0, Math.PI / 4, Math.PI); blade.position.set(0, 1.2, .41);
+      // white shirt collar, a tight knot, and a long blade that widens to a pointed tip
+      const ext = { depth: .025, bevelEnabled: true, bevelThickness: .012, bevelSize: .01, bevelSegments: 3, curveSegments: 4 };
+      const collarG = geo('collar', () => { const sh = new THREE.Shape(); sh.moveTo(0, 0); sh.lineTo(.17, .03); sh.lineTo(.07, -.15); sh.closePath(); return new THREE.ExtrudeGeometry(sh, ext); });
+      const collarM = M('#f7f6f1', { roughness: .7 });
+      [-1, 1].forEach(sg => { const c = mesh(collarG, collarM, body, sg, 1, 1); c.position.set(sg * .035, 1.37, .38); c.rotation.y = sg * .32; c.rotation.x = -.15; });
+      const knotG = geo('tieKnot', () => { const sh = new THREE.Shape(); sh.moveTo(-.065, .05); sh.lineTo(.065, .05); sh.lineTo(.04, -.05); sh.lineTo(-.04, -.05); sh.closePath(); return new THREE.ExtrudeGeometry(sh, Object.assign({}, ext, { depth: .04 })); });
+      const knot = mesh(knotG, accDk, body); knot.position.set(0, 1.31, .4); knot.rotation.x = -.12;
+      const bladeG = geo('tieBlade3', () => { const sh = new THREE.Shape(); sh.moveTo(-.04, 0); sh.lineTo(.04, 0); sh.lineTo(.085, -.4); sh.lineTo(0, -.5); sh.lineTo(-.085, -.4); sh.closePath(); return new THREE.ExtrudeGeometry(sh, ext); });
+      const blade = mesh(bladeG, accM, body); blade.position.set(0, 1.27, .42); blade.rotation.x = .1;
+      // a faint diagonal stripe so it reads as fabric
+      const stripeM = M(shade(a.accColor, 30), { roughness: .5 });
+      [-.12, -.24, -.36].forEach(y => { const st = mesh(geo('tieStripe', () => new THREE.BoxGeometry(.15, .016, .01)), stripeM, blade); st.position.set(0, y, .042); st.rotation.z = .45; st.scale.x = 1 + y * .6; });
       break;
     }
     case 'ribbon': {
@@ -700,7 +710,7 @@ function poseAvatar(rig, step, dir, blink){
   rig.body.position.y = sw ? .05 : 0;
   rig.eyesOpen.visible = !blink; rig.eyesShut.visible = blink;
 }
-const VIEWS = { full: { y: 1.62, h: 3.34, cy: 3.0 }, head: { y: 2.28, h: 2.0, cy: 2.8 }, body: { y: 1.05, h: 2.25, cy: 2.0 } };
+const VIEWS = { full: { y: 1.62, h: 3.34, cy: 3.0 }, head: { y: 2.28, h: 2.0, cy: 2.8 }, body: { y: 1.05, h: 2.25, cy: 2.0 }, chest: { y: 1.38, h: 1.2, cy: 2.0 } };
 function setView(name, w, h){
   const v = VIEWS[name], c = R3.cam, d = Math.hypot(11.5, v.cy - v.y);
   R3.renderer.setSize(w, h, false);
@@ -719,7 +729,7 @@ function drawFallback(ctx, a, x0, w, h){
   ctx.restore();
 }
 
-const SIZES = { full: [280, 350], head: [160, 160], body: [140, 120] };
+const SIZES = { full: [280, 350], head: [160, 160], body: [140, 120], chest: [140, 120] };
 const urlCache = new Map();
 function avatarURL(av, crop = 'full'){
   const key = crop + JSON.stringify(av);
@@ -738,7 +748,7 @@ function avatarURL(av, crop = 'full'){
 }
 const HEAD_VB = 'head';
 function avatarSVG(a, opt = {}){
-  const crop = opt.viewBox === HEAD_VB ? 'head' : opt.viewBox ? 'body' : 'full';
+  const crop = opt.viewBox === HEAD_VB ? 'head' : opt.viewBox === 'chest' ? 'chest' : opt.viewBox ? 'body' : 'full';
   return `<img class="av3 ${crop}" src="${avatarURL(a, crop)}" alt="" draggable="false">`;
 }
 
@@ -1275,7 +1285,7 @@ function mountEditor(root, av, onChange){
       h += `<div class="ed-group"><h4>${g.label}</h4><div class="ed-opts">`;
       if (g.type === 'color') h += g.vals.map(v => `<button type="button" class="sw" data-k="${g.k}" data-v="${v}" style="background:${v}" aria-label="${g.label} ${v}" aria-pressed="${av[g.k] === v}"></button>`).join('');
       else if (g.type === 'toggle') h += `<button type="button" class="toggle" data-k="${g.k}" aria-pressed="${!!av[g.k]}">${av[g.k] ? '켜짐' : '꺼짐'}</button>`;
-      else h += g.vals.map(v => { const a = Object.assign({}, av, { [g.k]: v }); return `<button type="button" class="opt" data-k="${g.k}" data-v="${v}" title="${LABEL[v] || v}" aria-label="${LABEL[v] || v}" aria-pressed="${av[g.k] === v}">${avatarSVG(a, { viewBox: g.head && !(g.k === 'acc' && v === 'tie') ? HEAD_VB : '8 2 104 156', noShadow: true })}</button>`; }).join('');
+      else h += g.vals.map(v => { const a = Object.assign({}, av, { [g.k]: v }); return `<button type="button" class="opt" data-k="${g.k}" data-v="${v}" title="${LABEL[v] || v}" aria-label="${LABEL[v] || v}" aria-pressed="${av[g.k] === v}">${avatarSVG(a, { viewBox: g.k === 'acc' && v === 'tie' ? 'chest' : g.head ? HEAD_VB : '8 2 104 156', noShadow: true })}</button>`; }).join('');
       h += `</div></div>`;
     });
     root.innerHTML = h;
