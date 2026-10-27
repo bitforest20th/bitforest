@@ -249,7 +249,9 @@ button{cursor:pointer}
 .stagebox .nametag{position:absolute;top:10px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:14px;padding:2px 10px;border-radius:999px;background:var(--pop);color:#fff}
 .make-status{text-align:center;font-family:var(--font-display);font-size:20px;margin:6px 0 12px;color:var(--leaf)}
 .make-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.make-actions .btn{height:46px}
+.make-actions .btn{height:48px;font-size:17px}
+.make-actions .btn.custom{background:var(--paper);color:var(--leaf);border:2.5px solid var(--leaf)}
+.make-hint{margin:0 0 10px;text-align:center;font-size:13px;color:var(--ink-soft);line-height:1.5}
 .editor-wrap{margin-top:14px;padding-top:14px;border-top:2px dashed var(--paper-line)}
 
 /* ---------- stage (big screen) mode ---------- */
@@ -392,13 +394,13 @@ const AV = {
   bottom:['pants','shorts','skirt'],
   bottomColor:['#3a4a6c','#2d2d34','#8a6b4e','#cfc6b2','#5a7f9e','#a24f5c'],
   shoe:['#4a3a32','#f4f1ea','#2d2d34','#c0573f'],
-  acc:['none','glasses','round','cap','beanie','flower','headphones','ribbon'],
+  acc:['none','glasses','round','cap','beanie','flower','headphones','ribbon','tie'],
   accColor:['#e05a6b','#5b9fd6','#f3c653','#3c4a5e','#76bf86','#ad88d6']
 };
 const LABEL = {short:'짧은 머리',side:'옆가르마',buzz:'까까머리',curly:'곱슬',mop:'덥수룩 앞머리',bob:'단발',long:'긴 머리',pony:'포니테일',bun:'똥머리',
   dot:'콩눈',round:'반짝눈',smile:'웃는 눈',sleepy:'졸린 눈',wink:'윙크',open:'활짝',cat:'고양이 입',small:'오',grin:'이 보이게',
   tee:'반팔',hoodie:'후드',shirt:'셔츠',stripe:'줄무늬',bit:'BIT 티',sweater:'니트',pants:'긴 바지',shorts:'반바지',skirt:'치마',
-  none:'없음',glasses:'안경',cap:'모자',beanie:'비니',flower:'꽃핀',headphones:'헤드폰',ribbon:'리본'};
+  none:'없음',glasses:'안경',cap:'모자',beanie:'비니',flower:'꽃핀',headphones:'헤드폰',ribbon:'리본',tie:'넥타이'};
 LABEL.smileM = '미소';
 
 function randomAvatar(g, rnd = Math.random){
@@ -660,9 +662,9 @@ function buildAvatar(a){
       break;
     }
     case 'beanie': {
-      const d = mesh(geo('domeB', () => new THREE.SphereGeometry(1, 48, 20, 0, Math.PI * 2, 0, Math.PI * .56)), accM, head, HEAD.sx * 1.12, HEAD.sy * 1.1, HEAD.sz * 1.13); d.position.y = HEAD.y + .02; d.rotation.x = -.12;
-      const band = mesh(geo('band', () => new THREE.TorusGeometry(1, .1, 12, 48)), accDk, head, HEAD.sx * 1.12, HEAD.sz * 1.13, 1); band.rotation.x = Math.PI / 2 - .12; band.position.y = HEAD.y - .02;
-      mesh(s, M(shade(a.accColor, 40), { roughness: .9 }), head, .2).position.set(0, HEAD.y + 1.08, -.1);
+      const d = mesh(geo('domeB2', () => new THREE.SphereGeometry(1, 48, 20, 0, Math.PI * 2, 0, 1.27)), accM, head, HEAD.sx * 1.13, HEAD.sy * 1.12, HEAD.sz * 1.14); d.position.y = HEAD.y; d.rotation.x = -.06;
+      const band = mesh(geo('band', () => new THREE.TorusGeometry(1, .1, 12, 48)), accDk, head, HEAD.sx * 1.1, HEAD.sz * 1.11, 1); band.rotation.x = Math.PI / 2 - .06; band.position.y = HEAD.y + .31;
+      mesh(s, M(shade(a.accColor, 40), { roughness: .9 }), head, .2).position.set(0, HEAD.y + 1.12, -.06);
       break;
     }
     case 'flower': {
@@ -674,6 +676,11 @@ function buildAvatar(a){
     case 'headphones': {
       const band = mesh(geo('hband', () => new THREE.TorusGeometry(1.1, .055, 10, 40, Math.PI)), accDk, head, HEAD.sx, HEAD.sy * 1.06, 1); band.position.y = HEAD.y + .02;
       [-1, 1].forEach(sg => { const c = mesh(geo('cup', () => new THREE.CylinderGeometry(.24, .24, .16, 24)), accM, head); c.rotation.z = Math.PI / 2; c.position.set(sg * 1.09 * HEAD.sx, HEAD.y, 0); });
+      break;
+    }
+    case 'tie': {
+      const knot = mesh(s, accDk, body, .09, .075, .05); knot.position.set(0, 1.47, .37);
+      const blade = mesh(geo('tieBlade2', () => new THREE.ConeGeometry(.15, .56, 4)), accM, body, 1, 1, .3); blade.rotation.set(0, Math.PI / 4, Math.PI); blade.position.set(0, 1.2, .41);
       break;
     }
     case 'ribbon': {
@@ -1268,7 +1275,7 @@ function mountEditor(root, av, onChange){
       h += `<div class="ed-group"><h4>${g.label}</h4><div class="ed-opts">`;
       if (g.type === 'color') h += g.vals.map(v => `<button type="button" class="sw" data-k="${g.k}" data-v="${v}" style="background:${v}" aria-label="${g.label} ${v}" aria-pressed="${av[g.k] === v}"></button>`).join('');
       else if (g.type === 'toggle') h += `<button type="button" class="toggle" data-k="${g.k}" aria-pressed="${!!av[g.k]}">${av[g.k] ? '켜짐' : '꺼짐'}</button>`;
-      else h += g.vals.map(v => { const a = Object.assign({}, av, { [g.k]: v }); return `<button type="button" class="opt" data-k="${g.k}" data-v="${v}" title="${LABEL[v] || v}" aria-label="${LABEL[v] || v}" aria-pressed="${av[g.k] === v}">${avatarSVG(a, { viewBox: g.head ? HEAD_VB : '8 2 104 156', noShadow: true })}</button>`; }).join('');
+      else h += g.vals.map(v => { const a = Object.assign({}, av, { [g.k]: v }); return `<button type="button" class="opt" data-k="${g.k}" data-v="${v}" title="${LABEL[v] || v}" aria-label="${LABEL[v] || v}" aria-pressed="${av[g.k] === v}">${avatarSVG(a, { viewBox: g.head && !(g.k === 'acc' && v === 'tie') ? HEAD_VB : '8 2 104 156', noShadow: true })}</button>`; }).join('');
       h += `</div></div>`;
     });
     root.innerHTML = h;
@@ -1320,7 +1327,8 @@ function renderEntry(step){
     card.innerHTML = `<div class="step-label">2 / 2 · 내 캐릭터</div><h2>${esc(draft.name.trim())}님의 캐릭터</h2>
       <div class="stagebox"><span class="nametag">${esc(label)}</span><div id="mkPrev"></div></div>
       <div class="make-status" id="mkStatus">캐릭터 뽑는 중…</div>
-      <div class="make-actions"><button class="btn ghost" type="button" id="reroll">🎲 다시 뽑기</button><button class="btn ghost" type="button" id="custom">직접 꾸미기</button></div>
+      <p class="make-hint">마음에 안 들면 다시 뽑거나, 머리·옷·소품을 직접 골라 보세요</p>
+      <div class="make-actions"><button class="btn ghost" type="button" id="reroll">🎲 다시 뽑기</button><button class="btn custom" type="button" id="custom">✏️ 직접 꾸미기</button></div>
       <button class="btn big pop" type="button" id="enter" style="margin-top:8px">이 캐릭터로 입장!</button>
       <button class="linkish" type="button" id="back2">기수·이름 다시 고르기</button>
       <div class="editor-wrap" id="edWrap" hidden></div>`;
@@ -1333,13 +1341,13 @@ function renderEntry(step){
       status.textContent = '캐릭터 뽑는 중…';
       let n = 0;
       const spin = setInterval(() => {
-        draft.av = randomAvatar(draft.style); show();
+        draft.av = Object.assign(draft.av || {}, randomAvatar(draft.style)); show();
         if (++n >= (reduce ? 1 : 14)){ clearInterval(spin); status.textContent = ['짠! 이 친구 어때요?','오늘의 나, 완성!','숲에 딱 어울려요!'][Math.floor(Math.random()*3)]; ['reroll','custom','enter'].forEach(id => $('#'+id).disabled = false); ed && ed.render(); }
       }, 75);
     };
     if (draft.av){ show(); status.textContent = '짠! 이 친구 어때요?'; } else roll();
     $('#reroll').onclick = roll;
-    $('#custom').onclick = () => { const w = $('#edWrap'); w.hidden = !w.hidden; if (!ed) ed = mountEditor(w, draft.av, () => show()); $('#custom').textContent = w.hidden ? '직접 꾸미기' : '꾸미기 닫기'; };
+    $('#custom').onclick = () => { const w = $('#edWrap'); w.hidden = !w.hidden; if (!ed) ed = mountEditor(w, draft.av, () => show()); $('#custom').textContent = w.hidden ? '✏️ 직접 꾸미기' : '꾸미기 닫기'; if (!w.hidden) setTimeout(() => w.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60); };
     $('#back2').onclick = () => renderEntry('who');
     $('#enter').onclick = () => enterForest();
   }
