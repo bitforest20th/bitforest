@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&display=swap">
 <style>
-/* Layout: one full-screen pannable island (1600×1200 world) — HUD pinned to the corners, entry flow and panels as wooden-framed paper signboards. Single daytime look by design. */
+/* Layout: one full-screen pannable island (2400×1800 world) — HUD pinned to the corners, entry flow and panels as wooden-framed paper signboards. Single daytime look by design. */
 :root{
   --water:#7fd0e3; --water-dk:#58b6cf;
   --grass:#9fd171; --grass-dk:#7db357;
@@ -33,9 +33,13 @@ button{cursor:pointer}
 #app{position:fixed;inset:0;overflow:hidden}
 #viewport{position:absolute;inset:0;overflow:hidden;touch-action:none;cursor:grab;background:var(--water)}
 #viewport.dragging{cursor:grabbing}
-#world{position:absolute;left:0;top:0;width:1600px;height:1200px;transform-origin:0 0;will-change:transform;--inv:1}
+#world{position:absolute;left:0;top:0;width:2400px;height:1800px;transform-origin:0 0;will-change:transform;--inv:1}
 #world.glide{transition:transform .7s cubic-bezier(.2,.7,.2,1)}
-#map{position:absolute;inset:0;width:1600px;height:1200px;display:block}
+#map{position:absolute;inset:0;width:2400px;height:1800px;display:block}
+.statue{position:absolute;width:388px;height:291px;margin:-226px 0 0 -194px;pointer-events:none}
+.statue img{width:100%;height:100%;display:block;filter:drop-shadow(0 6px 8px rgba(120,90,10,.28))}
+.statue .tw{position:absolute;width:18px;height:18px;background:#fffbe6;clip-path:polygon(50% 0,61% 39%,100% 50%,61% 61%,50% 100%,39% 61%,0 50%,39% 39%);animation:tw 2.4s ease-in-out infinite;opacity:0}
+@keyframes tw{0%,100%{opacity:0;transform:scale(.3) rotate(0)}50%{opacity:1;transform:scale(1) rotate(45deg)}}
 #chars,#signs{position:absolute;inset:0;pointer-events:none}
 .hide-bots .char.bot{display:none}
 
@@ -57,9 +61,9 @@ button{cursor:pointer}
 .char .body::before{content:"";position:absolute;left:50%;bottom:0;width:38px;height:10px;margin-left:-19px;border-radius:50%;background:radial-gradient(closest-side,rgba(30,50,25,.38),rgba(30,50,25,0))}
 .av3{display:block}
 .char .ui{position:absolute;left:50%;bottom:calc(100% - 6px);transform:translateX(-50%) scale(var(--inv));transform-origin:50% 100%;display:flex;flex-direction:column;align-items:center;gap:5px;pointer-events:none}
-.char .tag{white-space:nowrap;font-size:13px;line-height:1.4;padding:1px 8px 2px;border-radius:999px;background:rgba(253,248,234,.95);color:var(--ink);box-shadow:0 1px 0 rgba(95,58,32,.3)}
+.char .tag{white-space:nowrap;font-size:10.5px;line-height:1.35;padding:0 6px 1px;opacity:.94;border-radius:999px;background:rgba(253,248,234,.95);color:var(--ink);box-shadow:0 1px 0 rgba(95,58,32,.3)}
 .char .tag b{font-family:var(--font-display);font-weight:400;color:var(--leaf);margin-right:3px}
-.char .bubble{position:relative;max-width:170px;width:max-content;padding:6px 11px;border-radius:13px;background:#fff;color:var(--ink);font-size:13px;line-height:1.35;box-shadow:0 2px 6px rgba(30,50,40,.2);word-break:keep-all;overflow-wrap:anywhere;animation:pop .25s ease-out}
+.char .bubble{position:relative;max-width:150px;width:max-content;padding:4px 9px;border-radius:11px;background:#fff;color:var(--ink);font-size:11.5px;line-height:1.35;box-shadow:0 2px 6px rgba(30,50,40,.2);word-break:keep-all;overflow-wrap:anywhere;animation:pop .25s ease-out}
 .char .bubble::after{content:"";position:absolute;left:50%;bottom:-6px;margin-left:-6px;border:6px solid transparent;border-bottom:0;border-top-color:#fff}
 .char.me .tag{background:var(--pop);color:#fff}
 .char.me .tag b{color:#fff}
@@ -267,6 +271,50 @@ button{cursor:pointer}
 .stage .toast{font-size:20px;padding:10px 24px 10px 10px}
 .stage .toast .mini-av{width:48px;height:48px}
 
+
+/* village board */
+.panel.wide{width:min(100%,640px)}
+.thanks{position:relative;margin:18px 0 26px;padding:30px 18px 14px;border-radius:18px;background:linear-gradient(180deg,#fff9e3,#fdf0c6);border:3px solid #e8c56a;box-shadow:0 3px 0 #d9ae49}
+.ty-ribbon{position:absolute;top:-15px;left:50%;transform:translateX(-50%);padding:5px 20px 6px;border-radius:999px;background:#d39b2c;color:#fff;font-family:var(--font-display);letter-spacing:.2em;font-size:15px;white-space:nowrap;box-shadow:0 2px 0 #a8740f}
+.thanks h3{margin:0 0 14px;text-align:center;font-family:var(--font-display);font-weight:400;font-size:19px;line-height:1.3;text-wrap:balance}
+.ty-cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.ty-col{min-width:0}
+.ty-col h4{margin:0 0 8px;padding-bottom:6px;font-size:13px;letter-spacing:.04em;color:#9a6d12;font-weight:400;border-bottom:1px dashed #e2c47c;display:flex;justify-content:space-between}
+.ty-col h4 em{font-style:normal;color:#b8913a}
+.ty-col ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:7px}
+.ty-col li{line-height:1.4;overflow-wrap:anywhere}
+.ty-col li span{display:block;font-size:13px;color:var(--ink-soft)}
+.ty-empty{margin:0;font-size:13px;color:#a8894a;line-height:1.5}
+.thanks .linkish{margin-top:14px}
+.ty-form{margin-top:10px;padding-top:12px;border-top:1px dashed #e2c47c;display:flex;flex-direction:column;gap:8px}
+.ty-form input{width:100%;box-sizing:border-box;min-width:0;height:42px;border:2px solid var(--paper-line);border-radius:12px;padding:0 12px;background:#fff;font-size:15px;outline:none}
+.ty-form input:focus{border-color:var(--leaf)}
+.ty-row{display:grid;grid-template-columns:120px minmax(0,1fr);gap:8px}
+.ty-del{display:flex;flex-wrap:wrap;gap:6px}
+.bd-h{margin:0 0 10px;font-family:var(--font-display);font-weight:400;font-size:21px}
+.bd-h span{font-size:14px;color:var(--ink-soft)}
+.bd-write{background:var(--note);border-radius:6px;padding:12px;box-shadow:0 3px 8px rgba(60,40,10,.15);margin-bottom:16px;display:flex;flex-direction:column;gap:8px}
+.bd-write.empty{background:var(--paper-2);align-items:center;text-align:center;color:var(--ink-soft);padding:18px}
+.bd-who{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-soft)}
+.mini-av img{width:100%;height:100%;object-fit:cover;display:block}
+.bd-who .mini-av,.note .mini-av{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.65);overflow:hidden;flex:none}
+.bd-write textarea{border:0;background:rgba(255,255,255,.6);border-radius:6px;padding:10px;font:inherit;font-size:15px;line-height:1.5;resize:vertical;min-height:72px;outline:none;color:var(--ink)}
+.bd-bar{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.bd-colors{display:flex;gap:6px}
+.bd-colors .sw{width:28px;height:28px}
+.cork{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:20px 14px;padding:22px 14px 18px;border-radius:14px;background:#cf9d62 radial-gradient(rgba(120,70,20,.2) 1px,transparent 1.6px) 0 0/9px 9px;border:8px solid #9a6438;box-shadow:inset 0 2px 8px rgba(60,30,0,.3)}
+.note{position:relative;min-width:0;background:var(--note);padding:18px 12px 10px;transform:rotate(var(--r));box-shadow:0 4px 8px rgba(60,30,0,.25);display:flex;flex-direction:column;gap:10px;color:var(--ink)}
+.note .pin{position:absolute;top:-6px;left:50%;width:14px;height:14px;margin-left:-7px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#ff9a8a,#d9463a);box-shadow:0 2px 2px rgba(0,0,0,.3)}
+.note p{margin:0;line-height:1.55;font-size:15px;white-space:pre-wrap;overflow-wrap:anywhere}
+.note footer{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:6px 8px;margin-top:auto}
+.note .acts{grid-column:1/-1;display:flex;justify-content:flex-end;gap:6px}
+.note .by{display:flex;flex-direction:column;min-width:0;font-size:12px;line-height:1.3}
+.note .by b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.note .by time{color:var(--ink-soft);font-size:11px}
+.note .like,.note .del{border:0;background:rgba(255,255,255,.65);border-radius:999px;padding:3px 9px;font-size:12px;color:var(--ink-soft)}
+.note .like.on{color:#d9463a}
+.bd-empty{grid-column:1/-1;text-align:center;color:#fff8e6;padding:30px 10px;line-height:1.6;font-size:15px;text-shadow:0 1px 1px rgba(80,40,0,.4)}
+@media (max-width:480px){.ty-cols{grid-template-columns:1fr}.ty-row{grid-template-columns:96px minmax(0,1fr)}.cork{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}}
 @media (max-width:560px){
   .logo{padding:6px 11px 7px}
   .logo small{font-size:11px}
@@ -291,7 +339,7 @@ button{cursor:pointer}
 <div id="app">
   <div id="viewport">
     <div id="world">
-      <svg id="map" viewBox="0 0 1600 1200" aria-hidden="true"></svg>
+      <svg id="map" viewBox="0 0 2400 1800" aria-hidden="true"></svg>
       <div id="chars"></div>
       <div id="signs"></div>
     </div>
@@ -788,33 +836,33 @@ function drawChar(o){
 
 
 /* ================= map ================= */
-const W = 1600, H = 1200;
-const PLAZA = { x: 800, y: 640, r: 225 };
-const FOUNTAIN = { x: 800, y: 640, r: 80 };
-const GATE = { x: 800, y: 1112 };
+const W = 2400, H = 1800;
+const PLAZA = { x: 1200, y: 960, rx: 530, ry: 345 };
+const FOUNTAIN = { x: 1200, y: 935, r: 215 };
+const GATE = { x: 1200, y: 1690 };
 const BUILDINGS = [
-  { id:'history', x:330,  y:330, w:250, h:176, roof:'#b5654a', wall:'#f3e3c3', title:'BIT HISTORY', sub:'20년의 기록', win:2 },
-  { id:'bridge',  x:800,  y:205, w:310, h:190, roof:'#3f8f87', wall:'#efe5cf', title:'BIT BRIDGE',  sub:'동문 네트워크', win:3 },
-  { id:'people',  x:1270, y:330, w:250, h:176, roof:'#5f7fa8', wall:'#f1e6cf', title:'OUR PEOPLE',  sub:'참석자 찾아보기', win:2 },
-  { id:'memory',  x:330,  y:905, w:250, h:176, roof:'#5c6a7d', wall:'#efdcbc', title:'MEMORY LANE', sub:'추억의 사진관', win:2 },
-  { id:'closet',  x:1270, y:905, w:250, h:176, roof:'#d48a5a', wall:'#f7ead4', title:'MY CHARACTER', sub:'내 캐릭터 꾸미기', win:2 }
+  { id:'board',   style:'board',    x:560,  y:640,  w:280, h:220, roof:'#5f8a4a', wall:'#a26a40', title:'마을 게시판',   sub:'Thanks to · 방명록' },
+  { id:'bridge',  style:'hall',     x:1200, y:440,  w:400, h:260, roof:'#3f8f87', wall:'#efe5cf', title:'BIT BRIDGE',   sub:'동문 네트워크' },
+  { id:'people',  style:'cafe',     x:1840, y:640,  w:300, h:210, roof:'#5f7fa8', wall:'#f1e6cf', title:'OUR PEOPLE',   sub:'참석자 찾아보기' },
+  { id:'memory',  style:'studio',   x:560,  y:1290, w:300, h:230, roof:'#5c6a7d', wall:'#efdcbc', title:'MEMORY LANE',  sub:'추억의 사진관' },
+  { id:'closet',  style:'boutique', x:1840, y:1290, w:300, h:220, roof:'#d48a5a', wall:'#f7ead4', title:'MY CHARACTER', sub:'내 캐릭터 꾸미기' }
 ];
-BUILDINGS.forEach(b => { b.door = { x: b.x, y: b.y + b.h/2 + 14 }; });
+BUILDINGS.forEach(b => { b.door = { x: b.x, y: b.y + b.h/2 + 14 }; b.top = b.y - b.h/2 - ({ hall: 70, studio: 40, boutique: 20, library: 10, cafe: 6, board: 4 }[b.style] || 0); });
 const SEGMENTS = BUILDINGS.map(b => ({ a: { x: PLAZA.x, y: PLAZA.y }, b: b.door })).concat([{ a: { x: PLAZA.x, y: PLAZA.y }, b: GATE }]);
-const ISL = { cx: 800, cy: 600, a: 740, b: 540, n: 5 };
+const ISL = { cx: 1200, cy: 900, a: 1130, b: 830, n: 5 };
 function inIsland(x, y, k = 1){ return Math.pow(Math.abs((x-ISL.cx)/ISL.a), ISL.n) + Math.pow(Math.abs((y-ISL.cy)/ISL.b), ISL.n) < k; }
+function inPlaza(x, y, pad = 0){ const dx = (x - PLAZA.x) / (PLAZA.rx + pad), dy = (y - PLAZA.y) / (PLAZA.ry + pad); return dx*dx + dy*dy < 1; }
 function segDist(p, s){ const abx=s.b.x-s.a.x, aby=s.b.y-s.a.y; const t=clamp(((p.x-s.a.x)*abx+(p.y-s.a.y)*aby)/(abx*abx+aby*aby),0,1); return Math.hypot(p.x-(s.a.x+abx*t), p.y-(s.a.y+aby*t)); }
-const PONDS = [{ x:150, y:620, rx:62, ry:40 }, { x:1450, y:620, rx:62, ry:40 }];
+const PONDS = [{ x:200, y:960, rx:95, ry:58 }, { x:2200, y:960, rx:95, ry:58 }];
 let islandD = '';
 
 function buildMap(){
   const rnd = mulberry32(2026);
   const f = v => v.toFixed(1);
-  // island outline (superellipse + jitter, smoothed)
-  const pts = []; const N = 56;
+  const pts = []; const N = 64;
   for (let i = 0; i < N; i++){
     const t = i / N * Math.PI * 2, ct = Math.cos(t), st = Math.sin(t);
-    const k = 1 + (rnd() - .5) * .035;
+    const k = 1 + (rnd() - .5) * .03;
     pts.push([ISL.cx + ISL.a * k * Math.sign(ct) * Math.pow(Math.abs(ct), 2/ISL.n), ISL.cy + ISL.b * k * Math.sign(st) * Math.pow(Math.abs(st), 2/ISL.n)]);
   }
   let d = `M${f(pts[0][0])},${f(pts[0][1])}`;
@@ -823,109 +871,249 @@ function buildMap(){
     d += `C${f(p1[0]+(p2[0]-p0[0])/6)},${f(p1[1]+(p2[1]-p0[1])/6)} ${f(p2[0]-(p3[0]-p1[0])/6)},${f(p2[1]-(p3[1]-p1[1])/6)} ${f(p2[0])},${f(p2[1])}`;
   }
   d += 'Z'; islandD = d;
+  const P = PLAZA;
 
   let s = '';
-  s += `<defs><radialGradient id="glow"><stop offset="0" stop-color="#fff3b8" stop-opacity=".9"/><stop offset="1" stop-color="#fff3b8" stop-opacity="0"/></radialGradient></defs>`;
+  s += `<defs><radialGradient id="glow"><stop offset="0" stop-color="#fff3b8" stop-opacity=".9"/><stop offset="1" stop-color="#fff3b8" stop-opacity="0"/></radialGradient>
+    <pattern id="tiles" width="46" height="46" patternUnits="userSpaceOnUse"><rect width="46" height="46" fill="#efe4c6"/><path d="M0 0H46M0 0V46" stroke="#e2d4b0" stroke-width="2"/><rect x="23" y="23" width="23" height="23" fill="#ece0bf"/></pattern>
+    <clipPath id="plazaClip"><ellipse cx="${P.x}" cy="${P.y}" rx="${P.rx}" ry="${P.ry}"/></clipPath>
+    <radialGradient id="water" cx=".5" cy=".4"><stop offset="0" stop-color="#bfeef6"/><stop offset="1" stop-color="#6cc4da"/></radialGradient></defs>`;
   s += `<rect width="${W}" height="${H}" fill="#7fd0e3"/>`;
-  for (let i = 0; i < 70; i++){ const x = rnd()*W, y = rnd()*H; if (inIsland(x, y, 1.15)) continue; s += `<path d="M${f(x)} ${f(y)} q8 -6 16 0 q8 6 16 0" stroke="#bfeaf3" stroke-width="3" fill="none" stroke-linecap="round" opacity=".8"/>`; }
-  s += `<path d="${d}" fill="#7a6a48" transform="translate(0 16)"/>`;
-  s += `<path d="${d}" fill="#efe1b6" stroke="#efe1b6" stroke-width="30" stroke-linejoin="round"/>`;
-  s += `<path d="${d}" fill="#9fd171"/>`;
-  // grass tufts
-  for (let i = 0; i < 300; i++){ const x = 60 + rnd()*(W-120), y = 60 + rnd()*(H-120); if (!inIsland(x, y, .9)) continue; s += `<path d="M${f(x)} ${f(y)} l3 -7 l3 7 l3 -6 l3 6" stroke="#86bd5c" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`; }
-  // ponds
-  PONDS.forEach(p => { s += `<ellipse cx="${p.x}" cy="${p.y+4}" rx="${p.rx+8}" ry="${p.ry+8}" fill="#cbb98d"/><ellipse cx="${p.x}" cy="${p.y}" rx="${p.rx}" ry="${p.ry}" fill="#7fd0e3"/><ellipse cx="${p.x-18}" cy="${p.y-6}" rx="11" ry="7" fill="#6db36a"/><ellipse cx="${p.x+20}" cy="${p.y+10}" rx="9" ry="6" fill="#6db36a"/><circle cx="${p.x-14}" cy="${p.y-9}" r="3" fill="#f6a6c1"/>`; });
-  // paths
-  SEGMENTS.forEach(sg => { s += `<line x1="${sg.a.x}" y1="${sg.a.y}" x2="${sg.b.x}" y2="${sg.b.y}" stroke="#d6c39b" stroke-width="104" stroke-linecap="round"/>`; });
-  SEGMENTS.forEach(sg => { s += `<line x1="${sg.a.x}" y1="${sg.a.y}" x2="${sg.b.x}" y2="${sg.b.y}" stroke="#ecdfbf" stroke-width="90" stroke-linecap="round"/>`; });
-  SEGMENTS.forEach(sg => { s += `<line x1="${sg.a.x}" y1="${sg.a.y}" x2="${sg.b.x}" y2="${sg.b.y}" stroke="#ddcca6" stroke-width="56" stroke-dasharray="3 22" stroke-linecap="round"/>`; });
-  // plaza
-  s += `<circle cx="${PLAZA.x}" cy="${PLAZA.y}" r="${PLAZA.r+10}" fill="#d6c39b"/><circle cx="${PLAZA.x}" cy="${PLAZA.y}" r="${PLAZA.r}" fill="#ecdfbf"/>`;
-  [190, 150, 115].forEach((r, i) => { s += `<circle cx="${PLAZA.x}" cy="${PLAZA.y}" r="${r}" fill="none" stroke="#dccaa2" stroke-width="${i?3:4}" stroke-dasharray="${i?'14 10':'22 8'}"/>`; });
-  for (let i = 0; i < 24; i++){ const t = i/24*Math.PI*2; s += `<line x1="${f(PLAZA.x+Math.cos(t)*118)}" y1="${f(PLAZA.y+Math.sin(t)*118)}" x2="${f(PLAZA.x+Math.cos(t)*188)}" y2="${f(PLAZA.y+Math.sin(t)*188)}" stroke="#e2d2ad" stroke-width="2"/>`; }
-  // flower ring
-  for (let i = 0; i < 40; i++){ const t = i/40*Math.PI*2, r = 96 + (i%2)*6; const col = ['#f6a6c1','#fff','#f6d36a','#c9a6f2'][i%4]; s += `<circle cx="${f(FOUNTAIN.x+Math.cos(t)*r)}" cy="${f(FOUNTAIN.y+Math.sin(t)*r)}" r="5" fill="#6aa94d"/><circle cx="${f(FOUNTAIN.x+Math.cos(t)*r)}" cy="${f(FOUNTAIN.y+Math.sin(t)*r)-2}" r="3.4" fill="${col}"/>`; }
-  // fountain
-  s += `<ellipse cx="800" cy="650" rx="84" ry="80" fill="#a9a59a"/><circle cx="800" cy="640" r="80" fill="#d9d6cc"/><circle cx="800" cy="640" r="66" fill="#7fd0e3"/>`;
-  s += `<circle cx="800" cy="640" r="52" fill="none" stroke="#bfeaf3" stroke-width="3" stroke-dasharray="10 14" class="sparkle"/>`;
-  s += `<rect x="760" y="586" width="80" height="78" rx="22" fill="#c9c6bb"/><rect x="764" y="582" width="72" height="74" rx="20" fill="#e4e1d7"/>`;
-  s += `<text x="800" y="616" text-anchor="middle" font-family="Jua,sans-serif" font-size="25" fill="#7d7a70">BIT</text><text x="800" y="642" text-anchor="middle" font-family="Jua,sans-serif" font-size="22" fill="#7d7a70">20th</text>`;
-  for (let i = 0; i < 6; i++){ const t = i/6*Math.PI*2; s += `<circle cx="${f(800+Math.cos(t)*40)}" cy="${f(672+Math.sin(t)*6)}" r="2.5" fill="#fff" class="sparkle" style="animation-delay:${(i*.35).toFixed(2)}s"/>`; }
-  // benches
-  [[0],[180],[64],[116]].forEach(([deg]) => { const t = deg*Math.PI/180, x = PLAZA.x+Math.cos(t)*205, y = PLAZA.y+Math.sin(t)*205; s += `<g transform="translate(${f(x)} ${f(y)})"><rect x="-26" y="-6" width="52" height="10" rx="3" fill="#8b5a35"/><rect x="-26" y="-14" width="52" height="6" rx="3" fill="#a26a40"/><rect x="-22" y="4" width="4" height="7" fill="#5f3a20"/><rect x="18" y="4" width="4" height="7" fill="#5f3a20"/></g>`; });
+  for (let i = 0; i < 110; i++){ const x = rnd()*W, y = rnd()*H; if (inIsland(x, y, 1.12)) continue; s += `<path d="M${f(x)} ${f(y)} q9 -7 18 0 q9 7 18 0" stroke="#bfeaf3" stroke-width="3" fill="none" stroke-linecap="round" opacity=".8"/>`; }
+  s += `<path d="${d}" fill="#7a6a48" transform="translate(0 18)"/>`;
+  s += `<path d="${d}" fill="#efe1b6" stroke="#efe1b6" stroke-width="34" stroke-linejoin="round"/>`;
+  s += `<path d="${d}" fill="#a4d476"/>`;
+  for (let i = 0; i < 380; i++){ const x = 80 + rnd()*(W-160), y = 80 + rnd()*(H-160); if (!inIsland(x, y, .9) || inPlaza(x, y, 40)) continue; s += `<path d="M${f(x)} ${f(y)} l3 -7 l3 7 l3 -6 l3 6" stroke="#8cc260" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`; }
+  PONDS.forEach(p => { s += `<ellipse cx="${p.x}" cy="${p.y+5}" rx="${p.rx+10}" ry="${p.ry+10}" fill="#cbb98d"/><ellipse cx="${p.x}" cy="${p.y}" rx="${p.rx}" ry="${p.ry}" fill="#7fd0e3"/><ellipse cx="${p.x-28}" cy="${p.y-8}" rx="15" ry="9" fill="#6db36a"/><ellipse cx="${p.x+30}" cy="${p.y+14}" rx="12" ry="8" fill="#6db36a"/><circle cx="${p.x-22}" cy="${p.y-12}" r="4" fill="#f6a6c1"/>`; });
+  // paths to each building and the gate (drawn under the plaza)
+  SEGMENTS.forEach(sg => { s += `<line x1="${sg.a.x}" y1="${sg.a.y}" x2="${sg.b.x}" y2="${sg.b.y}" stroke="#d6c39b" stroke-width="112" stroke-linecap="round"/>`; });
+  SEGMENTS.forEach(sg => { s += `<line x1="${sg.a.x}" y1="${sg.a.y}" x2="${sg.b.x}" y2="${sg.b.y}" stroke="#ecdfbf" stroke-width="98" stroke-linecap="round"/>`; });
+  SEGMENTS.forEach(sg => { s += `<line x1="${sg.a.x}" y1="${sg.a.y}" x2="${sg.b.x}" y2="${sg.b.y}" stroke="#ddcca6" stroke-width="62" stroke-dasharray="3 24" stroke-linecap="round"/>`; });
+  // plaza: grass border, stone rim, tiled floor, inner ring
+  s += `<ellipse cx="${P.x}" cy="${P.y+8}" rx="${P.rx+44}" ry="${P.ry+40}" fill="#8cc261"/>`;
+  s += `<ellipse cx="${P.x}" cy="${P.y}" rx="${P.rx+22}" ry="${P.ry+20}" fill="#d6c39b"/>`;
+  s += `<ellipse cx="${P.x}" cy="${P.y}" rx="${P.rx}" ry="${P.ry}" fill="url(#tiles)"/>`;
+  s += `<ellipse cx="${P.x}" cy="${P.y}" rx="${P.rx-70}" ry="${P.ry-52}" fill="none" stroke="#dcca9f" stroke-width="5" stroke-dasharray="26 12"/>`;
+  s += `<ellipse cx="${P.x}" cy="${P.y}" rx="${P.rx-14}" ry="${P.ry-12}" fill="none" stroke="#e4d6b2" stroke-width="3"/>`;
+  s += `<text x="${P.x}" y="${P.y+196}" text-anchor="middle" font-family="Jua,sans-serif" font-size="32" letter-spacing="14" fill="#dccaa0">BIT · 20 YEARS</text>`;
+  // fountain (the golden 20 statue is placed on top as its own layer)
+  const FX = FOUNTAIN.x, FY = FOUNTAIN.y;
+  s += `<ellipse cx="${FX}" cy="${FY+26}" rx="262" ry="156" fill="rgba(70,60,30,.16)"/>`;
+  s += `<ellipse cx="${FX}" cy="${FY+14}" rx="250" ry="148" fill="#cfc8b8"/><ellipse cx="${FX}" cy="${FY}" rx="250" ry="146" fill="#efeadf"/>`;
+  s += `<ellipse cx="${FX}" cy="${FY+4}" rx="224" ry="126" fill="url(#water)"/>`;
+  s += `<ellipse cx="${FX}" cy="${FY+6}" rx="192" ry="104" fill="none" stroke="#e3f7fb" stroke-width="3" stroke-dasharray="16 18" class="sparkle"/>`;
+  s += `<ellipse cx="${FX}" cy="${FY+8}" rx="156" ry="82" fill="none" stroke="#e3f7fb" stroke-width="2" stroke-dasharray="9 20" class="sparkle" style="animation-delay:1.1s"/>`;
+  s += `<ellipse cx="${FX}" cy="${FY+30}" rx="118" ry="58" fill="#cfc8b8"/><rect x="${FX-118}" y="${FY-2}" width="236" height="32" fill="#e3ddcf"/><ellipse cx="${FX}" cy="${FY-2}" rx="118" ry="58" fill="#f4f0e6"/>`;
+  s += `<text x="${FX}" y="${FY+74}" text-anchor="middle" font-family="Gowun Dodum,sans-serif" font-size="12" letter-spacing="5" fill="#9d9581">YEARS OF BIT</text>`;
+  // flower beds on the grass ring between buildings
+  const bed = (cx, cy, w, h, cols) => {
+    let b = `<rect x="${f(cx-w/2)}" y="${f(cy-h/2+5)}" width="${w}" height="${h}" rx="${h/2}" fill="#7f9f5a"/><rect x="${f(cx-w/2)}" y="${f(cy-h/2)}" width="${w}" height="${h}" rx="${h/2}" fill="#a9c98a" stroke="#8fae6e" stroke-width="3"/>`;
+    for (let yy = cy - h/2 + 14; yy < cy + h/2 - 8; yy += 15) for (let xx = cx - w/2 + 16; xx < cx + w/2 - 10; xx += 17){ const c = cols[Math.floor(rnd()*cols.length)]; b += `<circle cx="${f(xx + (rnd()-.5)*4)}" cy="${f(yy)}" r="5.5" fill="${c}"/><circle cx="${f(xx + (rnd()-.5)*4)}" cy="${f(yy)}" r="2" fill="#fff6c8"/>`; }
+    return b;
+  };
+  [[860, 590], [1540, 590]].forEach(([x, y]) => { s += bed(x, y, 170, 70, ['#c9b6f2', '#b9c8f4', '#f6a6c1']); });
+  [[595, 960], [1805, 960]].forEach(([x, y]) => { s += bed(x, y, 74, 150, ['#f6d36a', '#f8e08f']); });
+  [[880, 1345], [1520, 1345]].forEach(([x, y]) => { s += bed(x, y, 170, 70, ['#f6a6c1', '#f39a7a', '#fff']); });
+  // benches facing the fountain, lamps around the rim
+  const bench = (x, y) => `<g transform="translate(${f(x)} ${f(y)})"><ellipse cx="0" cy="10" rx="34" ry="5" fill="rgba(60,50,20,.18)"/><rect x="-30" y="-6" width="60" height="11" rx="3" fill="#8b5a35"/><rect x="-30" y="-16" width="60" height="7" rx="3" fill="#a26a40"/><rect x="-25" y="4" width="5" height="8" fill="#5f3a20"/><rect x="20" y="4" width="5" height="8" fill="#5f3a20"/></g>`;
+  [[-.66, -.5], [.66, -.5], [-.82, .3], [.82, .3], [-.42, .8], [.42, .8]].forEach(([a, b]) => { s += bench(P.x + a * (P.rx - 70), P.y + b * (P.ry - 50)); });
+  const lampAt = (x, y) => `<circle cx="${f(x)}" cy="${f(y-46)}" r="30" fill="url(#glow)"/><ellipse cx="${f(x)}" cy="${f(y+2)}" rx="9" ry="4" fill="rgba(40,60,30,.25)"/><rect x="${f(x-2.5)}" y="${f(y-42)}" width="5" height="44" fill="#3d4a4a"/><rect x="${f(x-9)}" y="${f(y-58)}" width="18" height="18" rx="4" fill="#ffe9a3" stroke="#3d4a4a" stroke-width="3"/><path d="M${f(x-11)} ${f(y-58)} h22 l-4 -6 h-14z" fill="#3d4a4a"/>`;
+  for (let i = 0; i < 12; i++){ const t = (i + .5) / 12 * Math.PI * 2; s += lampAt(P.x + Math.cos(t) * (P.rx - 30), P.y + Math.sin(t) * (P.ry - 24) + 10); }
   // buildings
   BUILDINGS.forEach(b => { s += building(b); });
-  // gate bridge + arch
-  s += `<rect x="752" y="1100" width="96" height="110" fill="#a26a40"/>`;
-  for (let y = 1104; y < 1210; y += 13) s += `<rect x="752" y="${y}" width="96" height="3" fill="#7d4f2e"/>`;
-  s += `<rect x="746" y="1100" width="6" height="110" fill="#5f3a20"/><rect x="848" y="1100" width="6" height="110" fill="#5f3a20"/>`;
-  s += `<rect x="716" y="1000" width="16" height="118" rx="5" fill="#7d4f2e"/><rect x="868" y="1000" width="16" height="118" rx="5" fill="#7d4f2e"/>`;
-  s += `<path d="M704 1010 Q800 975 896 1010" stroke="#6b4026" stroke-width="16" fill="none" stroke-linecap="round"/>`;
-  s += `<text x="800" y="1158" text-anchor="middle" font-family="Jua,sans-serif" font-size="16" fill="#f7ead4">숲 입구</text><text x="800" y="1178" text-anchor="middle" font-family="Gowun Dodum,sans-serif" font-size="12" letter-spacing="3" fill="#f7ead4">WELCOME</text>`;
-  // banners
-  [[732,900],[868,900],[732,990],[868,990]].forEach(([x,y]) => { s += `<rect x="${x-2}" y="${y-62}" width="4" height="70" fill="#5f3a20"/><path d="M${x+2} ${y-58} h26 v46 l-13 -8 l-13 8z" fill="#2f6e68"/><text x="${x+15}" y="${y-38}" text-anchor="middle" font-family="Jua,sans-serif" font-size="11" fill="#fdf8ea">BIT</text><text x="${x+15}" y="${y-26}" text-anchor="middle" font-family="Jua,sans-serif" font-size="9" fill="#c9f2dc">20th</text>`; });
-  // lamps
-  const lampAt = (x, y) => `<circle cx="${f(x)}" cy="${f(y-34)}" r="22" fill="url(#glow)"/><rect x="${f(x-2)}" y="${f(y-30)}" width="4" height="32" fill="#3d4a4a"/><rect x="${f(x-7)}" y="${f(y-42)}" width="14" height="14" rx="3" fill="#ffe9a3" stroke="#3d4a4a" stroke-width="2.5"/><ellipse cx="${f(x)}" cy="${f(y+2)}" rx="7" ry="3" fill="rgba(40,60,30,.25)"/>`;
-  SEGMENTS.forEach(sg => { const t = .62; const x = sg.a.x+(sg.b.x-sg.a.x)*t, y = sg.a.y+(sg.b.y-sg.a.y)*t; const dx = sg.b.x-sg.a.x, dy = sg.b.y-sg.a.y, L = Math.hypot(dx, dy); const nx = -dy/L*62, ny = dx/L*62; s += lampAt(x+nx, y+ny) + lampAt(x-nx, y-ny); });
-  // trees & flowers (placed away from walkways)
+  // gate: bridge, arch, banners
+  const G = GATE;
+  s += `<rect x="${G.x-52}" y="${G.y-40}" width="104" height="150" fill="#a26a40"/>`;
+  for (let y = G.y - 36; y < G.y + 110; y += 14) s += `<rect x="${G.x-52}" y="${y}" width="104" height="3" fill="#7d4f2e"/>`;
+  s += `<rect x="${G.x-58}" y="${G.y-40}" width="6" height="150" fill="#5f3a20"/><rect x="${G.x+52}" y="${G.y-40}" width="6" height="150" fill="#5f3a20"/>`;
+  s += `<rect x="${G.x-92}" y="${G.y-150}" width="18" height="128" rx="5" fill="#7d4f2e"/><rect x="${G.x+74}" y="${G.y-150}" width="18" height="128" rx="5" fill="#7d4f2e"/>`;
+  s += `<path d="M${G.x-106} ${G.y-140} Q${G.x} ${G.y-180} ${G.x+106} ${G.y-140}" stroke="#6b4026" stroke-width="18" fill="none" stroke-linecap="round"/>`;
+  s += `<text x="${G.x}" y="${G.y+40}" text-anchor="middle" font-family="Jua,sans-serif" font-size="18" fill="#f7ead4">숲 입구</text><text x="${G.x}" y="${G.y+62}" text-anchor="middle" font-family="Gowun Dodum,sans-serif" font-size="13" letter-spacing="3" fill="#f7ead4">WELCOME</text>`;
+  [[G.x-80, G.y-260], [G.x+80, G.y-260]].forEach(([x, y]) => { s += `<rect x="${x-2}" y="${y-70}" width="4" height="78" fill="#5f3a20"/><path d="M${x+2} ${y-66} h30 v52 l-15 -9 l-15 9z" fill="#2f6e68"/><text x="${x+17}" y="${y-43}" text-anchor="middle" font-family="Jua,sans-serif" font-size="12" fill="#fdf8ea">BIT</text><text x="${x+17}" y="${y-30}" text-anchor="middle" font-family="Jua,sans-serif" font-size="10" fill="#c9f2dc">20th</text>`; });
+  // picket fences near the shore
+  const fence = (x, y, n) => { let fe = `<rect x="${x}" y="${y-18}" width="${n*16}" height="5" fill="#e9d6a8"/><rect x="${x}" y="${y-6}" width="${n*16}" height="5" fill="#e9d6a8"/>`; for (let i = 0; i < n; i++) fe += `<path d="M${x+i*16+3} ${y+6} v-30 l5 -6 l5 6 v30z" fill="#f4e6c2" stroke="#d6bf8c" stroke-width="2"/>`; return fe; };
+  s += fence(150, 760, 7) + fence(150, 1120, 7) + fence(2140, 760, 7) + fence(2140, 1120, 7);
+  // trees: only out on the edges, well away from the plaza and buildings
   const blocked = (x, y, m) => {
     if (!inIsland(x, y, .86)) return true;
-    if (Math.hypot(x-PLAZA.x, y-PLAZA.y) < PLAZA.r + 40 + m) return true;
-    for (const sg of SEGMENTS) if (segDist({x, y}, sg) < 70 + m) return true;
-    for (const b of BUILDINGS) if (x > b.x-b.w/2-30-m && x < b.x+b.w/2+30+m && y > b.y-b.h/2-80-m && y < b.y+b.h/2+40+m) return true;
-    for (const p of PONDS) if (Math.hypot((x-p.x)/(p.rx+30), (y-p.y)/(p.ry+30)) < 1) return true;
-    if (Math.abs(x-800) < 130 && y > 960) return true;
+    if (inPlaza(x, y, 120 + m)) return true;
+    for (const sg of SEGMENTS) if (segDist({x, y}, sg) < 90 + m) return true;
+    for (const b of BUILDINGS) if (x > b.x-b.w/2-70-m && x < b.x+b.w/2+70+m && y > b.y-b.h/2-130-m && y < b.y+b.h/2+50+m) return true;
+    for (const p of PONDS) if (Math.hypot((x-p.x)/(p.rx+70), (y-p.y)/(p.ry+70)) < 1) return true;
+    if (Math.abs(x - G.x) < 170 && y > G.y - 320) return true;
     return false;
   };
-  for (let i = 0; i < 260; i++){ const x = rnd()*W, y = rnd()*H; if (blocked(x, y, -30)) continue; const col = ['#f6a6c1','#ffffff','#f6d36a','#f39a7a','#c9a6f2'][Math.floor(rnd()*5)]; s += `<circle cx="${f(x)}" cy="${f(y)}" r="3.6" fill="${col}"/>`; }
+  for (let i = 0; i < 260; i++){ const x = rnd()*W, y = rnd()*H; if (blocked(x, y, -40)) continue; const col = ['#f6a6c1','#ffffff','#f6d36a','#f39a7a','#c9a6f2'][Math.floor(rnd()*5)]; s += `<circle cx="${f(x)}" cy="${f(y)}" r="4" fill="${col}"/>`; }
   const trees = [];
-  for (let i = 0; i < 900 && trees.length < 130; i++){ const x = rnd()*W, y = rnd()*H; if (blocked(x, y, 0)) continue; if (trees.some(t => Math.hypot(t.x-x, t.y-y) < 46)) continue; trees.push({ x, y, k: .8 + rnd()*.5, pine: rnd() < .45 }); }
+  for (let i = 0; i < 1600 && trees.length < 95; i++){ const x = rnd()*W, y = rnd()*H; if (blocked(x, y, 0)) continue; if (trees.some(t => Math.hypot(t.x-x, t.y-y) < 72)) continue; trees.push({ x, y, k: .95 + rnd()*.45, pine: rnd() < .4 }); }
   trees.sort((a, b) => a.y - b.y).forEach(t => {
     const k = t.k;
-    s += `<ellipse cx="${f(t.x)}" cy="${f(t.y)}" rx="${f(22*k)}" ry="${f(8*k)}" fill="rgba(40,70,30,.25)"/>`;
-    s += `<rect x="${f(t.x-4*k)}" y="${f(t.y-16*k)}" width="${f(8*k)}" height="${f(17*k)}" rx="2" fill="#7d4f2e"/>`;
+    s += `<ellipse cx="${f(t.x)}" cy="${f(t.y)}" rx="${f(24*k)}" ry="${f(9*k)}" fill="rgba(40,70,30,.25)"/>`;
+    s += `<rect x="${f(t.x-4.5*k)}" y="${f(t.y-18*k)}" width="${f(9*k)}" height="${f(19*k)}" rx="2" fill="#7d4f2e"/>`;
     if (t.pine){
-      s += `<path d="M${f(t.x)} ${f(t.y-76*k)} L${f(t.x+24*k)} ${f(t.y-36*k)} L${f(t.x-24*k)} ${f(t.y-36*k)}Z M${f(t.x)} ${f(t.y-62*k)} L${f(t.x+30*k)} ${f(t.y-14*k)} L${f(t.x-30*k)} ${f(t.y-14*k)}Z" fill="#3f8a55"/>`;
-      s += `<path d="M${f(t.x)} ${f(t.y-76*k)} L${f(t.x+10*k)} ${f(t.y-58*k)} L${f(t.x-6*k)} ${f(t.y-56*k)}Z" fill="#5aa86b"/>`;
+      s += `<path d="M${f(t.x)} ${f(t.y-84*k)} L${f(t.x+26*k)} ${f(t.y-40*k)} L${f(t.x-26*k)} ${f(t.y-40*k)}Z M${f(t.x)} ${f(t.y-68*k)} L${f(t.x+33*k)} ${f(t.y-15*k)} L${f(t.x-33*k)} ${f(t.y-15*k)}Z" fill="#3f8a55"/>`;
+      s += `<path d="M${f(t.x)} ${f(t.y-84*k)} L${f(t.x+11*k)} ${f(t.y-64*k)} L${f(t.x-7*k)} ${f(t.y-62*k)}Z" fill="#5aa86b"/>`;
     } else {
-      s += `<circle cx="${f(t.x)}" cy="${f(t.y-40*k)}" r="${f(28*k)}" fill="#5aa65a"/><circle cx="${f(t.x-14*k)}" cy="${f(t.y-30*k)}" r="${f(18*k)}" fill="#4f9a50"/><circle cx="${f(t.x+15*k)}" cy="${f(t.y-32*k)}" r="${f(18*k)}" fill="#4f9a50"/><circle cx="${f(t.x-8*k)}" cy="${f(t.y-52*k)}" r="${f(10*k)}" fill="#7cc274"/>`;
-      if (rnd() < .3) s += `<circle cx="${f(t.x+9*k)}" cy="${f(t.y-38*k)}" r="${f(3.5*k)}" fill="#f39a7a"/><circle cx="${f(t.x-12*k)}" cy="${f(t.y-26*k)}" r="${f(3.5*k)}" fill="#f39a7a"/>`;
+      s += `<circle cx="${f(t.x)}" cy="${f(t.y-44*k)}" r="${f(31*k)}" fill="#5aa65a"/><circle cx="${f(t.x-15*k)}" cy="${f(t.y-33*k)}" r="${f(20*k)}" fill="#4f9a50"/><circle cx="${f(t.x+16*k)}" cy="${f(t.y-35*k)}" r="${f(20*k)}" fill="#4f9a50"/><circle cx="${f(t.x-9*k)}" cy="${f(t.y-57*k)}" r="${f(11*k)}" fill="#7cc274"/>`;
+      if (rnd() < .3) s += `<circle cx="${f(t.x+10*k)}" cy="${f(t.y-42*k)}" r="${f(4*k)}" fill="#f39a7a"/><circle cx="${f(t.x-13*k)}" cy="${f(t.y-29*k)}" r="${f(4*k)}" fill="#f39a7a"/>`;
     }
   });
   $('#map').innerHTML = s;
 
-  // signs
+  // building signs + gate sign
   let sg = '';
-  BUILDINGS.forEach(b => { sg += `<button class="sign" type="button" data-b="${b.id}" style="left:${b.x}px;top:${b.y - b.h/2 - 10}px"><span class="t">${b.title}</span><span class="s">${b.sub}</span><span class="chev" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"><path d="m9 5 7 7-7 7"/></svg></span></button>`; });
-  sg += `<div class="gate-sign" style="left:800px;top:985px"><small>모여봐요</small><span>뱌티의 숲</span></div>`;
+  BUILDINGS.forEach(b => { sg += `<button class="sign" type="button" data-b="${b.id}" style="left:${b.x}px;top:${b.top - 8}px"><span class="t">${b.title}</span><span class="s">${b.sub}</span><span class="chev" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"><path d="m9 5 7 7-7 7"/></svg></span></button>`; });
+  sg += `<div class="gate-sign" style="left:${G.x}px;top:${G.y-158}px"><small>모여봐요</small><span>뱌티의 숲</span></div>`;
   $('#signs').innerHTML = sg;
+
+  // golden 20 statue, depth-sorted with the characters
+  const st = document.createElement('div');
+  st.className = 'statue'; st.style.left = FX + 'px'; st.style.top = (FY + 4) + 'px'; st.style.zIndex = FY + 60;
+  st.innerHTML = `<img alt="" src="${statueURL()}"><span class="tw" style="left:8%;top:22%"></span><span class="tw" style="left:86%;top:12%;animation-delay:.7s"></span><span class="tw" style="left:52%;top:2%;animation-delay:1.3s"></span><span class="tw" style="left:30%;top:58%;animation-delay:1.9s"></span><span class="tw" style="left:74%;top:52%;animation-delay:.4s"></span>`;
+  $('#chars').appendChild(st);
 }
+
+/* ---------- buildings: five different shapes ---------- */
 function building(b){
-  const f = v => v.toFixed(1);
-  const L = b.x - b.w/2, T = b.y - b.h/2, wallTop = T + b.h*.42, wallH = b.y + b.h/2 - wallTop;
-  const wd = shade(b.wall, -14), rd = shade(b.roof, -18), rl = shade(b.roof, 14);
-  let s = `<g data-b="${b.id}" class="bld">`;
-  s += `<ellipse cx="${b.x}" cy="${b.y + b.h/2 + 6}" rx="${b.w*.56}" ry="18" fill="rgba(40,70,30,.25)"/>`;
-  s += `<rect x="${L+12}" y="${wallTop}" width="${b.w-24}" height="${wallH}" rx="8" fill="${b.wall}" stroke="${wd}" stroke-width="3"/>`;
-  s += `<rect x="${L+12}" y="${b.y + b.h/2 - 16}" width="${b.w-24}" height="16" rx="4" fill="${wd}"/>`;
-  s += `<path d="M${L} ${f(wallTop+8)} L${L+28} ${T} L${L+b.w-28} ${T} L${L+b.w} ${f(wallTop+8)}Z" fill="${b.roof}" stroke="${rd}" stroke-width="3" stroke-linejoin="round"/>`;
-  for (let i = 1; i < 4; i++){ const y = T + (wallTop+8-T)*i/4; const inset = 28*(1 - i/4); s += `<line x1="${f(L+inset+6)}" y1="${f(y)}" x2="${f(L+b.w-inset-6)}" y2="${f(y)}" stroke="${rl}" stroke-width="3" stroke-linecap="round"/>`; }
-  s += `<rect x="${L+b.w-70}" y="${T-22}" width="20" height="30" rx="3" fill="${rd}"/>`;
-  const dw = 40, dh = 56, dx = b.x - dw/2, dy = b.y + b.h/2 - dh;
-  s += `<path d="M${dx} ${dy+dh} V${dy+18} Q${dx} ${dy} ${b.x} ${dy} Q${dx+dw} ${dy} ${dx+dw} ${dy+18} V${dy+dh}Z" fill="#7b5434"/><circle cx="${dx+dw-9}" cy="${dy+34}" r="2.6" fill="#f6d36a"/>`;
-  const span = (b.w - 24 - dw - 40);
-  const per = b.win === 3 ? [-1, 1] : [-1, 1];
-  per.forEach(side => {
-    const n = b.win === 3 ? 2 : 1;
-    for (let j = 0; j < n; j++){
-      const off = dw/2 + 20 + (span/2 - 44*n)/2 + j*48;
-      const wx = side < 0 ? b.x - off - 36 : b.x + off;
-      const wy = wallTop + 18;
-      s += `<rect x="${f(wx)}" y="${f(wy)}" width="36" height="32" rx="5" fill="#ffe7a3" stroke="#7b5434" stroke-width="3"/><path d="M${f(wx+18)} ${f(wy)} V${f(wy+32)} M${f(wx)} ${f(wy+16)} H${f(wx+36)}" stroke="#7b5434" stroke-width="2"/>`;
-      s += `<rect x="${f(wx-3)}" y="${f(wy+34)}" width="42" height="9" rx="3" fill="#8b5a35"/><circle cx="${f(wx+7)}" cy="${f(wy+33)}" r="4" fill="#f6a6c1"/><circle cx="${f(wx+18)}" cy="${f(wy+32)}" r="4" fill="#fff"/><circle cx="${f(wx+29)}" cy="${f(wy+33)}" r="4" fill="#f6d36a"/>`;
+  const r = b.roof, rd = shade(r, -20), rl = shade(r, 18), wl = b.wall, wd = shade(wl, -14), wood = '#7b5434';
+  const win = (x, y, w, h, arched) => `<path d="M${x} ${y+h} V${arched ? y + w/2 : y} ${arched ? `A${w/2} ${w/2} 0 0 1 ${x+w} ${y+w/2}` : `H${x+w}`} V${y+h}Z" fill="#ffe7a3" stroke="${wood}" stroke-width="3"/><path d="M${x+w/2} ${y+3} V${y+h} M${x} ${y+h*.55} H${x+w}" stroke="${wood}" stroke-width="2"/>`;
+  const box = (x, y, w) => `<rect x="${x-3}" y="${y}" width="${w+6}" height="9" rx="3" fill="#8b5a35"/>` + [0, .5, 1].map((t, i) => `<circle cx="${x + 6 + t*(w-12)}" cy="${y-1}" r="4.5" fill="${['#f6a6c1', '#fff', '#f6d36a'][i]}"/>`).join('');
+  const door = (w, h, y0, col = wood) => `<path d="M${-w/2} ${y0} V${y0-h+w/2} A${w/2} ${w/2} 0 0 1 ${w/2} ${y0-h+w/2} V${y0}Z" fill="${col}"/><circle cx="${w/2-8}" cy="${y0-h*.45}" r="2.8" fill="#f6d36a"/>`;
+  let g = '';
+  const H2 = b.h / 2;
+  g += `<ellipse cx="0" cy="${H2+8}" rx="${b.w*.58}" ry="22" fill="rgba(40,70,30,.25)"/>`;
+  switch (b.style){
+    case 'board': {
+      g += `<rect x="-120" y="-40" width="18" height="${H2+40}" rx="4" fill="#7d4f2e"/><rect x="102" y="-40" width="18" height="${H2+40}" rx="4" fill="#7d4f2e"/>`;
+      g += `<rect x="-128" y="-62" width="256" height="148" rx="10" fill="#8b5a35" stroke="#5f3a20" stroke-width="3"/>`;
+      g += `<rect x="-116" y="-50" width="232" height="124" rx="5" fill="#d9a86b"/>`;
+      for (let i = 0; i < 60; i++) g += `<circle cx="${-112 + (i * 37) % 226}" cy="${-46 + (i * 23) % 118}" r="1.6" fill="#b98546"/>`;
+      g += `<path d="M-148 -60 L0 -${H2+14} L148 -60Z" fill="${r}" stroke="${rd}" stroke-width="4" stroke-linejoin="round"/><rect x="-150" y="-68" width="300" height="12" rx="4" fill="${rd}"/>`;
+      g += `<g transform="rotate(-3 -60 -10)"><rect x="-104" y="-40" width="92" height="66" rx="3" fill="#fff6cf" stroke="#e2bc55" stroke-width="3"/><text x="-58" y="-18" text-anchor="middle" font-family="Jua,sans-serif" font-size="14" fill="#a8740f">THANKS TO</text><path d="M-90 -6 h64 M-90 4 h50 M-90 14 h58" stroke="#d8bf86" stroke-width="3" stroke-linecap="round"/><circle cx="-58" cy="-38" r="5" fill="#e0533f"/></g>`;
+      [[4, -42, '#ffd6da', 4], [56, -36, '#cff2dd', -5], [10, 14, '#d6e9ff', -4], [62, 18, '#fff1a8', 5]].forEach(([x, y, c, rot]) => { g += `<g transform="rotate(${rot} ${x+24} ${y+22})"><rect x="${x}" y="${y}" width="46" height="44" fill="${c}"/><path d="M${x+7} ${y+15} h32 M${x+7} ${y+24} h24 M${x+7} ${y+33} h28" stroke="rgba(60,40,20,.25)" stroke-width="2.5" stroke-linecap="round"/><circle cx="${x+23}" cy="${y+3}" r="4" fill="#e0533f"/></g>`; });
+      g += `<rect x="-60" y="${H2-26}" width="120" height="10" rx="3" fill="#a26a40"/><rect x="-54" y="${H2-18}" width="6" height="16" fill="#5f3a20"/><rect x="48" y="${H2-18}" width="6" height="16" fill="#5f3a20"/>`;
+      g += [[-150, H2-6], [150, H2-6], [-130, H2+4], [132, H2+2]].map(([x, y], i) => `<circle cx="${x}" cy="${y}" r="9" fill="#6aa94d"/><circle cx="${x}" cy="${y-3}" r="5" fill="${['#f6a6c1', '#f6d36a', '#c9a6f2', '#fff'][i]}"/>`).join('');
+      break;
     }
-  });
-  return s + '</g>';
+    case 'library': {
+      g += `<rect x="-78" y="${H2-14}" width="156" height="16" rx="3" fill="#d9cfbf"/><rect x="-62" y="${H2-24}" width="124" height="12" rx="3" fill="#e6dccb"/>`;
+      g += `<rect x="-132" y="-24" width="264" height="${H2+12}" rx="6" fill="${wl}" stroke="${wd}" stroke-width="3"/>`;
+      g += `<rect x="-132" y="${H2-30}" width="264" height="10" fill="${wd}"/>`;
+      [-104, -62, 62, 104].forEach(x => { g += `<rect x="${x-9}" y="-16" width="18" height="${H2-14}" fill="#fbf6ea" stroke="${wd}" stroke-width="2"/><rect x="${x-12}" y="-20" width="24" height="7" rx="2" fill="#efe6d2"/>`; });
+      g += win(-96, 8, 26, 44, true) + win(70, 8, 26, 44, true);
+      g += door(48, 76, H2 - 24);
+      g += `<path d="M-156 -20 L0 -${b.h/2+8} L156 -20Z" fill="${r}" stroke="${rd}" stroke-width="4" stroke-linejoin="round"/>`;
+      g += `<path d="M-118 -30 L0 -${b.h/2-14} L118 -30Z" fill="${rl}"/>`;
+      g += `<rect x="-150" y="-30" width="300" height="12" rx="4" fill="${rd}"/>`;
+      g += `<circle cx="0" cy="-62" r="21" fill="#fffaf0" stroke="${rd}" stroke-width="4"/><path d="M0 -62 V-75 M0 -62 L9 -57" stroke="#3b3b3b" stroke-width="3" stroke-linecap="round"/>`;
+      break;
+    }
+    case 'hall': {
+      g += `<rect x="-60" y="${H2-12}" width="120" height="14" rx="3" fill="#d9cfbf"/>`;
+      g += `<rect x="-172" y="-50" width="344" height="${H2+48}" rx="6" fill="${wl}" stroke="${wd}" stroke-width="3"/>`;
+      g += `<rect x="-172" y="36" width="344" height="8" fill="${wd}"/>`;
+      [-140, -88, 52, 104].forEach(x => { g += win(x, -30, 36, 46, false) + win(x, 58, 36, 46, false) + box(x, 106, 36); });
+      g += `<circle cx="0" cy="-8" r="24" fill="#ffe7a3" stroke="${wood}" stroke-width="3"/><path d="M0 -32 V16 M-24 -8 H24" stroke="${wood}" stroke-width="2"/>`;
+      g += `<rect x="-38" y="${H2-80}" width="76" height="70" rx="6" fill="${wood}"/><path d="M0 ${H2-80} V${H2-10}" stroke="#5f3f24" stroke-width="3"/><circle cx="-8" cy="${H2-44}" r="2.8" fill="#f6d36a"/><circle cx="8" cy="${H2-44}" r="2.8" fill="#f6d36a"/>`;
+      g += `<path d="M-194 -44 L-150 -${H2+8} L150 -${H2+8} L194 -44Z" fill="${r}" stroke="${rd}" stroke-width="4" stroke-linejoin="round"/>`;
+      [-96, 96].forEach(x => { g += `<rect x="${x-20}" y="-${H2-14}" width="40" height="34" rx="4" fill="${wl}" stroke="${rd}" stroke-width="3"/><path d="M${x-26} -${H2-14} L${x} -${H2+10} L${x+26} -${H2-14}Z" fill="${rd}"/><rect x="${x-11}" y="-${H2-22}" width="22" height="20" rx="3" fill="#ffe7a3"/>`; });
+      g += `<rect x="-30" y="-${H2+62}" width="60" height="58" rx="4" fill="${wl}" stroke="${wd}" stroke-width="3"/><circle cx="0" cy="-${H2+34}" r="13" fill="#ffe7a3" stroke="${wood}" stroke-width="3"/>`;
+      g += `<path d="M-40 -${H2+60} L0 -${H2+102} L40 -${H2+60}Z" fill="${r}" stroke="${rd}" stroke-width="3" stroke-linejoin="round"/>`;
+      g += `<path d="M0 -${H2+100} V-${H2+140}" stroke="#5f3a20" stroke-width="3"/><path d="M0 -${H2+140} L34 -${H2+131} L0 -${H2+121}Z" fill="#f2785c"/>`;
+      let bun = '', cols = ['#f2785c', '#f6c453', '#7fd0e3', '#c9a6f2', '#9fd171'];
+      for (let i = 0; i < 12; i++){ const x0 = -168 + i * 28, sag = Math.sin((i + .5) / 12 * Math.PI) * 22; bun += `<path d="M${x0} ${-44 + sag} l14 24 l14 -24z" fill="${cols[i % 5]}"/>`; }
+      g += `<path d="M-172 -44 Q0 -4 172 -44" stroke="#5f3a20" stroke-width="2" fill="none"/>` + bun;
+      break;
+    }
+    case 'cafe': {
+      g += `<rect x="-132" y="-62" width="264" height="${H2+60}" rx="6" fill="${wl}" stroke="${wd}" stroke-width="3"/>`;
+      g += `<rect x="-142" y="-84" width="284" height="28" rx="5" fill="${r}" stroke="${rd}" stroke-width="3"/>`;
+      g += `<text x="0" y="-64" text-anchor="middle" font-family="Jua,sans-serif" font-size="17" letter-spacing="4" fill="#fdf8ea">LOUNGE</text>`;
+      for (let i = 0; i < 9; i++){ const x = -135 + i * 30; g += `<rect x="${x}" y="-44" width="30" height="30" fill="${i % 2 ? '#fdf8ea' : r}"/><circle cx="${x+15}" cy="-14" r="15" fill="${i % 2 ? '#fdf8ea' : r}"/>`; }
+      g += `<rect x="-138" y="-50" width="276" height="8" rx="3" fill="${rd}"/>`;
+      [[-118, 6], [38, 6]].forEach(([x, y]) => { g += `<rect x="${x}" y="${y}" width="80" height="62" rx="5" fill="#ffe7a3" stroke="${wood}" stroke-width="3"/><path d="M${x+40} ${y} V${y+62}" stroke="${wood}" stroke-width="2"/><rect x="${x+8}" y="${y+40}" width="64" height="5" fill="#e8c27a"/>`; });
+      g += `<rect x="-22" y="${H2-80}" width="44" height="80" rx="5" fill="#9bc6d6" stroke="${wood}" stroke-width="3"/><path d="M0 ${H2-80} V${H2}" stroke="${wood}" stroke-width="2"/>`;
+      const umb = (x, y, c) => `<ellipse cx="${x}" cy="${y+40}" rx="40" ry="8" fill="rgba(40,70,30,.2)"/><rect x="${x-2}" y="${y-30}" width="4" height="66" fill="#6b4a2c"/><path d="M${x-44} ${y-24} Q${x} ${y-66} ${x+44} ${y-24}Z" fill="${c}"/><path d="M${x-15} ${y-24} Q${x} ${y-66} ${x+15} ${y-24}Z" fill="#fdf8ea"/><ellipse cx="${x}" cy="${y+14}" rx="24" ry="8" fill="#f2e8cf" stroke="#c9b38a" stroke-width="2"/><rect x="${x-34}" y="${y+16}" width="14" height="16" rx="3" fill="#a26a40"/><rect x="${x+20}" y="${y+16}" width="14" height="16" rx="3" fill="#a26a40"/>`;
+      g += umb(-200, 60, '#f2785c') + umb(200, 60, '#5f7fa8');
+      g += box(-118, 74, 80) + box(38, 74, 80);
+      break;
+    }
+    case 'studio': {
+      g += `<rect x="-128" y="-30" width="204" height="${H2+28}" rx="6" fill="${wl}" stroke="${wd}" stroke-width="3"/>`;
+      g += `<path d="M-148 -24 L-26 -${H2-6} L96 -24Z" fill="${r}" stroke="${rd}" stroke-width="4" stroke-linejoin="round"/>`;
+      g += `<rect x="-144" y="-34" width="236" height="12" rx="4" fill="${rd}"/>`;
+      g += `<rect x="-112" y="2" width="118" height="70" rx="6" fill="#ffe7a3" stroke="${wood}" stroke-width="3"/>`;
+      [[-102, 12, '#f6a6c1'], [-66, 8, '#9fd171'], [-30, 14, '#7fd0e3']].forEach(([x, y, c], i) => { g += `<g transform="rotate(${[-6, 4, -3][i]} ${x+14} ${y+18})"><rect x="${x}" y="${y}" width="28" height="34" fill="#fff" stroke="#ddd" stroke-width="1"/><rect x="${x+3}" y="${y+3}" width="22" height="20" fill="${c}"/></g>`; });
+      g += `<rect x="-118" y="76" width="130" height="9" rx="3" fill="#8b5a35"/>`;
+      g += `<g transform="translate(40 0)">${door(40, 70, H2)}</g>`;
+      g += `<rect x="66" y="-${H2+20}" width="76" height="${b.h+18}" rx="6" fill="${shade(wl, -4)}" stroke="${wd}" stroke-width="3"/>`;
+      g += `<path d="M58 -${H2+16} L104 -${H2+82} L150 -${H2+16}Z" fill="${r}" stroke="${rd}" stroke-width="4" stroke-linejoin="round"/>`;
+      g += `<circle cx="104" cy="-${H2-24}" r="16" fill="#ffe7a3" stroke="${wood}" stroke-width="3"/>`;
+      g += win(88, 4, 32, 46, true);
+      g += `<g transform="translate(150 -40)"><circle r="26" fill="#fffaf0" stroke="${rd}" stroke-width="4"/><rect x="-15" y="-9" width="30" height="20" rx="5" fill="#3d4a4a"/><rect x="-6" y="-13" width="12" height="5" rx="2" fill="#3d4a4a"/><circle cx="0" cy="1" r="6.5" fill="#bfeaf3" stroke="#fffaf0" stroke-width="2"/></g>`;
+      g += `<path d="M138 -40 H124" stroke="#5f3a20" stroke-width="3"/>`;
+      break;
+    }
+    case 'boutique': {
+      g += `<rect x="-126" y="-40" width="252" height="${H2+38}" rx="6" fill="${wl}" stroke="${wd}" stroke-width="3"/>`;
+      g += `<path d="M-142 -34 C-142 -${H2+40} 142 -${H2+40} 142 -34Z" fill="${r}" stroke="${rd}" stroke-width="4" stroke-linejoin="round"/>`;
+      [-80, -40, 0, 40, 80].forEach(x => { g += `<path d="M${x} -36 Q${x*.55} -${H2-10} ${x*.2} -${H2+6}" stroke="${rl}" stroke-width="3" fill="none" stroke-linecap="round"/>`; });
+      g += `<circle cx="0" cy="-${H2+14}" r="9" fill="#f6c453" stroke="${rd}" stroke-width="3"/>`;
+      g += `<rect x="-142" y="-42" width="284" height="12" rx="4" fill="${rd}"/>`;
+      for (let i = 0; i < 9; i++){ const x = -132 + i * 29.3; g += `<rect x="${x}" y="-30" width="29.3" height="26" fill="${i % 2 ? '#fdf8ea' : '#f2a7b5'}"/><circle cx="${x+14.6}" cy="-4" r="14.6" fill="${i % 2 ? '#fdf8ea' : '#f2a7b5'}"/>`; }
+      g += `<path d="M-112 ${H2-14} V40 A38 38 0 0 1 -36 40 V${H2-14}Z" fill="#ffe7a3" stroke="${wood}" stroke-width="3"/>`;
+      g += `<circle cx="-74" cy="28" r="7" fill="#e9c9a8"/><path d="M-86 40 h24 l8 46 h-40z" fill="#f2785c"/><rect x="-75" y="86" width="2" height="12" fill="#6b4a2c"/>`;
+      g += `<path d="M36 ${H2-14} V40 A38 38 0 0 1 112 40 V${H2-14}Z" fill="#ffe7a3" stroke="${wood}" stroke-width="3"/>`;
+      g += `<path d="M46 34 H102" stroke="#6b4a2c" stroke-width="3"/>` + [['#5b9fd6', 52], ['#f3c653', 68], ['#76bf86', 84]].map(([c, x]) => `<path d="M${x+6} 34 v6 M${x} 46 l6 -6 l6 6 v28 h-12z" stroke="#6b4a2c" stroke-width="1.5" fill="${c}"/>`).join('');
+      g += door(46, 80, H2, '#c86a5a');
+      g += `<g transform="translate(0 6)"><circle r="18" fill="#fffaf0" stroke="${rd}" stroke-width="3"/><path d="M0 -8 a4 4 0 1 1 3 4 l0 3 l10 8 h-26 l10 -8" stroke="#5f3a20" stroke-width="2.4" fill="none" stroke-linejoin="round"/></g>`;
+      break;
+    }
+  }
+  return `<g data-b="${b.id}" class="bld" transform="translate(${b.x} ${b.y})">${g}</g>`;
+}
+
+/* ---------- golden 20 ---------- */
+function goldEnv(){
+  if (R3.env) return R3.env;
+  const face = (top, mid, bot) => { const c = document.createElement('canvas'); c.width = c.height = 64; const x = c.getContext('2d'); const gr = x.createLinearGradient(0, 0, 0, 64); gr.addColorStop(0, top); gr.addColorStop(.5, mid); gr.addColorStop(1, bot); x.fillStyle = gr; x.fillRect(0, 0, 64, 64); return c; };
+  const side = face('#ffffff', '#ffe6a8', '#5d7a3e');
+  const env = new THREE.CubeTexture([side, side, face('#ffffff', '#ffffff', '#fff3cc'), face('#4a6a35', '#4a6a35', '#3c5a2c'), side, side]);
+  env.needsUpdate = true; env.encoding = THREE.sRGBEncoding;
+  return (R3.env = env);
+}
+function statueURL(){
+  if (!initR3()){
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff2b0"/><stop offset=".5" stop-color="#e9b949"/><stop offset="1" stop-color="#a87a17"/></linearGradient></defs><ellipse cx="200" cy="250" rx="100" ry="40" fill="#efeadf"/><text x="200" y="230" text-anchor="middle" font-family="Jua,sans-serif" font-size="190" fill="url(#g)" stroke="#9a7015" stroke-width="5">20</text></svg>`;
+    return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+  }
+  // cast-metal numerals with bevelled edges, standing on a marble plinth with gold trim
+  const gold = new THREE.MeshStandardMaterial({ color: lin('#e6b544'), metalness: .62, roughness: .3, envMap: goldEnv(), envMapIntensity: 1.15, emissive: lin('#4d3300'), emissiveIntensity: .2 });
+  const marble = new THREE.MeshStandardMaterial({ color: lin('#f4f0e7'), roughness: .42, metalness: 0 });
+  const ext = { depth: .2, bevelEnabled: true, bevelThickness: .045, bevelSize: .035, bevelSegments: 5, curveSegments: 32 };
+  const two = new THREE.Shape();
+  two.moveTo(-.33, 0); two.lineTo(.34, 0); two.lineTo(.34, .17); two.lineTo(.02, .17); two.lineTo(.22, .42);
+  two.absarc(0, .68, .32, -.87, 3.05, false);
+  two.absarc(0, .68, .15, 3.05, -.72, true);
+  two.lineTo(-.33, .17); two.closePath();
+  const zero = new THREE.Shape(); zero.absellipse(0, .5, .33, .5, 0, Math.PI * 2, false);
+  const hole = new THREE.Path(); hole.absellipse(0, .5, .16, .33, 0, Math.PI * 2, true); zero.holes.push(hole);
+  const nums = new THREE.Group();
+  [[two, -.43], [zero, .42]].forEach(([sh, x]) => { const g = new THREE.ExtrudeGeometry(sh, ext); g.translate(0, 0, -.1); const m = new THREE.Mesh(g, gold); m.position.x = x; nums.add(m); });
+  nums.scale.setScalar(1.08); nums.position.y = .27;
+  const grp = new THREE.Group();
+  const plinth = new THREE.Mesh(new THREE.CylinderGeometry(.74, .8, .24, 72), marble); plinth.position.y = .12;
+  const cap = new THREE.Mesh(new THREE.CylinderGeometry(.68, .74, .05, 72), marble); cap.position.y = .265;
+  const rim = new THREE.Mesh(new THREE.TorusGeometry(.74, .022, 12, 120), gold); rim.rotation.x = Math.PI / 2; rim.position.y = .24;
+  const foot = new THREE.Mesh(new THREE.TorusGeometry(.8, .02, 12, 120), gold); foot.rotation.x = Math.PI / 2; foot.position.y = .02;
+  grp.add(plinth, cap, rim, foot, nums); grp.rotation.y = -.22;
+  const w = 460, h = 345, c = R3.cam;
+  R3.renderer.setSize(w, h, false); c.aspect = w / h; c.position.set(0, 2.9, 5.2); c.lookAt(0, .5, 0); c.fov = 24; c.updateProjectionMatrix();
+  R3.scene.add(grp); R3.renderer.render(R3.scene, c); R3.scene.remove(grp);
+  const url = R3.renderer.domElement.toDataURL();
+  grp.traverse(o => { if (o.geometry) o.geometry.dispose(); });
+  gold.dispose(); marble.dispose();
+  return url;
 }
 
 /* ================= camera ================= */
@@ -940,7 +1128,7 @@ function applyCam(){
   cam.x = mw <= w ? (w - mw) / 2 : clamp(cam.x, w - mw, 0);
   cam.y = mh <= h ? (h - mh) / 2 : clamp(cam.y, h - mh, 0);
   worldEl.style.transform = `translate3d(${cam.x.toFixed(1)}px,${cam.y.toFixed(1)}px,0) scale(${cam.s.toFixed(4)})`;
-  worldEl.style.setProperty('--inv', clamp(.95 / cam.s, .55, 2.6).toFixed(3));
+  worldEl.style.setProperty('--inv', clamp(.78 / cam.s, .5, 2.1).toFixed(3));
 }
 function centerOn(x, y, s = cam.s, glide = false){
   const { w, h } = vpSize();
@@ -957,7 +1145,7 @@ function toWorld(sx, sy){ const r = vp.getBoundingClientRect(); return { x: (sx 
 function defaultView(glide){
   const { w, h } = vpSize();
   if (app.classList.contains('stage') || (w > 900 && h > 560)) centerOn(W/2, H/2 - 10, minScale() * (app.classList.contains('stage') ? 1 : 1.04), glide);
-  else centerOn(PLAZA.x, PLAZA.y + 10, clamp(h / 1060, .55, 1), glide);
+  else centerOn(PLAZA.x, PLAZA.y + 10, clamp(h / 1500, .5, .9), glide);
 }
 
 /* ================= characters ================= */
@@ -967,11 +1155,11 @@ let meId = store.get('bitforest.me', null);
 let showBots = true;
 
 function plazaPoint(){
-  for (let i = 0; i < 20; i++){ const a = Math.random()*Math.PI*2, d = Math.sqrt(Math.random())*(PLAZA.r - 28); const p = { x: PLAZA.x + Math.cos(a)*d, y: PLAZA.y + Math.sin(a)*d }; if (Math.hypot(p.x - FOUNTAIN.x, p.y - FOUNTAIN.y) > FOUNTAIN.r + 26) return p; }
-  return { x: PLAZA.x + 150, y: PLAZA.y };
+  for (let i = 0; i < 30; i++){ const a = Math.random()*Math.PI*2, d = Math.sqrt(Math.random()); const p = { x: PLAZA.x + Math.cos(a)*d*(PLAZA.rx - 60), y: PLAZA.y + Math.sin(a)*d*(PLAZA.ry - 46) }; if (Math.hypot((p.x - FOUNTAIN.x)/1.6, p.y - FOUNTAIN.y) > FOUNTAIN.r * .78) return p; }
+  return { x: PLAZA.x + 380, y: PLAZA.y };
 }
 function randomTarget(){
-  if (Math.random() < .62) return plazaPoint();
+  if (Math.random() < .8) return plazaPoint();
   const sg = SEGMENTS[Math.floor(Math.random()*SEGMENTS.length)];
   const t = .3 + Math.random()*.6, dx = sg.b.x - sg.a.x, dy = sg.b.y - sg.a.y, L = Math.hypot(dx, dy), j = (Math.random()-.5)*56;
   return { x: sg.a.x + dx*t - dy/L*j, y: sg.a.y + dy*t + dx/L*j };
@@ -990,8 +1178,8 @@ function walkTo(o, p){ o.queue = route(o, p); }
 
 function addChar(c, { arrive = false } = {}){
   if (chars.has(c.id)) return chars.get(c.id);
-  const o = Object.assign({}, c, { queue: [], wait: Math.random()*3, speed: c.bot ? 30 + Math.random()*24 : 58, walking: false, flip: false, z: -1, holdUntil: 0 });
-  if (arrive){ o.x = 800 + (Math.random()-.5)*30; o.y = 1190; o.queue = [{ x: 800 + (Math.random()-.5)*40, y: 1040 }, ...route({ x: 800, y: 1040 }, plazaPoint())]; }
+  const o = Object.assign({}, c, { queue: [], wait: Math.random()*3, speed: c.bot ? 36 + Math.random()*26 : 85, walking: false, flip: false, z: -1, holdUntil: 0 });
+  if (arrive){ o.x = GATE.x + (Math.random()-.5)*40; o.y = GATE.y + 70; o.queue = [{ x: GATE.x + (Math.random()-.5)*50, y: GATE.y - 300 }, ...route({ x: GATE.x, y: GATE.y - 300 }, plazaPoint())]; }
   else { const p = randomTarget(); o.x = p.x; o.y = p.y; }
   const el = document.createElement('div');
   el.className = 'char' + (c.bot ? ' bot' : '') + (c.id === meId ? ' me' : '');
@@ -1053,6 +1241,7 @@ if (bc) bc.onmessage = e => {
   else if (type === 'say'){ say(data.id, data.text); }
   else if (type === 'move'){ const o = chars.get(data.id); if (o){ walkTo(o, data); o.holdUntil = performance.now() + 25000; } }
   else if (type === 'msg'){ if (data.to === meId) receive(data); }
+  else if (type === 'board'){ if (!panel.hidden && panel.classList.contains('wide')) renderBoard(); }
 };
 
 const SUR = '김이박최정강조윤장임한오서신권황송홍'.split('');
@@ -1173,10 +1362,96 @@ function openInbox(){
   });
 }
 
+/* ================= village board: Thanks to + guestbook ================= */
+// Draft storage: this browser only (synced across tabs). Moves to the shared database with the rest of the site.
+const BOARD_KEY = 'bitforest.board';
+const NOTE_COLORS = { yellow: '#fff1a8', pink: '#ffd6da', mint: '#cff2dd', sky: '#d6e9ff' };
+const boardUI = { filter: 'all', color: 'yellow', kind: 'fund', open: false, arm: null };
+function loadBoard(){ const b = store.get(BOARD_KEY, null); return b && Array.isArray(b.thanks) && Array.isArray(b.posts) ? b : { thanks: [], posts: [] }; }
+function saveBoard(b){ store.set(BOARD_KEY, b); Net.post('board', {}); }
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+const thanksGen = g => g === '' || g == null ? '' : (/^\d+$/.test(String(g)) ? g + '기' : String(g));
+function fmtWhen(ts){ const d = new Date(ts); return d.toLocaleString('ko-KR', { month: 'numeric', day: 'numeric', hour: 'numeric', minute: '2-digit' }); }
+
+function openBoard(){ openPanel('마을 게시판', '함께해 주신 분들께 감사 인사, 그리고 방명록', '', renderBoard, true); }
+function renderBoard(body){
+  body = body || $('#panelBody');
+  const draft = $('#bdText', body) ? $('#bdText', body).value : '';
+  const b = loadBoard(), me = chars.get(meId), U = boardUI;
+  const fund = b.thanks.filter(t => t.kind === 'fund'), gift = b.thanks.filter(t => t.kind === 'gift');
+  const person = t => `<li><b>${esc([thanksGen(t.gen), t.name].filter(Boolean).join(' '))}</b>${t.what ? `<span>${esc(t.what)}</span>` : ''}</li>`;
+  const col = (title, list) => `<div class="ty-col"><h4>${title} <em>${list.length ? list.length + '명' : ''}</em></h4>${list.length ? `<ul>${list.map(person).join('')}</ul>` : `<p class="ty-empty">운영진이 명단을 올리면 여기에 표시돼요</p>`}</div>`;
+  const chips = `<div class="chips">${[['all', '전체'], ['thanks', 'Thanks to'], ['posts', '방명록']].map(([k, l]) => `<button class="chip" type="button" data-bf="${k}" aria-pressed="${U.filter === k}">${l}</button>`).join('')}</div>`;
+
+  const thanks = `<section class="thanks">
+    <div class="ty-ribbon">THANKS TO</div>
+    <h3>BIT 20주년 홈커밍을 함께 만들어 주신 분들</h3>
+    <div class="ty-cols">${col('후원해 주신 분들', fund)}${col('상품을 찬조해 주신 분들', gift)}</div>
+    <button class="linkish" type="button" data-bd="toggle">${U.open ? '명단 입력 닫기' : '+ 명단 추가하기 (운영진)'}</button>
+    ${U.open ? `<form class="ty-form" id="tyForm" autocomplete="off">
+      <div class="seg">${[['fund', '후원'], ['gift', '상품 찬조']].map(([k, l]) => `<button type="button" data-kind="${k}" aria-pressed="${U.kind === k}">${l}</button>`).join('')}</div>
+      <div class="ty-row"><input id="tyGen" maxlength="6" placeholder="기수 (예: 12)" aria-label="기수"><input id="tyName" maxlength="20" placeholder="이름 또는 단체명" aria-label="이름"></div>
+      <input id="tyWhat" maxlength="40" placeholder="${U.kind === 'gift' ? '찬조 상품 (예: 무선 이어폰 2개)' : '한 줄 메모 (선택)'}" aria-label="내용">
+      <button class="btn" type="submit">명단에 올리기</button>
+      ${b.thanks.length ? `<p class="hint">잘못 올렸다면 이름을 눌러 지울 수 있어요</p><div class="ty-del">${b.thanks.map(t => `<button type="button" class="chip" data-del-thanks="${esc(t.id)}">${U.arm === t.id ? '한 번 더 누르면 지워져요' : '✕ ' + esc([thanksGen(t.gen), t.name].filter(Boolean).join(' '))}</button>`).join('')}</div>` : ''}
+    </form>` : ''}
+  </section>`;
+
+  const posts = b.posts.slice().sort((x, y) => y.ts - x.ts);
+  const writer = me
+    ? `<form class="bd-write" id="bdForm" autocomplete="off" style="--note:${NOTE_COLORS[U.color]}">
+        <div class="bd-who"><span class="mini-av">${avatarSVG(me.av, { viewBox: HEAD_VB })}</span><span><b>${esc(genLabel(me.gen))} ${esc(me.name)}</b>(으)로 남기기</span></div>
+        <textarea id="bdText" maxlength="200" rows="3" placeholder="20주년 축하 한마디, 반가운 동기에게 하고 싶은 말을 남겨 주세요"></textarea>
+        <div class="bd-bar"><div class="bd-colors">${Object.entries(NOTE_COLORS).map(([k, c]) => `<button type="button" class="sw" data-color="${k}" style="background:${c}" aria-label="메모지 색" aria-pressed="${U.color === k}"></button>`).join('')}</div><button class="btn" type="submit">게시판에 붙이기</button></div>
+      </form>`
+    : `<div class="bd-write empty"><span>내 캐릭터를 만들면 방명록을 남길 수 있어요</span><button class="btn" type="button" data-bd="join">내 캐릭터 만들기</button></div>`;
+  const notes = posts.length ? posts.map(p => {
+    const likes = p.likes || [], liked = likes.includes(meId), mine = p.author === meId;
+    return `<article class="note" style="--note:${NOTE_COLORS[p.color] || NOTE_COLORS.yellow};--r:${((p.ts % 7) - 3) * .7}deg"><span class="pin"></span>
+      <p>${esc(p.text)}</p>
+      <footer><span class="mini-av">${avatarSVG(p.av, { viewBox: HEAD_VB })}</span><span class="by"><b>${esc(genLabel(p.gen))} ${esc(p.name)}</b><time>${fmtWhen(p.ts)}</time></span>
+      <span class="acts"><button type="button" class="like${liked ? ' on' : ''}" data-like="${esc(p.id)}" aria-pressed="${liked}" aria-label="좋아요">♥${likes.length ? ' ' + likes.length : ''}</button>
+      ${mine ? `<button type="button" class="del" data-del="${esc(p.id)}">${U.arm === p.id ? '지울까요?' : '지우기'}</button>` : ''}</span></footer></article>`;
+  }).join('') : `<div class="bd-empty">아직 방명록이 비어 있어요.<br>첫 메모를 붙여 보세요!</div>`;
+  const guest = `<section class="guest"><h3 class="bd-h">방명록 <span>${posts.length ? posts.length + '개' : ''}</span></h3>${writer}<div class="cork">${notes}</div></section>`;
+
+  body.innerHTML = chips + (U.filter !== 'posts' ? thanks : '') + (U.filter !== 'thanks' ? guest : '');
+  const ta = $('#bdText', body); if (ta && draft) ta.value = draft;
+
+  body.onclick = e => {
+    const t = e.target.closest('button'); if (!t) return;
+    const bb = loadBoard();
+    if (t.dataset.bf){ U.filter = t.dataset.bf; return renderBoard(body); }
+    if (t.dataset.bd === 'toggle'){ U.open = !U.open; U.arm = null; return renderBoard(body); }
+    if (t.dataset.bd === 'join'){ closePanel(); return openEntry('who'); }
+    if (t.dataset.kind){ U.kind = t.dataset.kind; return renderBoard(body); }
+    if (t.dataset.color){ U.color = t.dataset.color; const f = $('#bdForm', body); if (f) f.style.setProperty('--note', NOTE_COLORS[U.color]); body.querySelectorAll('[data-color]').forEach(x => x.setAttribute('aria-pressed', x === t)); return; }
+    if (t.dataset.like){ if (!meId) return toast('내 캐릭터를 만들면 좋아요를 누를 수 있어요'); const p = bb.posts.find(x => x.id === t.dataset.like); if (!p) return; p.likes = p.likes || []; p.likes = p.likes.includes(meId) ? p.likes.filter(x => x !== meId) : p.likes.concat(meId); saveBoard(bb); return renderBoard(body); }
+    if (t.dataset.del){ if (U.arm !== t.dataset.del){ U.arm = t.dataset.del; return renderBoard(body); } bb.posts = bb.posts.filter(x => x.id !== t.dataset.del); U.arm = null; saveBoard(bb); return renderBoard(body); }
+    if (t.dataset.delThanks){ if (U.arm !== t.dataset.delThanks){ U.arm = t.dataset.delThanks; return renderBoard(body); } bb.thanks = bb.thanks.filter(x => x.id !== t.dataset.delThanks); U.arm = null; saveBoard(bb); return renderBoard(body); }
+  };
+  body.onsubmit = e => {
+    e.preventDefault();
+    const bb = loadBoard();
+    if (e.target.id === 'bdForm'){
+      const me2 = chars.get(meId), text = $('#bdText', body).value.trim();
+      if (!me2 || !text) return;
+      bb.posts.push({ id: uid(), author: meId, gen: me2.gen, name: me2.name, av: me2.av, text, color: U.color, ts: Date.now(), likes: [] });
+      saveBoard(bb); $('#bdText', body).value = ''; renderBoard(body); toast('방명록에 메모를 붙였어요');
+    }
+    if (e.target.id === 'tyForm'){
+      const name = $('#tyName', body).value.trim(); if (!name) return $('#tyName', body).focus();
+      bb.thanks.push({ id: uid(), kind: U.kind, gen: $('#tyGen', body).value.trim().replace(/기$/, ''), name, what: $('#tyWhat', body).value.trim(), ts: Date.now() });
+      saveBoard(bb); renderBoard(body); toast(`<b>${esc(name)}</b>님을 Thanks to 명단에 올렸어요`);
+    }
+  };
+}
+
 /* ================= panels / buildings ================= */
-function openPanel(title, sub, html, after){
+function openPanel(title, sub, html, after, wide){
+  panel.classList.toggle('wide', !!wide);
   $('#panelTitle').textContent = title; $('#panelSub').textContent = sub;
-  const body = $('#panelBody'); body.innerHTML = html; body.onclick = null; body.onchange = null; body.oninput = null; body.scrollTop = 0;
+  const body = $('#panelBody'); body.innerHTML = html; body.onclick = null; body.onchange = null; body.oninput = null; body.onsubmit = null; body.scrollTop = 0;
   closeSheet(); panel.hidden = false; showScrim(); after && after(body);
 }
 $('#panelClose').addEventListener('click', closePanel);
@@ -1191,6 +1466,7 @@ function focusChar(id){
 
 let peopleFilter = 'all', peopleQuery = '';
 function openBuilding(id){
+  if (id === 'board') return openBoard();
   if (id === 'history'){
     const items = [
       { y:'2006', t:'BIT의 시작', p:'첫 기수가 모여 학회가 문을 연 해예요.', ex:true },
@@ -1373,7 +1649,7 @@ function enterForest(){
   o.holdUntil = performance.now() + 12000;
   Net.post('join', me);
   loadInbox(); $('#talk').hidden = false;
-  if (!app.classList.contains('stage')){ const { h } = vpSize(); centerOn(800, 1000, clamp(h/1060, .55, 1)); setTimeout(() => centerOn(PLAZA.x, PLAZA.y + 40, cam.s, true), 1600); }
+  if (!app.classList.contains('stage')){ const { h } = vpSize(); centerOn(GATE.x, GATE.y - 200, clamp(h/1500, .5, .9)); setTimeout(() => centerOn(PLAZA.x, PLAZA.y + 120, cam.s, true), 1800); }
   toast(`숲에 오신 걸 환영해요, <b>${esc(genLabel(me.gen))} ${esc(me.name)}</b>님!`, me.av);
   setTimeout(() => say(meId, '👋 안녕하세요!'), 2600);
 }
@@ -1469,8 +1745,8 @@ function drawMini(){
   ctx.fillStyle = '#9fd171'; if (islandPath2D) ctx.fill(islandPath2D);
   ctx.strokeStyle = '#ecdfbf'; ctx.lineWidth = 80; ctx.lineCap = 'round';
   SEGMENTS.forEach(s => { ctx.beginPath(); ctx.moveTo(s.a.x, s.a.y); ctx.lineTo(s.b.x, s.b.y); ctx.stroke(); });
-  ctx.fillStyle = '#ecdfbf'; ctx.beginPath(); ctx.arc(PLAZA.x, PLAZA.y, PLAZA.r, 0, 7); ctx.fill();
-  ctx.fillStyle = '#7fd0e3'; ctx.beginPath(); ctx.arc(FOUNTAIN.x, FOUNTAIN.y, 60, 0, 7); ctx.fill();
+  ctx.fillStyle = '#ecdfbf'; ctx.beginPath(); ctx.ellipse(PLAZA.x, PLAZA.y, PLAZA.rx, PLAZA.ry, 0, 0, 7); ctx.fill();
+  ctx.fillStyle = '#7fd0e3'; ctx.beginPath(); ctx.ellipse(FOUNTAIN.x, FOUNTAIN.y, 160, 95, 0, 0, 7); ctx.fill(); ctx.fillStyle = '#f2c24b'; ctx.beginPath(); ctx.arc(FOUNTAIN.x, FOUNTAIN.y - 20, 45, 0, 7); ctx.fill();
   BUILDINGS.forEach(b => { ctx.fillStyle = b.roof; ctx.fillRect(b.x - b.w/2, b.y - b.h/2, b.w, b.h); });
   for (const o of chars.values()){ if (o.bot && !showBots) continue; ctx.fillStyle = o.id === meId ? '#f2785c' : '#22453e'; ctx.beginPath(); ctx.arc(o.x, o.y, o.id === meId ? 26 : 13, 0, 7); ctx.fill(); }
   const { w: vw, h: vh } = vpSize();
