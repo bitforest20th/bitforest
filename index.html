@@ -50,12 +50,13 @@ button{cursor:pointer}
 .gate-sign span{font-size:30px;color:var(--mint)}
 
 /* ---------- characters ---------- */
-.char{position:absolute;left:0;top:0;width:60px;height:80px;margin:-77px 0 0 -30px;pointer-events:auto;cursor:pointer}
+.char{position:absolute;left:0;top:0;width:64px;height:80px;margin:-76px 0 0 -32px;pointer-events:auto;cursor:pointer;opacity:0;transition:opacity .4s}
+.char.ready{opacity:1}
 .char .body{position:absolute;inset:0}
-.char .body svg{width:100%;height:100%;display:block;overflow:visible}
-.char.flip .body svg{transform:scaleX(-1)}
-.char.flip .bit-txt{transform:scaleX(-1);transform-box:fill-box;transform-origin:center}
-.char .ui{position:absolute;left:50%;bottom:calc(100% - 9px);transform:translateX(-50%) scale(var(--inv));transform-origin:50% 100%;display:flex;flex-direction:column;align-items:center;gap:5px;pointer-events:none}
+.char .body canvas{position:relative;width:100%;height:100%;display:block}
+.char .body::before{content:"";position:absolute;left:50%;bottom:0;width:38px;height:10px;margin-left:-19px;border-radius:50%;background:radial-gradient(closest-side,rgba(30,50,25,.38),rgba(30,50,25,0))}
+.av3{display:block}
+.char .ui{position:absolute;left:50%;bottom:calc(100% - 6px);transform:translateX(-50%) scale(var(--inv));transform-origin:50% 100%;display:flex;flex-direction:column;align-items:center;gap:5px;pointer-events:none}
 .char .tag{white-space:nowrap;font-size:13px;line-height:1.4;padding:1px 8px 2px;border-radius:999px;background:rgba(253,248,234,.95);color:var(--ink);box-shadow:0 1px 0 rgba(95,58,32,.3)}
 .char .tag b{font-family:var(--font-display);font-weight:400;color:var(--leaf);margin-right:3px}
 .char .bubble{position:relative;max-width:170px;width:max-content;padding:6px 11px;border-radius:13px;background:#fff;color:var(--ink);font-size:13px;line-height:1.35;box-shadow:0 2px 6px rgba(30,50,40,.2);word-break:keep-all;overflow-wrap:anywhere;animation:pop .25s ease-out}
@@ -118,7 +119,7 @@ button{cursor:pointer}
 #toasts{position:absolute;left:50%;top:calc(env(safe-area-inset-top,0px) + 76px);transform:translateX(-50%);z-index:35;display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none;width:min(92vw,460px)}
 .toast{display:flex;align-items:center;gap:10px;padding:8px 16px 8px 8px;border-radius:999px;background:var(--paper);box-shadow:var(--lift);animation:toastIn .35s ease-out;max-width:100%}
 .toast .mini-av{width:34px;height:34px;flex:none;border-radius:50%;background:var(--mint);overflow:hidden}
-.toast .mini-av svg{width:100%;height:100%}
+.toast .mini-av img{width:100%;height:100%;object-fit:cover}
 .toast b{font-family:var(--font-display);font-weight:400;color:var(--leaf)}
 .toast.out{opacity:0;transform:translateY(-8px);transition:.35s}
 @keyframes toastIn{from{opacity:0;transform:translateY(-10px)}}
@@ -130,7 +131,7 @@ button{cursor:pointer}
 .close{position:absolute;top:12px;right:12px;width:36px;height:36px;border:0;border-radius:50%;background:var(--paper-2);display:grid;place-items:center}
 .card-head{display:flex;gap:16px;align-items:center}
 .card-av{width:96px;height:120px;flex:none;border-radius:20px;background:linear-gradient(180deg,var(--mint),#e9f7d9);display:grid;place-items:center}
-.card-av svg{width:86px;height:114px}
+.card-av img{width:96px;height:120px}
 .card-gen{font-family:var(--font-display);font-size:18px;color:var(--leaf)}
 .card-name{font-family:var(--font-display);font-size:32px;line-height:1.1}
 .tagchip{display:inline-block;margin-top:6px;font-size:12px;padding:2px 8px;border-radius:999px;background:var(--paper-2);color:var(--ink-soft)}
@@ -175,7 +176,7 @@ button{cursor:pointer}
 .chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
 .people{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:10px}
 .person{border:0;background:#fff;border-radius:16px;padding:8px 6px 10px;display:flex;flex-direction:column;align-items:center;gap:2px;box-shadow:0 2px 0 var(--paper-line)}
-.person svg{width:60px;height:60px}
+.person img{width:60px;height:60px}
 .person .g{font-family:var(--font-display);color:var(--leaf);font-size:14px}
 .person .n{font-size:14px}
 .person.me{outline:3px solid var(--pop)}
@@ -191,7 +192,7 @@ button{cursor:pointer}
 /* inbox */
 .msg{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px dashed var(--paper-line)}
 .msg .mini-av{width:46px;height:46px;border-radius:50%;background:var(--mint);flex:none;overflow:hidden}
-.msg .mini-av svg{width:100%;height:100%}
+.msg .mini-av img{width:100%;height:100%;object-fit:cover}
 .msg .who{font-family:var(--font-display);color:var(--leaf)}
 .msg p{margin:2px 0 6px;line-height:1.5}
 .msg time{font-size:12px;color:var(--ink-soft)}
@@ -204,8 +205,9 @@ button{cursor:pointer}
 .ed-group{margin-bottom:14px}
 .ed-group h4{margin:0 0 8px;font-size:13px;letter-spacing:.06em;color:var(--ink-soft);font-weight:400}
 .ed-opts{display:flex;gap:8px;flex-wrap:wrap}
-.opt{width:58px;height:58px;padding:0;border-radius:14px;border:3px solid transparent;background:#fff;display:grid;place-items:center;box-shadow:0 2px 0 var(--paper-line)}
-.opt svg{width:52px;height:52px}
+.opt{width:64px;height:64px;padding:0;border-radius:14px;border:3px solid transparent;background:#fff;display:grid;place-items:center;box-shadow:0 2px 0 var(--paper-line)}
+.opt img.head{width:60px;height:60px}
+.opt img.body{width:56px;height:48px}
 .opt[aria-pressed="true"]{border-color:var(--pop)}
 .sw{width:36px;height:36px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 2px var(--paper-line)}
 .sw[aria-pressed="true"]{box-shadow:0 0 0 3px var(--pop)}
@@ -243,7 +245,7 @@ button{cursor:pointer}
 .nav .grow{flex:1}
 .btn:disabled{opacity:.45;cursor:not-allowed}
 .stagebox{position:relative;margin:4px auto 6px;width:180px;height:210px;border-radius:26px;background:radial-gradient(circle at 50% 40%,#fff 0,var(--mint) 70%);display:grid;place-items:center}
-.stagebox svg{width:150px;height:200px}
+.stagebox img{width:144px;height:180px}
 .stagebox .nametag{position:absolute;top:10px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:14px;padding:2px 10px;border-radius:999px;background:var(--pop);color:#fff}
 .make-status{text-align:center;font-family:var(--font-display);font-size:20px;margin:6px 0 12px;color:var(--leaf)}
 .make-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
@@ -356,6 +358,7 @@ button{cursor:pointer}
   <div class="entry" id="entry"><div class="entry-card" id="entryCard"></div></div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 (() => {
 'use strict';
@@ -413,105 +416,359 @@ function randomAvatar(g, rnd = Math.random){
   };
 }
 
-function hairParts(style, c){
-  const d = shade(c, -20);
-  switch(style){
-    case 'short': return ['', `<path d="M26 58 Q22 22 60 21 Q98 22 94 58 Q91 44 84 40 Q72 46 56 41 Q42 44 34 42 Q28 48 26 58Z" fill="${c}"/>`];
-    case 'side': return ['', `<path d="M26 60 Q22 20 64 20 Q98 23 94 56 Q92 44 86 38 Q70 48 44 40 Q34 46 26 60Z" fill="${c}"/><path d="M46 39 Q62 31 85 38" stroke="${d}" stroke-width="2" fill="none" stroke-linecap="round"/>`];
-    case 'buzz': return ['', `<path d="M28 52 Q30 24 60 23 Q90 24 92 52 Q86 38 60 36 Q34 38 28 52Z" fill="${c}"/>`];
-    case 'curly': { let s = ''; for (let i = 0; i <= 8; i++){ const a = Math.PI + i*Math.PI/8; s += `<circle cx="${(60+33*Math.cos(a)).toFixed(1)}" cy="${(50+27*Math.sin(a)).toFixed(1)}" r="11" fill="${c}"/>`; } return ['', `<ellipse cx="60" cy="33" rx="30" ry="14" fill="${c}"/>${s}`]; }
-    case 'mop': return ['', `<path d="M25 62 Q20 17 60 17 Q100 17 95 62 Q92 52 88 49 Q84 56 78 49 Q72 56 66 49 Q60 57 54 49 Q48 56 42 49 Q36 56 32 49 Q28 53 25 62Z" fill="${c}"/>`];
-    case 'bob': return [`<path d="M22 60 Q20 18 60 18 Q100 18 98 60 L98 86 Q98 93 90 93 L30 93 Q22 93 22 86Z" fill="${c}"/>`,
-                        `<path d="M26 58 Q24 20 60 20 Q96 20 94 58 Q92 46 86 44 L34 44 Q28 46 26 58Z" fill="${c}"/>`];
-    case 'long': return [`<path d="M22 60 Q20 18 60 18 Q100 18 98 60 L101 116 Q91 123 80 117 L40 117 Q29 123 19 116Z" fill="${c}"/>`,
-                         `<path d="M26 64 Q24 20 60 20 Q96 20 94 64 Q90 40 62 33 L60 40 L58 33 Q30 40 26 64Z" fill="${c}"/>`];
-    case 'pony': return [`<path d="M84 36 Q114 46 106 88 Q102 104 92 110 Q99 86 88 60Z" fill="${c}"/>`,
-                         `<path d="M26 58 Q22 20 60 20 Q98 20 94 58 Q90 42 78 40 Q60 48 40 40 Q30 46 26 58Z" fill="${c}"/><circle cx="90" cy="38" r="4" fill="${d}"/>`];
-    case 'bun': return [`<circle cx="60" cy="19" r="13" fill="${c}"/>`,
-                        `<path d="M26 58 Q24 22 60 22 Q96 22 94 58 Q88 40 70 40 Q52 46 36 42 Q28 48 26 58Z" fill="${c}"/>`];
+/* ================= 3D avatar engine ================= */
+// Characters are assembled from rounded 3D parts and lit like a toy figure, then rendered once into
+// a small sprite sheet (front / left / right × stand / step / step + blink) that the plaza plays back.
+const R3 = { ok: false, failed: false, tex: {} };
+const GEO = {};
+const HEAD = { y: 2.12, sx: 0.98, sy: 0.93, sz: 0.9 };
+const FW = 112, FH = 140;
+const smooth = (a, b, x) => { const t = clamp((x - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); };
+
+function initR3(){
+  if (R3.ok || R3.failed) return R3.ok;
+  try {
+    if (!window.THREE) throw new Error('no three');
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
+    renderer.setPixelRatio(1);
+    renderer.outputEncoding = THREE.sRGBEncoding;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = .92;
+    renderer.setClearColor(0x000000, 0);
+    const scene = new THREE.Scene();
+    scene.add(new THREE.HemisphereLight(0xfff6ea, 0x7d9a6c, 0.62));
+    const key = new THREE.DirectionalLight(0xfff0da, 1.15); key.position.set(-3, 6, 6); scene.add(key);
+    const fill = new THREE.DirectionalLight(0xdcecff, 0.32); fill.position.set(5, 2, 4); scene.add(fill);
+    const rim = new THREE.DirectionalLight(0xffffff, 0.55); rim.position.set(2.5, 4, -5); scene.add(rim);
+    scene.add(new THREE.AmbientLight(0xffffff, 0.1));
+    const cam = new THREE.PerspectiveCamera(18, FW / FH, 0.1, 100);
+    Object.assign(R3, { renderer, scene, cam, ok: true });
+  } catch (e) { R3.failed = true; }
+  return R3.ok;
+}
+const geo = (k, f) => GEO[k] || (GEO[k] = f());
+const lin = hex => new THREE.Color(hex).convertSRGBToLinear();
+function mat(hex, o = {}){ return new THREE.MeshStandardMaterial(Object.assign({ color: lin(hex), roughness: 0.7, metalness: 0 }, o)); }
+function mesh(g, m, parent, sx = 1, sy = sx, sz = sx){ const x = new THREE.Mesh(g, m); x.scale.set(sx, sy, sz); if (parent) parent.add(x); return x; }
+function capsuleGeo(r, len){
+  return geo('cap' + r + '_' + len, () => {
+    const pts = [], n = 10;
+    for (let i = 0; i <= n; i++){ const a = -Math.PI / 2 + i / n * Math.PI / 2; pts.push(new THREE.Vector2(Math.max(0, Math.cos(a) * r), -len + r + Math.sin(a) * r)); }
+    for (let i = 1; i <= n; i++){ const a = i / n * Math.PI / 2; pts.push(new THREE.Vector2(Math.max(0, Math.cos(a) * r), -r + Math.sin(a) * r)); }
+    return new THREE.LatheGeometry(pts, 24);
+  });
+}
+const SPH = () => geo('s40', () => new THREE.SphereGeometry(1, 40, 28));
+const SPL = () => geo('s18', () => new THREE.SphereGeometry(1, 18, 12));
+function headPt(yaw, pitch, lift = 0){
+  const d = new THREE.Vector3(Math.sin(yaw) * Math.cos(pitch), Math.sin(pitch), Math.cos(yaw) * Math.cos(pitch));
+  const p = new THREE.Vector3(d.x * HEAD.sx, d.y * HEAD.sy, d.z * HEAD.sz);
+  const n = new THREE.Vector3(d.x / HEAD.sx, d.y / HEAD.sy, d.z / HEAD.sz).normalize();
+  p.addScaledVector(n, lift); p.y += HEAD.y;
+  return { p, n };
+}
+function onHead(obj, yaw, pitch, lift = 0){ const { p, n } = headPt(yaw, pitch, lift); obj.position.copy(p); obj.lookAt(p.clone().add(n)); return obj; }
+
+const HAIR = {
+  short: { vol: 1.07, faceW: .95, side: -.12, back: -.55, fringe: y => .42 - .09 * Math.pow(Math.abs(Math.cos(y * 7)), 3) },
+  side:  { vol: 1.08, faceW: .95, side: -.15, back: -.55, fringe: y => .6 - .32 * smooth(-.9, .7, y) - .04 * Math.pow(Math.abs(Math.cos(y * 6)), 3) },
+  buzz:  { vol: 1.03, faceW: 1.0, side: .02,  back: -.42, fringe: () => .52 },
+  curly: { vol: 1.1,  faceW: .95, side: -.22, back: -.6, curl: .075, fringe: y => .42 - .1 * Math.pow(Math.abs(Math.cos(y * 6)), 2) },
+  mop:   { vol: 1.12, faceW: 1.0, side: -.35, back: -.55, fringe: y => .2 - .05 * Math.pow(Math.abs(Math.cos(y * 10)), 4) },
+  bob:   { vol: 1.11, faceW: .78, side: -.85, back: -.85, flare: .1, fringe: y => .32 - .05 * Math.pow(Math.abs(Math.cos(y * 8)), 3) },
+  long:  { vol: 1.1,  faceW: .8,  side: -.95, back: -1.0, flare: .05, fringe: y => .58 - .4 * Math.min(1, Math.abs(y) / .8) },
+  pony:  { vol: 1.06, faceW: .95, side: -.08, back: -.4,  fringe: y => .42 - .07 * Math.pow(Math.abs(Math.cos(y * 7)), 3) },
+  bun:   { vol: 1.06, faceW: .95, side: -.08, back: -.45, fringe: y => .4 - .06 * Math.pow(Math.abs(Math.cos(y * 7)), 3) }
+};
+function hairBound(s, yaw){
+  const a = Math.abs(yaw), fy = s.fringe(clamp(yaw, -s.faceW, s.faceW));
+  const t1 = smooth(s.faceW, s.faceW + .3, a), t2 = smooth(1.75, 2.45, a);
+  return fy + (s.side - fy) * t1 + (s.back - s.side) * t2;
+}
+function hairGeo(style){
+  return geo('hair_' + style, () => {
+    const s = HAIR[style] || HAIR.short;
+    const g = new THREE.SphereGeometry(1, 96, 64);
+    const p = g.attributes.position, v = new THREE.Vector3();
+    for (let i = 0; i < p.count; i++){
+      v.fromBufferAttribute(p, i);
+      const yaw = Math.atan2(v.x, v.z), pitch = Math.asin(clamp(v.y, -1, 1));
+      let r = .86;
+      if (pitch >= hairBound(s, yaw)){
+        r = s.vol;
+        if (s.curl) r += s.curl * Math.abs(Math.sin(yaw * 7) * Math.sin(pitch * 7 + .6));
+        if (s.flare && pitch < 0) r += s.flare * smooth(0, -.9, pitch);
+      }
+      p.setXYZ(i, v.x * r * HEAD.sx, v.y * r * HEAD.sy, v.z * r * HEAD.sz);
+    }
+    g.computeVertexNormals();
+    return g;
+  });
+}
+function strandTex(){
+  if (R3.strand) return R3.strand;
+  const c = document.createElement('canvas'); c.width = 256; c.height = 32;
+  const x = c.getContext('2d');
+  for (let i = 0; i < 256; i++){ const v = 96 + Math.random() * 100 | 0; x.fillStyle = `rgb(${v},${v},${v})`; x.fillRect(i, 0, 1, 32); }
+  const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(3, 1);
+  return (R3.strand = t);
+}
+function topTex(type, hex){
+  const k = type + hex; if (R3.tex[k]) return R3.tex[k];
+  const c = document.createElement('canvas'); c.width = 1024; c.height = 256;
+  const x = c.getContext('2d'), cx = 512, dk = shade(hex, -20), lt = shade(hex, 45);
+  x.fillStyle = hex; x.fillRect(0, 0, 1024, 256);
+  for (let i = 0; i < 3000; i++){ x.fillStyle = Math.random() < .5 ? 'rgba(255,255,255,.05)' : 'rgba(0,0,0,.05)'; x.fillRect(Math.random() * 1024, Math.random() * 256, 2, 2); }
+  switch (type){
+    case 'stripe': x.fillStyle = 'rgba(255,255,255,.78)'; [74, 122, 170, 218].forEach(y => x.fillRect(0, y, 1024, 20)); break;
+    case 'bit': x.fillStyle = isLight(hex) ? '#22453e' : '#ffffff'; x.font = '800 66px Jua, "Arial Rounded MT Bold", system-ui, sans-serif'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText('BIT', cx, 132); break;
+    case 'hoodie':
+      x.fillStyle = dk; x.beginPath(); x.moveTo(cx - 80, 170); x.lineTo(cx + 80, 170); x.lineTo(cx + 96, 226); x.lineTo(cx - 96, 226); x.closePath(); x.fill();
+      x.strokeStyle = lt; x.lineWidth = 7; x.lineCap = 'round'; [[-28, -34], [28, 34]].forEach(([a, b]) => { x.beginPath(); x.moveTo(cx + a, 30); x.lineTo(cx + b, 104); x.stroke(); });
+      break;
+    case 'shirt': {
+      x.fillStyle = isLight(hex) ? '#e6e0cf' : '#fbfbf7';
+      x.beginPath(); x.moveTo(cx - 70, 0); x.lineTo(cx - 4, 0); x.lineTo(cx - 16, 56); x.closePath(); x.fill();
+      x.beginPath(); x.moveTo(cx + 70, 0); x.lineTo(cx + 4, 0); x.lineTo(cx + 16, 56); x.closePath(); x.fill();
+      x.fillStyle = 'rgba(0,0,0,.1)'; x.fillRect(cx - 12, 40, 24, 216);
+      x.fillStyle = dk; [86, 132, 178, 224].forEach(y => { x.beginPath(); x.arc(cx, y, 7, 0, 7); x.fill(); });
+      break;
+    }
+    case 'sweater':
+      x.fillStyle = dk; x.fillRect(0, 218, 1024, 38);
+      x.strokeStyle = 'rgba(0,0,0,.18)'; x.lineWidth = 3; for (let i = 0; i < 1024; i += 12){ x.beginPath(); x.moveTo(i, 220); x.lineTo(i, 256); x.stroke(); }
+      x.strokeStyle = lt; x.lineWidth = 9; x.lineJoin = 'round'; x.beginPath(); for (let i = 0; i <= 1024; i += 32) x.lineTo(i, 110 + (i / 32 % 2 ? -14 : 14)); x.stroke();
+      break;
   }
-  return ['', ''];
+  const t = new THREE.CanvasTexture(c); t.encoding = THREE.sRGBEncoding; t.anisotropy = 4;
+  return (R3.tex[k] = t);
 }
-function eyesSVG(t){
-  const E = x => `<ellipse cx="${x}" cy="62" rx="3.4" ry="4.4" fill="#2b2220"/><circle cx="${x+1.2}" cy="60.4" r="1.2" fill="#fff"/>`;
-  const R = x => `<ellipse cx="${x}" cy="62" rx="5" ry="6" fill="#2b2220"/><circle cx="${x+1.6}" cy="59.8" r="1.9" fill="#fff"/><circle cx="${x-1.6}" cy="64.4" r=".9" fill="#fff"/>`;
-  const Hh = x => `<path d="M${x-4.5} 63.5 Q${x} 57.5 ${x+4.5} 63.5" stroke="#2b2220" stroke-width="2.6" fill="none" stroke-linecap="round"/>`;
-  const S = x => `<path d="M${x-4.5} 61.5 Q${x} 65 ${x+4.5} 61.5" stroke="#2b2220" stroke-width="2.6" fill="none" stroke-linecap="round"/>`;
-  switch(t){ case 'round': return R(47)+R(73); case 'smile': return Hh(47)+Hh(73); case 'sleepy': return S(47)+S(73); case 'wink': return E(47)+Hh(73); default: return E(47)+E(73); }
-}
-function mouthSVG(t){
-  const st = 'stroke="#7a3b2e" stroke-width="2.2" fill="none" stroke-linecap="round"';
-  switch(t){
-    case 'open': return `<path d="M54 72 Q60 72 66 72 Q65 80 60 80 Q55 80 54 72Z" fill="#a8434c"/><path d="M56.5 77.6 Q60 75.6 63.5 77.6 Q62 80 60 80 Q58 80 56.5 77.6Z" fill="#ef8a8f"/>`;
-    case 'cat': return `<path d="M53 73 Q56.5 76.5 60 73 Q63.5 76.5 67 73" ${st}/>`;
-    case 'small': return `<ellipse cx="60" cy="74.5" rx="2.6" ry="2.1" fill="#a8434c"/>`;
-    case 'grin': return `<path d="M53 72 L67 72 Q66 79 60 79 Q54 79 53 72Z" fill="#fff" stroke="#7a3b2e" stroke-width="1.6" stroke-linejoin="round"/>`;
-    default: return `<path d="M55 73 Q60 78 65 73" ${st}/>`;
-  }
-}
-function legsSVG(a){
-  const s = a.skin, b = a.bottomColor, sh = a.shoe;
-  let L, R;
-  if (a.bottom === 'pants'){ L = `<rect x="45" y="116" width="13" height="29" rx="5" fill="${b}"/>`; R = `<rect x="62" y="116" width="13" height="29" rx="5" fill="${b}"/>`; }
-  else if (a.bottom === 'shorts'){ L = `<rect x="46.5" y="120" width="10" height="25" rx="5" fill="${s}"/><rect x="44.5" y="116" width="14" height="14" rx="4" fill="${b}"/>`; R = `<rect x="63.5" y="120" width="10" height="25" rx="5" fill="${s}"/><rect x="61.5" y="116" width="14" height="14" rx="4" fill="${b}"/>`; }
-  else { L = `<rect x="46.5" y="118" width="10" height="27" rx="5" fill="${s}"/>`; R = `<rect x="63.5" y="118" width="10" height="27" rx="5" fill="${s}"/>`; }
-  L += `<ellipse cx="51.5" cy="146" rx="8" ry="4.6" fill="${sh}"/>`;
-  R += `<ellipse cx="68.5" cy="146" rx="8" ry="4.6" fill="${sh}"/>`;
-  return `<g class="legL">${L}</g><g class="legR">${R}</g>`;
-}
-function bodySVG(a){
-  const s = a.skin, c = a.topColor, d = shade(c, -18), l = shade(c, 35);
-  const long = a.top === 'hoodie' || a.top === 'shirt' || a.top === 'sweater';
-  const arm = side => {
-    const x = side < 0 ? 31 : 78, rot = side < 0 ? 10 : -10, cx = side < 0 ? 36.5 : 83.5;
-    const sleeve = long
-      ? `<rect x="${x}" y="88" width="11" height="27" rx="5.5" fill="${c}"/>${a.top==='sweater'?`<rect x="${x}" y="110" width="11" height="5" rx="2" fill="${d}"/>`:''}`
-      : `<rect x="${x}" y="89" width="11" height="26" rx="5.5" fill="${s}"/><rect x="${x-.5}" y="87" width="12" height="13" rx="5" fill="${c}"/>`;
-    return `<g transform="rotate(${rot} ${cx} 90)">${sleeve}<circle cx="${cx}" cy="116" r="5" fill="${s}"/></g>`;
+
+function buildAvatar(a){
+  const root = new THREE.Group(), body = new THREE.Group(); root.add(body); body.position.y = .18;
+  const S = SPH(), s = SPL();
+  const own = [];
+  const M = (hex, o) => { const m = mat(hex, o); own.push(m); return m; };
+  const skinM = M(a.skin, { roughness: .6 }); skinM.emissive = lin(a.skin).multiplyScalar(.03);
+  const hairM = M(a.hairColor, { roughness: .45, bumpMap: strandTex(), bumpScale: .02 });
+  const hairBack = M(a.hairColor, { roughness: .45, side: THREE.DoubleSide, bumpMap: strandTex(), bumpScale: .02 });
+  const topM = M('#ffffff', { roughness: .88, map: topTex(a.top, a.topColor) });
+  const sleeveM = M(a.topColor, { roughness: .88 });
+  const botM = M(a.bottomColor, { roughness: .85, side: THREE.DoubleSide });
+  const shoeM = M(a.shoe, { roughness: .4 });
+  const accM = M(a.accColor, { roughness: .45 });
+  const accDk = M(shade(a.accColor, -22), { roughness: .45 });
+  const inkM = M('#1b1413', { roughness: .15 });
+  const whiteM = M('#ffffff', { roughness: .3, emissive: lin('#ffffff').multiplyScalar(.7) });
+  const mouthM = M('#8a3a3d', { roughness: .4, side: THREE.DoubleSide });
+  const longS = a.top === 'hoodie' || a.top === 'shirt' || a.top === 'sweater';
+
+  // torso
+  const torsoG = geo('torso', () => {
+    const pts = new THREE.SplineCurve([[0, 0], [.45, .02], [.5, .14], [.5, .38], [.47, .58], [.39, .71], [.24, .79], [0, .81]].map(p => new THREE.Vector2(p[0], p[1]))).getPoints(30);
+    pts.forEach(p => { p.x = Math.max(0, p.x); }); pts[0].x = 0; pts[pts.length - 1].x = 0;
+    return new THREE.LatheGeometry(pts, 48, Math.PI, Math.PI * 2);
+  });
+  const torso = mesh(torsoG, topM, body, 1, 1.12, .82); torso.position.y = .72;
+  mesh(S, botM, body, .43, .2, .35).position.y = .8;
+  if (a.top === 'hoodie'){ const hood = mesh(geo('hood', () => new THREE.TorusGeometry(.34, .15, 14, 32)), sleeveM, body); hood.position.set(0, 1.57, -.12); hood.rotation.x = Math.PI / 2 - .25; }
+  if (a.bottom === 'skirt'){ const sk = mesh(geo('skirt', () => new THREE.CylinderGeometry(.47, .72, .46, 40, 1, true)), botM, body, 1, 1, .86); sk.position.y = .77; }
+
+  // legs (on root, so the body can bob while the feet stay planted)
+  const mkLeg = x => {
+    const g = new THREE.Group(); g.position.set(x, .98, 0); root.add(g);
+    mesh(capsuleGeo(.15, .82), a.bottom === 'pants' ? botM : skinM, g);
+    if (a.bottom === 'shorts') mesh(capsuleGeo(.175, .36), botM, g);
+    const shoe = mesh(S, shoeM, g, .17, .12, .25); shoe.position.set(0, -.86, .07);
+    return g;
   };
-  let out = arm(-1) + arm(1);
-  out += `<path d="M43 90 Q43 85 50 85 L70 85 Q77 85 77 90 L79 121 Q79 123 77 123 L43 123 Q41 123 41 121Z" fill="${c}"/>`;
-  const neck = `<path d="M53 85 Q60 91 67 85Z" fill="${s}"/>`;
-  switch(a.top){
-    case 'tee': out += neck; break;
-    case 'stripe': out += `<rect x="43" y="95" width="34" height="3.6" fill="#fff" opacity=".75"/><rect x="42.5" y="103" width="35" height="3.6" fill="#fff" opacity=".75"/><rect x="42" y="111" width="36" height="3.6" fill="#fff" opacity=".75"/>` + neck; break;
-    case 'bit': out += neck + `<text class="bit-txt" x="60" y="110" text-anchor="middle" font-family="Jua,sans-serif" font-size="11" fill="${isLight(c)?'#22453e':'#fff'}">BIT</text>`; break;
-    case 'hoodie': out += `<path d="M46 87 Q60 99 74 87" stroke="${d}" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M56 92 L55 102 M64 92 L65 102" stroke="${l}" stroke-width="1.6" stroke-linecap="round"/><rect x="48" y="108" width="24" height="10" rx="4" fill="${d}"/>`; break;
-    case 'shirt': out += `<path d="M51 85 L60 93 L54 98 L47.5 88Z M69 85 L60 93 L66 98 L72.5 88Z" fill="${isLight(c)?'#e9e4d6':'#fbfbf7'}"/><circle cx="60" cy="101" r="1.3" fill="${d}"/><circle cx="60" cy="109" r="1.3" fill="${d}"/><circle cx="60" cy="117" r="1.3" fill="${d}"/>`; break;
-    case 'sweater': out += neck + `<rect x="41" y="118" width="38" height="5" rx="2" fill="${d}"/><path d="M45 102 l5 -5 l5 5 l5 -5 l5 5 l5 -5 l5 5" stroke="${l}" stroke-width="2" fill="none" stroke-linejoin="round"/>`; break;
+  const legL = mkLeg(-.2), legR = mkLeg(.2);
+
+  // arms
+  const mkArm = sg => {
+    const g = new THREE.Group(); g.position.set(sg * .47, 1.5, 0); g.rotation.z = sg * .18; body.add(g);
+    mesh(capsuleGeo(.12, .66), longS ? sleeveM : skinM, g);
+    if (!longS) mesh(capsuleGeo(.155, .3), sleeveM, g).position.y = .03;
+    if (a.top === 'sweater'){ const cuff = mesh(geo('cuff', () => new THREE.CylinderGeometry(.13, .13, .08, 18)), M(shade(a.topColor, -22)), g); cuff.position.y = -.55; }
+    mesh(s, skinM, g, .135).position.y = -.67;
+    return g;
+  };
+  const armL = mkArm(-1), armR = mkArm(1);
+
+  // head
+  const head = new THREE.Group(); body.add(head); head.scale.setScalar(.75); head.position.y = .45;
+  mesh(S, skinM, head, HEAD.sx, HEAD.sy, HEAD.sz).position.y = HEAD.y;
+  [-1, 1].forEach(sg => onHead(mesh(s, skinM, head, .13, .17, .1), sg * 1.48, -.06, .02));
+
+  // eyes
+  const eyesOpen = new THREE.Group(), eyesShut = new THREE.Group(); head.add(eyesOpen, eyesShut);
+  const eye = (parent, type, sg) => {
+    const g = new THREE.Group(); parent.add(g); onHead(g, sg * .36, -.02, 0);
+    if (type === 'dot' || type === 'round'){
+      const big = type === 'round';
+      mesh(S, inkM, g, big ? .12 : .095, big ? .16 : .13, .045);
+      mesh(s, whiteM, g, big ? .04 : .032).position.set(big ? .04 : .032, big ? .06 : .048, .04);
+      if (big) mesh(s, whiteM, g, .016).position.set(-.034, -.055, .035);
+    } else if (type === 'smile'){
+      mesh(geo('arcS', () => new THREE.TorusGeometry(.085, .021, 8, 20, Math.PI)), inkM, g).position.y = -.03;
+    } else {
+      const t = mesh(geo('arcS', () => new THREE.TorusGeometry(.085, .021, 8, 20, Math.PI)), inkM, g, 1, .45, 1); t.rotation.z = Math.PI; t.position.y = .02;
+    }
+  };
+  eye(eyesOpen, a.eyes === 'wink' ? 'dot' : a.eyes, -1); eye(eyesOpen, a.eyes === 'wink' ? 'smile' : a.eyes, 1);
+  eye(eyesShut, a.eyes === 'smile' ? 'smile' : 'sleepy', -1); eye(eyesShut, a.eyes === 'smile' || a.eyes === 'wink' ? 'smile' : 'sleepy', 1);
+  eyesShut.visible = false;
+  // brows
+  const browM = M(shade(a.hairColor, -12), { roughness: .5 });
+  [-1, 1].forEach(sg => { const g = new THREE.Group(); head.add(g); onHead(g, sg * .36, .2, .005); const b = mesh(capsuleGeo(.024, .15), browM, g); b.rotation.z = Math.PI / 2 + sg * .12; b.position.x = -sg * .075; });
+  // nose, blush, mouth
+  onHead(mesh(s, M(shade(a.skin, -10), { roughness: .55 }), head, .065, .05, .045), 0, -.16, 0);
+  if (a.blush){ const bm = new THREE.MeshStandardMaterial({ color: lin('#ff8a8a'), transparent: true, opacity: .5, roughness: .8, depthWrite: false }); own.push(bm); [-1, 1].forEach(sg => onHead(mesh(s, bm, head, .12, .07, .02), sg * .56, -.22, .006)); }
+  const mouth = new THREE.Group(); head.add(mouth); onHead(mouth, 0, -.33, 0);
+  const halfG = geo('half', () => new THREE.SphereGeometry(1, 24, 12, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2));
+  const arcM = geo('arcM', () => new THREE.TorusGeometry(.08, .019, 8, 20, Math.PI));
+  switch (a.mouth){
+    case 'open': mesh(halfG, mouthM, mouth, .11, .1, .035); mesh(s, M('#f08890', { roughness: .5 }), mouth, .055, .03, .02).position.set(0, -.065, .02); break;
+    case 'cat': [-1, 1].forEach(sg => { const t = mesh(geo('arcC', () => new THREE.TorusGeometry(.045, .016, 8, 16, Math.PI)), mouthM, mouth); t.rotation.z = Math.PI; t.position.x = sg * .045; }); break;
+    case 'small': mesh(s, mouthM, mouth, .036, .03, .02); break;
+    case 'grin': mesh(halfG, M('#ffffff', { roughness: .3, side: THREE.DoubleSide }), mouth, .1, .085, .03); { const t = mesh(arcM, mouthM, mouth, 1.2, 1.05, 1); t.rotation.z = Math.PI; } break;
+    default: { const t = mesh(arcM, mouthM, mouth); t.rotation.z = Math.PI; }
   }
-  return out;
-}
-function accSVG(a){
-  const c = a.accColor;
-  switch(a.acc){
-    case 'glasses': return `<g stroke="#2b2b2b" stroke-width="2" fill="rgba(255,255,255,.22)"><rect x="39" y="55.5" width="16" height="13" rx="3.5"/><rect x="65" y="55.5" width="16" height="13" rx="3.5"/></g><path d="M55 61 L65 61" stroke="#2b2b2b" stroke-width="2"/>`;
-    case 'round': return `<g stroke="#8a5a2b" stroke-width="2" fill="rgba(255,255,255,.22)"><circle cx="47" cy="62" r="8"/><circle cx="73" cy="62" r="8"/></g><path d="M55 61 Q60 58 65 61" stroke="#8a5a2b" stroke-width="2" fill="none"/>`;
-    case 'cap': return `<path d="M26 47 Q27 17 60 17 Q93 17 94 47Z" fill="${c}"/><path d="M60 47 L104 44 Q108 49 100 51 L60 52Z" fill="${shade(c,-18)}"/><circle cx="60" cy="18" r="3" fill="${shade(c,-25)}"/>`;
-    case 'beanie': return `<path d="M25 50 Q24 13 60 13 Q96 13 95 50Z" fill="${c}"/><rect x="23" y="42" width="74" height="11" rx="5.5" fill="${shade(c,-15)}"/><circle cx="60" cy="11" r="6.5" fill="${shade(c,30)}"/>`;
-    case 'flower': { let p=''; for(let i=0;i<5;i++){const t=i*Math.PI*2/5; p+=`<circle cx="${(86+5.5*Math.cos(t)).toFixed(1)}" cy="${(36+5.5*Math.sin(t)).toFixed(1)}" r="4.3" fill="${c}"/>`;} return p + `<circle cx="86" cy="36" r="3" fill="#f6d36a"/>`; }
-    case 'headphones': return `<path d="M25 58 Q25 13 60 13 Q95 13 95 58" stroke="${c}" stroke-width="5" fill="none"/><rect x="19" y="50" width="11" height="18" rx="5" fill="${shade(c,-20)}"/><rect x="90" y="50" width="11" height="18" rx="5" fill="${shade(c,-20)}"/>`;
-    case 'ribbon': return `<path d="M82 30 L72 22 L72 38Z M82 30 L92 22 L92 38Z" fill="${c}"/><circle cx="82" cy="30" r="3.2" fill="${shade(c,-20)}"/>`;
+
+  // hair
+  mesh(hairGeo(a.hair), hairM, head).position.y = HEAD.y;
+  if (a.hair === 'long'){ const c = mesh(geo('curtain', () => new THREE.CylinderGeometry(.9, .8, 1.25, 40, 1, true, Math.PI / 2, Math.PI)), hairBack, head, 1, 1, .78); c.position.set(0, 1.6, -.04); }
+  if (a.hair === 'pony'){ const t = mesh(S, hairM, head, .24, .44, .24); t.position.set(0, 2.05, -1.02); t.rotation.x = -.5; const tie = mesh(geo('tie', () => new THREE.TorusGeometry(.13, .045, 8, 20)), M(shade(a.hairColor, -35)), head); tie.position.set(0, 2.42, -.9); tie.rotation.x = 1.1; }
+  if (a.hair === 'bun'){ mesh(S, hairM, head, .33, .3, .33).position.set(0, 3.0, -.22); const tie = mesh(geo('tie', () => new THREE.TorusGeometry(.13, .045, 8, 20)), M(shade(a.hairColor, -35)), head, 1.6); tie.position.set(0, 2.8, -.18); tie.rotation.x = Math.PI / 2 + .2; }
+
+  // accessories
+  switch (a.acc){
+    case 'glasses': case 'round': {
+      const fm = M(a.acc === 'glasses' ? '#2a2a30' : '#8c5a2e', { roughness: .3 });
+      [-1, 1].forEach(sg => {
+        const g = new THREE.Group(); head.add(g); onHead(g, sg * .36, -.02, .07);
+        if (a.acc === 'round') mesh(geo('ringR', () => new THREE.TorusGeometry(.16, .022, 8, 32)), fm, g);
+        else { const w = new THREE.Group(); w.scale.set(1.15, .85, 1); g.add(w); mesh(geo('ringQ', () => new THREE.TorusGeometry(.18, .025, 8, 4)), fm, w).rotation.z = Math.PI / 4; }
+      });
+      const br = mesh(geo('bridge', () => new THREE.CylinderGeometry(.02, .02, .22, 8)), fm, head); br.position.copy(headPt(0, -.0, .08).p); br.rotation.z = Math.PI / 2;
+      break;
+    }
+    case 'cap': {
+      const d = mesh(geo('dome', () => new THREE.SphereGeometry(1, 48, 20, 0, Math.PI * 2, 0, Math.PI * .5)), accM, head, HEAD.sx * 1.13, HEAD.sy * 1.1, HEAD.sz * 1.15); d.position.y = HEAD.y + .14; d.rotation.x = -.18;
+      const b = mesh(geo('brim', () => new THREE.CylinderGeometry(.62, .62, .05, 32, 1, false, -Math.PI / 2, Math.PI)), accDk, head); b.position.set(0, HEAD.y + .38, .55); b.rotation.x = .18;
+      mesh(s, accDk, head, .07).position.set(0, HEAD.y + 1.2, -.12);
+      break;
+    }
+    case 'beanie': {
+      const d = mesh(geo('domeB', () => new THREE.SphereGeometry(1, 48, 20, 0, Math.PI * 2, 0, Math.PI * .56)), accM, head, HEAD.sx * 1.12, HEAD.sy * 1.1, HEAD.sz * 1.13); d.position.y = HEAD.y + .02; d.rotation.x = -.12;
+      const band = mesh(geo('band', () => new THREE.TorusGeometry(1, .1, 12, 48)), accDk, head, HEAD.sx * 1.12, HEAD.sz * 1.13, 1); band.rotation.x = Math.PI / 2 - .12; band.position.y = HEAD.y - .02;
+      mesh(s, M(shade(a.accColor, 40), { roughness: .9 }), head, .2).position.set(0, HEAD.y + 1.08, -.1);
+      break;
+    }
+    case 'flower': {
+      const g = new THREE.Group(); head.add(g); onHead(g, .62, .55, .06);
+      for (let i = 0; i < 5; i++){ const t = i / 5 * Math.PI * 2; const p = mesh(s, accM, g, .085, .06, .04); p.position.set(Math.cos(t) * .085, Math.sin(t) * .085, 0); p.rotation.z = t; }
+      mesh(s, M('#f6d36a', { roughness: .5 }), g, .05).position.z = .02;
+      break;
+    }
+    case 'headphones': {
+      const band = mesh(geo('hband', () => new THREE.TorusGeometry(1.1, .055, 10, 40, Math.PI)), accDk, head, HEAD.sx, HEAD.sy * 1.06, 1); band.position.y = HEAD.y + .02;
+      [-1, 1].forEach(sg => { const c = mesh(geo('cup', () => new THREE.CylinderGeometry(.24, .24, .16, 24)), accM, head); c.rotation.z = Math.PI / 2; c.position.set(sg * 1.09 * HEAD.sx, HEAD.y, 0); });
+      break;
+    }
+    case 'ribbon': {
+      const g = new THREE.Group(); head.add(g); onHead(g, .55, .62, .07);
+      [-1, 1].forEach(sg => { const c = mesh(geo('cone', () => new THREE.ConeGeometry(.12, .22, 16)), accM, g); c.rotation.z = sg * Math.PI / 2; c.position.x = sg * .12; });
+      mesh(s, accDk, g, .06);
+      break;
+    }
   }
-  return '';
+  return { root, body, legL, legR, armL, armR, eyesOpen, eyesShut, own };
 }
+function poseAvatar(rig, step, dir, blink){
+  const sw = step === 1 ? 1 : step === 2 ? -1 : 0;
+  rig.root.rotation.y = dir * .72;
+  rig.legL.rotation.x = .5 * sw; rig.legR.rotation.x = -.5 * sw;
+  rig.armL.rotation.x = -.45 * sw; rig.armR.rotation.x = .45 * sw;
+  rig.body.position.y = sw ? .05 : 0;
+  rig.eyesOpen.visible = !blink; rig.eyesShut.visible = blink;
+}
+const VIEWS = { full: { y: 1.62, h: 3.34, cy: 3.0 }, head: { y: 2.28, h: 2.0, cy: 2.8 }, body: { y: 1.05, h: 2.25, cy: 2.0 } };
+function setView(name, w, h){
+  const v = VIEWS[name], c = R3.cam, d = Math.hypot(11.5, v.cy - v.y);
+  R3.renderer.setSize(w, h, false);
+  c.aspect = w / h; c.position.set(0, v.cy, 11.5); c.lookAt(0, v.y, 0);
+  c.fov = 2 * Math.atan(v.h / 2 / d) * 180 / Math.PI; c.updateProjectionMatrix();
+}
+function renderRig(rig){ R3.scene.add(rig.root); R3.renderer.render(R3.scene, R3.cam); R3.scene.remove(rig.root); }
+function disposeRig(rig){ rig.own.forEach(m => m.dispose()); }
+
+// fallback when WebGL is unavailable: a plain soft figure
+function drawFallback(ctx, a, x0, w, h){
+  ctx.save(); ctx.translate(x0, 0);
+  ctx.fillStyle = a.topColor; ctx.beginPath(); ctx.ellipse(w / 2, h * .72, w * .2, h * .15, 0, 0, 7); ctx.fill();
+  ctx.fillStyle = a.skin; ctx.beginPath(); ctx.arc(w / 2, h * .42, w * .27, 0, 7); ctx.fill();
+  ctx.fillStyle = a.hairColor; ctx.beginPath(); ctx.arc(w / 2, h * .38, w * .28, Math.PI, 0); ctx.fill();
+  ctx.restore();
+}
+
+const SIZES = { full: [280, 350], head: [160, 160], body: [140, 120] };
+const urlCache = new Map();
+function avatarURL(av, crop = 'full'){
+  const key = crop + JSON.stringify(av);
+  if (urlCache.has(key)) return urlCache.get(key);
+  const [w, h] = SIZES[crop];
+  let url;
+  if (initR3()){
+    const rig = buildAvatar(av); poseAvatar(rig, 0, 0, false);
+    setView(crop, w, h); renderRig(rig); url = R3.renderer.domElement.toDataURL(); disposeRig(rig);
+  } else {
+    const c = document.createElement('canvas'); c.width = w; c.height = h; drawFallback(c.getContext('2d'), av, 0, w, h); url = c.toDataURL();
+  }
+  if (urlCache.size > 400) urlCache.clear();
+  urlCache.set(key, url);
+  return url;
+}
+const HEAD_VB = 'head';
 function avatarSVG(a, opt = {}){
-  const [back, front] = hairParts(a.hair, a.hairColor);
-  const brow = shade(a.hairColor, -10);
-  const vb = opt.viewBox || '0 0 120 160';
-  return `<svg viewBox="${vb}" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">`+
-    (opt.noShadow ? '' : `<ellipse cx="60" cy="151" rx="24" ry="5" fill="rgba(40,60,30,.25)"/>`)+
-    `<g class="bob">${back}${legsSVG(a)}`+
-    (a.bottom === 'skirt' ? `<path d="M43 114 L77 114 L84 135 Q60 140 36 135Z" fill="${a.bottomColor}"/>` : '')+
-    bodySVG(a)+
-    `<ellipse cx="28" cy="60" rx="6" ry="7" fill="${a.skin}"/><ellipse cx="92" cy="60" rx="6" ry="7" fill="${a.skin}"/>`+
-    `<ellipse cx="60" cy="56" rx="33" ry="31" fill="${a.skin}"/>`+
-    (a.blush ? `<ellipse cx="39" cy="71" rx="5.5" ry="3.2" fill="#ff8f8f" opacity=".5"/><ellipse cx="81" cy="71" rx="5.5" ry="3.2" fill="#ff8f8f" opacity=".5"/>` : '')+
-    `<path d="M42 52 Q47 49 52 52 M68 52 Q73 49 78 52" stroke="${brow}" stroke-width="2.2" fill="none" stroke-linecap="round"/>`+
-    eyesSVG(a.eyes) + mouthSVG(a.mouth) + front + accSVG(a) +
-    `</g></svg>`;
+  const crop = opt.viewBox === HEAD_VB ? 'head' : opt.viewBox ? 'body' : 'full';
+  return `<img class="av3 ${crop}" src="${avatarURL(a, crop)}" alt="" draggable="false">`;
 }
-const HEAD_VB = '16 6 88 88';
+
+// sprite sheets for the plaza: index = (look+1)*3 + step, 9 = front blink
+const renderQueue = [];
+function queueSheet(o, first){ if (first) renderQueue.unshift(o); else renderQueue.push(o); }
+function buildSheet(o){
+  const sheet = o.sheet || (o.sheet = document.createElement('canvas'));
+  sheet.width = FW * 10; sheet.height = FH;
+  const sx = sheet.getContext('2d'); sx.clearRect(0, 0, sheet.width, FH);
+  if (initR3()){
+    const rig = buildAvatar(o.av);
+    setView('full', FW, FH);
+    let k = 0;
+    for (const dir of [-1, 0, 1]) for (const step of [0, 1, 2]){ poseAvatar(rig, step, dir, false); renderRig(rig); sx.drawImage(R3.renderer.domElement, k * FW, 0); k++; }
+    poseAvatar(rig, 0, 0, true); renderRig(rig); sx.drawImage(R3.renderer.domElement, 9 * FW, 0);
+    disposeRig(rig);
+  } else for (let k = 0; k < 10; k++) drawFallback(sx, o.av, k * FW, FW, FH);
+  o.fk = -1; o.ready = true; o.el.classList.add('ready'); drawChar(o);
+}
+function pumpRender(){
+  const t0 = performance.now();
+  while (renderQueue.length && performance.now() - t0 < 14){
+    const o = renderQueue.shift();
+    if (chars.get(o.id) === o) buildSheet(o);
+  }
+}
+function drawChar(o){
+  if (!o.ready) return;
+  let k = (o.look + 1) * 3 + o.step;
+  if (k === 3 && o.blinking) k = 9;
+  if (k === o.fk) return;
+  o.fk = k;
+  o.ctx.clearRect(0, 0, FW, FH);
+  o.ctx.drawImage(o.sheet, k * FW, 0, FW, FH, 0, 0, FW, FH);
+}
+
 
 /* ================= map ================= */
 const W = 1600, H = 1200;
@@ -722,11 +979,12 @@ function addChar(c, { arrive = false } = {}){
   const el = document.createElement('div');
   el.className = 'char' + (c.bot ? ' bot' : '') + (c.id === meId ? ' me' : '');
   el.dataset.id = c.id;
-  el.innerHTML = `<div class="ui"><div class="bubble" hidden></div><div class="tag"><b>${esc(genLabel(c.gen))}</b>${esc(c.name)}</div></div><div class="body">${avatarSVG(c.av)}</div>`;
-  o.el = el; charsLayer.appendChild(el); chars.set(c.id, o); place(o); updateCount();
+  el.innerHTML = `<div class="ui"><div class="bubble" hidden></div><div class="tag"><b>${esc(genLabel(c.gen))}</b>${esc(c.name)}</div></div><div class="body"><canvas width="112" height="140"></canvas></div>`;
+  o.el = el; o.ctx = el.querySelector('canvas').getContext('2d'); o.frames = {}; o.fk = -1; o.step = 0; o.look = 0; o.anim = 0; o.blinking = false; o.blinkT = 1 + Math.random()*4; o.ready = false; queueSheet(o, c.id === meId);
+  charsLayer.appendChild(el); chars.set(c.id, o); place(o); updateCount();
   return o;
 }
-function refreshChar(o){ o.el.querySelector('.body').innerHTML = avatarSVG(o.av); o.el.querySelector('.tag').innerHTML = `<b>${esc(genLabel(o.gen))}</b>${esc(o.name)}`; }
+function refreshChar(o){ buildSheet(o); o.el.querySelector('.tag').innerHTML = `<b>${esc(genLabel(o.gen))}</b>${esc(o.name)}`; }
 function removeChar(id){ const o = chars.get(id); if (!o) return; o.el.remove(); chars.delete(id); updateCount(); }
 function place(o){ o.el.style.transform = `translate3d(${o.x.toFixed(1)}px,${o.y.toFixed(1)}px,0)`; const z = Math.round(o.y); if (z !== o.z){ o.z = z; o.el.style.zIndex = z; } }
 function say(id, text){
@@ -742,18 +1000,23 @@ let last = performance.now();
 function tick(now){
   const dt = Math.min(.05, (now - last) / 1000); last = now;
   for (const o of chars.values()){
+    o.blinkT -= dt;
+    if (o.blinkT <= 0){ o.blinking = !o.blinking; o.blinkT = o.blinking ? .13 : 2.4 + Math.random()*4; }
     if (!o.queue.length){
-      if (o.walking){ o.walking = false; o.el.classList.remove('walking'); }
+      if (o.walking){ o.walking = false; o.el.classList.remove('walking'); o.idleT = 0; }
+      o.idleT = (o.idleT || 0) + dt; o.step = 0; if (o.idleT > 1.2) o.look = 0;
       o.wait -= dt;
       if (o.wait <= 0 && now > o.holdUntil){ walkTo(o, randomTarget()); o.wait = 1.5 + Math.random()*5; }
-      continue;
+      drawChar(o); continue;
     }
     const t = o.queue[0], dx = t.x - o.x, dy = t.y - o.y, d = Math.hypot(dx, dy), step = o.speed * dt;
     if (d <= step){ o.x = t.x; o.y = t.y; o.queue.shift(); } else { o.x += dx/d*step; o.y += dy/d*step; }
-    if (!o.walking){ o.walking = true; o.el.classList.add('walking'); }
-    if (Math.abs(dx) > 2){ const fl = dx < 0; if (fl !== o.flip){ o.flip = fl; o.el.classList.toggle('flip', fl); } }
-    place(o);
+    if (!o.walking){ o.walking = true; o.el.classList.add('walking'); o.anim = 0; }
+    o.anim += dt; o.step = [1, 0, 2, 0][Math.floor(o.anim / .13) % 4];
+    o.look = Math.abs(dx) > Math.abs(dy) * .6 ? (dx < 0 ? -1 : 1) : 0;
+    place(o); drawChar(o);
   }
+  pumpRender();
   requestAnimationFrame(tick);
 }
 
