@@ -55,7 +55,7 @@ button{cursor:pointer}
 #world.glide{transition:transform .7s cubic-bezier(.2,.7,.2,1)}
 #map{position:absolute;inset:0;width:2400px;height:1800px;display:block}
 .statue{position:absolute;width:388px;height:291px;margin:-226px 0 0 -194px;pointer-events:none}
-.statue img{width:100%;height:100%;display:block;filter:drop-shadow(0 6px 8px rgba(120,90,10,.28))}
+.statue img{width:100%;height:100%;display:block;pointer-events:auto;cursor:pointer;filter:drop-shadow(0 6px 8px rgba(120,90,10,.28))}
 .statue .tw{position:absolute;width:18px;height:18px;background:#fffbe6;clip-path:polygon(50% 0,61% 39%,100% 50%,61% 61%,50% 100%,39% 61%,0 50%,39% 39%);animation:tw 2.4s ease-in-out infinite;opacity:0}
 .ff{position:absolute;width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:50%;background:#fff6c2;box-shadow:0 0 8px 3px rgba(255,214,110,.7);pointer-events:none;opacity:0;animation:ff 6s ease-in-out infinite}
 @keyframes ff{0%{opacity:0;transform:translate(0,0)}25%{opacity:1}55%{transform:translate(16px,-20px)}80%{opacity:.7}100%{opacity:0;transform:translate(-6px,-38px)}}
@@ -330,6 +330,115 @@ button{cursor:pointer}
 .note .like.on{color:#d9463a}
 .bd-empty{grid-column:1/-1;text-align:center;color:#fff8e6;padding:30px 10px;line-height:1.6;font-size:15px;text-shadow:0 1px 1px rgba(80,40,0,.4)}
 @media (max-width:480px){.ty-cols{grid-template-columns:1fr}.ty-row{grid-template-columns:96px minmax(0,1fr)}.cork{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}}
+
+/* answer badge on name tags */
+.char .tag .ans{font-style:normal;margin-left:4px;padding:0 5px 1px;border-radius:999px;background:var(--leaf);color:#fff;font-size:.86em}
+
+/* photo zone */
+.photo-btn{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 150px);z-index:22;display:flex;align-items:center;gap:8px;height:52px;padding:0 24px;border:0;border-radius:999px;background:linear-gradient(180deg,#f8d36a,#e9a92b);color:#4e2f19;font-family:var(--font-display);font-size:19px;white-space:nowrap;box-shadow:0 4px 0 #b07f17,0 12px 24px rgba(40,30,10,.28);animation:pop .3s ease-out}
+.studio{position:absolute;inset:0;z-index:55;display:grid;place-items:center;background:rgba(30,64,56,.4);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);overflow:auto;touch-action:pan-y;padding:calc(env(safe-area-inset-top,0px) + 14px) max(14px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 14px) max(14px,env(safe-area-inset-left,0px))}
+.studio-card{position:relative;width:min(100%,440px);background:var(--paper);border:4px solid var(--wood);border-radius:28px;box-shadow:0 6px 0 var(--wood-dk),0 24px 50px rgba(20,30,20,.35);padding:22px 20px 18px;display:flex;flex-direction:column;gap:12px;animation:pop .3s ease-out}
+.studio-card h2{margin:0;font-family:var(--font-display);font-weight:400;font-size:27px;text-wrap:balance}
+.studio-card .step-label{margin:0}
+.studio-card .seg button{height:44px;font-family:var(--font-display);font-size:16px}
+.st-info{margin:-2px 0 0;text-align:center}
+.pose-chips{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.pose-chips button{height:42px;border:2px solid var(--paper-line);border-radius:12px;background:#fff;font-size:14px;padding:0 4px;white-space:nowrap}
+.pose-chips button[aria-pressed="true"]{border-color:var(--pop);background:#fff1ec}
+.st-frame{position:relative;width:min(230px,58vw);aspect-ratio:9/16;max-width:100%;margin:2px auto;border-radius:16px;overflow:hidden;background:var(--paper-2);box-shadow:0 4px 0 #c5b083,0 12px 24px rgba(40,30,10,.22)}
+.st-frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.st-frame.card-frame{aspect-ratio:4/5;width:min(300px,70vw)}
+.st-loading{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:16px;background:rgba(253,248,234,.82);font-family:var(--font-display);font-size:17px;color:var(--leaf)}
+.st-actions{display:grid;grid-template-columns:1fr 1.3fr;gap:8px}
+.st-actions .btn{height:48px;font-size:17px}
+
+/* BITor card */
+.bcard{perspective:1100px;cursor:pointer;outline-offset:4px}
+.bcard-in{position:relative;width:100%;aspect-ratio:1.72;transition:transform .6s cubic-bezier(.3,.7,.2,1);transform-style:preserve-3d}
+.bcard.flipped .bcard-in{transform:rotateY(180deg)}
+.bcard-f,.bcard-b{position:absolute;inset:0;border-radius:20px;-webkit-backface-visibility:hidden;backface-visibility:hidden;overflow:hidden;box-shadow:0 4px 0 #c5b083,0 12px 24px rgba(40,30,10,.2)}
+.bcard-f{display:grid;grid-template-columns:40% minmax(0,1fr);grid-template-rows:100%;align-items:center;background:linear-gradient(150deg,#e2f8ec,#a6e0c4 62%,#7cc7a3);border:4px solid #fdf8ea}
+.bcard-f .pic{position:relative;height:100%;overflow:hidden;background:radial-gradient(circle at 50% 62%,rgba(255,255,255,.75) 0,rgba(255,255,255,0) 62%)}
+.bcard-f .pic img{position:absolute;left:50%;bottom:0;transform:translateX(-50%);height:96%;width:auto;max-width:none}
+.bcard-f .info{min-width:0;padding:0 14px 0 2px;display:flex;flex-direction:column;gap:2px}
+.bcard-f .kicker{font-size:10.5px;letter-spacing:.2em;color:#2c5b4b}
+.bcard-f .g{font-family:var(--font-display);font-size:19px;color:#1f6b52}
+.bcard-f .n{font-family:var(--font-display);font-size:32px;line-height:1.05;color:var(--ink);overflow-wrap:anywhere}
+.bcard-f .chips2{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px}
+.bcard-f .chips2 .tagchip{margin:0;background:rgba(253,248,234,.85)}
+.bcard-f .chips2 .ans-chip{background:var(--leaf);color:#fff}
+.bcard-f .corner{position:absolute;right:12px;bottom:8px;font-size:11px;letter-spacing:.12em;color:rgba(34,69,62,.55)}
+.bcard-b{transform:rotateY(180deg);background:#fffaf0 repeating-linear-gradient(180deg,transparent 0 31px,rgba(201,179,138,.28) 31px 33px);border:4px solid #e8d7ad;padding:16px 20px;display:flex;flex-direction:column;justify-content:center;gap:8px;text-align:center}
+.bcard-b .q{font-size:12.5px;letter-spacing:.06em;color:var(--wood)}
+.bcard-b p{margin:0;font-family:var(--font-display);font-size:21px;line-height:1.35;color:var(--ink);overflow-wrap:anywhere}
+.bcard-b p.empty-mem{font-family:var(--font-body);font-size:15px;color:var(--ink-soft)}
+.bcard-b .sig{font-size:13px;color:var(--ink-soft)}
+.sheet .close{z-index:3}
+#bcardWrap{margin-top:30px}
+.flip-hint{font-size:12px;color:var(--ink-soft);text-align:center;margin:8px 0 0}
+.mem-edit{margin:0 0 16px;padding:14px;border-radius:16px;background:#fffaf0;border:2px dashed var(--paper-line);display:flex;flex-direction:column;gap:8px}
+.mem-edit label{font-size:13px;color:var(--wood)}
+.mem-edit input{height:46px;border:2px solid var(--paper-line);border-radius:12px;padding:0 12px;font-size:16px;background:#fff;outline:none;min-width:0}
+.mem-edit input:focus{border-color:var(--leaf)}
+.mem-edit .hint{margin:0}
+
+/* Q&A board */
+.qa-intro{margin:12px 0 12px;color:var(--ink-soft);line-height:1.6}
+.qa-write{background:#fff;border:2px solid var(--paper-line);border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+.qa-write textarea{border:2px solid var(--paper-2);background:#fffdf7;border-radius:10px;padding:10px;font:inherit;font-size:15px;line-height:1.5;resize:vertical;min-height:72px;outline:none;color:var(--ink)}
+.qa-write textarea:focus{border-color:var(--leaf)}
+.anon-av{display:grid;place-items:center;width:100%;height:100%;font-family:var(--font-display);color:var(--ink-soft);background:var(--paper-2)}
+.qa-tags{display:flex;gap:6px;flex-wrap:wrap}
+.qtag-btn{height:34px;padding:0 14px;border-radius:999px;border:2px solid transparent;background:var(--tc);color:#3d3326;font-size:14px}
+.qtag-btn[aria-pressed="true"]{border-color:var(--ink);box-shadow:0 2px 0 rgba(0,0,0,.15)}
+.qtag{display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:999px;background:var(--tc);color:#3d3326;font-size:12.5px;white-space:nowrap;vertical-align:2px}
+.qa-bar{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+.qa-bar .chips{margin:0}
+.qa-sort button{height:36px;font-size:13px}
+.qa-cork{gap:22px 14px}
+.qnote{position:relative;min-width:0;background:#fffdf6;padding:12px 14px 12px;border-top:12px solid var(--tc);border-radius:3px 3px 6px 6px;box-shadow:0 4px 8px rgba(60,30,0,.25);transform:rotate(var(--r));display:flex;flex-direction:column;gap:8px;cursor:pointer;color:var(--ink);transition:transform .15s}
+.qnote:hover{transform:rotate(var(--r)) translateY(-3px)}
+.qnote::before{content:"";position:absolute;top:-19px;left:50%;width:14px;height:14px;margin-left:-7px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#ff9a8a,#d9463a);box-shadow:0 2px 2px rgba(0,0,0,.3)}
+.qnote .qtop{display:flex;gap:4px;flex-wrap:wrap;align-items:center;padding-right:26px}
+.qnote .qtop .tagchip,.qa-big .qtop .tagchip{margin:0}
+.tagchip.mine{background:var(--pop);color:#fff}
+.qnote .qmark{position:absolute;top:2px;right:10px;font-family:var(--font-display);font-size:30px;line-height:1;color:var(--tc);-webkit-text-stroke:1.5px rgba(61,51,38,.35)}
+.qnote p{margin:0;font-size:15px;line-height:1.55;overflow-wrap:anywhere}
+.qnote footer{display:flex;flex-direction:column;gap:8px;margin-top:auto}
+.qnote .by{display:flex;flex-direction:column;gap:1px;font-size:12px;color:var(--ink-soft)}
+.qnote .by time{font-size:11px;opacity:.85}
+.qnote .acts{display:flex;gap:6px;flex-wrap:wrap}
+.me2,.ansn{border:0;border-radius:999px;padding:5px 10px;font-size:12.5px;background:var(--paper-2);color:var(--ink)}
+.me2.on{background:#ffe2d9;color:#b4442c}
+.ansn.has{background:var(--leaf);color:#fff}
+.qa-back{border:0;background:none;color:var(--ink-soft);padding:12px 0 8px;font-size:14px}
+.qa-big{position:relative;background:#fffdf6;border-top:14px solid var(--tc);border-radius:4px 4px 10px 10px;padding:14px 16px 16px;box-shadow:0 4px 10px rgba(60,30,0,.2);display:flex;flex-direction:column;gap:10px;margin-bottom:18px}
+.qa-big .qtop{display:flex;gap:4px;flex-wrap:wrap}
+.qa-big .qtext{margin:0;font-family:var(--font-display);font-size:22px;line-height:1.4;overflow-wrap:anywhere}
+.qmark-inline{color:#c08a2a}
+.qa-big .qmeta{font-size:13px;color:var(--ink-soft)}
+.qa-big .row{align-items:center;justify-content:space-between}
+.linkish.sm{display:inline;margin:0;font-size:12.5px}
+.ans-list{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+.ans-item{display:grid;grid-template-columns:40px minmax(0,1fr);gap:10px;background:#fff;border-radius:14px;padding:12px;box-shadow:0 2px 0 var(--paper-line)}
+.ans-item .mini-av{width:40px;height:40px;border-radius:50%;background:var(--mint);overflow:hidden}
+.ans-item .who{font-size:13.5px;color:var(--ink-soft)}
+.ans-item .who b{font-family:var(--font-display);font-weight:400;font-size:15px;color:var(--leaf)}
+.ans-item p{margin:4px 0 6px;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere}
+.ans-foot{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:12px;color:var(--ink-soft)}
+.bd-empty.light{color:var(--ink-soft);text-shadow:none;background:var(--paper-2);border-radius:14px;padding:22px}
+
+/* stage screen question ticker */
+.stage-q{display:none}
+.stage .stage-q:not([hidden]){display:flex;flex-direction:column;gap:6px;flex:1;min-width:0;max-width:640px;margin:0 auto;padding:14px 20px 16px;border-radius:20px;background:var(--paper);box-shadow:var(--lift)}
+.stage-q.swap{animation:toastIn .5s ease-out}
+.stage-q .sq-head{display:flex;justify-content:space-between;gap:10px}
+.stage-q .sq-label{font-family:var(--font-display);color:#c0762a;font-size:17px}
+.stage-q .sq-count{font-size:13px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.stage-q p{margin:0;font-family:var(--font-display);font-size:24px;line-height:1.35;overflow-wrap:anywhere}
+.stage-q .sq-by{font-size:14px;color:var(--ink-soft)}
+.stage .photo-btn{display:none}
+
 @media (max-width:560px){
   .logo{width:148px}
   .hud-right{gap:6px}
@@ -375,6 +484,7 @@ button{cursor:pointer}
 
   <div class="menu" id="menu" hidden>
     <button type="button" data-act="me">내 캐릭터 꾸미기</button>
+    <button type="button" data-act="photo">📸 20 동상 포토존</button>
     <button type="button" data-act="stage"><span>전광판 모드</span><span id="stageState">꺼짐</span></button>
     <button type="button" data-act="bots"><span>예시 캐릭터 보이기</span><span id="botState">켜짐</span></button>
     <button type="button" data-act="reset" class="danger" id="resetBtn">내 캐릭터 지우고 처음부터</button>
@@ -383,6 +493,7 @@ button{cursor:pointer}
 
   <div class="hud-bottom">
     <div class="stage-qr"><div class="qr">입장 QR<br>자리</div><div><b>QR 찍고 숲에 들어오세요</b><span>폰에서 내 캐릭터를 만들면 이 광장에 바로 나타나요</span></div></div>
+    <div class="stage-q" id="stageQ" hidden aria-live="polite"></div>
     <div class="talk" id="talk" hidden>
       <div class="emotes" aria-label="빠른 인사">
         <button type="button" data-say="👋 안녕하세요!">👋 안녕</button>
@@ -403,6 +514,7 @@ button{cursor:pointer}
     </div>
   </div>
 
+  <button class="photo-btn" id="photoBtn" type="button" hidden>📸 20 동상 앞에서 사진 찍기</button>
   <div id="toasts" aria-live="polite"></div>
   <div class="scrim" id="scrim" hidden></div>
   <section class="sheet" id="sheet" hidden aria-label="캐릭터 정보"></section>
@@ -414,6 +526,28 @@ button{cursor:pointer}
     <div class="panel-body" id="panelBody"></div>
   </aside>
   <div class="entry" id="entry"><div class="entry-card" id="entryCard"></div></div>
+  <div class="studio" id="studio" hidden role="dialog" aria-modal="true" aria-label="20 동상 포토존">
+    <div class="studio-card">
+      <button class="close" type="button" data-st="close" aria-label="닫기"><svg width="18" height="18" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+      <div class="step-label">PHOTO ZONE</div>
+      <h2>20 동상 앞에서 한 장!</h2>
+      <div class="seg" id="stMode"><button type="button" data-mode="solo" aria-pressed="true">나 혼자</button><button type="button" data-mode="group" aria-pressed="false">우리 기수 모여!</button></div>
+      <p class="hint st-info" id="stInfo"></p>
+      <div class="pose-chips" id="stPose" role="group" aria-label="포즈"></div>
+      <div class="st-frame"><img id="stImg" alt="20 동상 앞에서 찍은 내 캐릭터 사진"><div class="st-loading" id="stLoading">찰칵… 사진 만드는 중</div></div>
+      <div class="st-actions"><button class="btn ghost" type="button" data-st="save">저장하기</button><button class="btn pop" type="button" data-st="share">스토리에 공유하기</button></div>
+      <p class="hint" style="text-align:center;margin:0">공유가 안 되면 사진을 길게 눌러 저장한 뒤 올려 주세요</p>
+    </div>
+  </div>
+  <div class="studio" id="shotModal" hidden role="dialog" aria-modal="true" aria-label="이미지 저장">
+    <div class="studio-card">
+      <button class="close" type="button" data-sh="close" aria-label="닫기"><svg width="18" height="18" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+      <h2 id="shotTitle"></h2>
+      <div class="st-frame card-frame"><img id="shotImg" alt="BITor 카드 이미지"><div class="st-loading" id="shotLoading">카드 만드는 중…</div></div>
+      <div class="st-actions"><button class="btn ghost" type="button" data-sh="save">저장하기</button><button class="btn pop" type="button" data-sh="share">공유하기</button></div>
+      <p class="hint" style="text-align:center;margin:0">공유가 안 되면 이미지를 길게 눌러 저장해 주세요</p>
+    </div>
+  </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -810,7 +944,7 @@ function buildAvatar(a){
       break;
     }
   }
-  return { root, body, legL, legR, armL, armR, eyesOpen, eyesShut, own };
+  return { root, body, legL, legR, armL, armR, eyesOpen, eyesShut, own, skinM };
 }
 function poseAvatar(rig, step, dir, blink){
   const sw = step === 1 ? 1 : step === 2 ? -1 : 0;
@@ -899,15 +1033,15 @@ function drawChar(o){
 
 /* ================= map ================= */
 const W = 2400, H = 1800;
-const PLAZA = { x: 1200, y: 960, rx: 605, ry: 392 };
-const FOUNTAIN = { x: 1200, y: 935, r: 215 };
+const PLAZA = { x: 1200, y: 975, rx: 650, ry: 420 };
+const FOUNTAIN = { x: 1200, y: 950, r: 215 };
 const GATE = { x: 1200, y: 1690 };
 const BUILDINGS = [
-  { id:'board',   style:'board',    x:470,  y:595,  w:280, h:220, roof:'#5f8a4a', wall:'#a26a40', title:'마을 게시판',   sub:'Thanks to · 방명록' },
-  { id:'bridge',  style:'hall',     x:1200, y:375,  w:400, h:260, roof:'#3f8f87', wall:'#efe5cf', title:'BIT BRIDGE',   sub:'동문 네트워크' },
-  { id:'people',  style:'cafe',     x:1930, y:595,  w:300, h:210, roof:'#5f7fa8', wall:'#f1e6cf', title:'OUR PEOPLE',   sub:'참석자 찾아보기' },
-  { id:'memory',  style:'studio',   x:470,  y:1320, w:300, h:230, roof:'#5c6a7d', wall:'#efdcbc', title:'MEMORY LANE',  sub:'추억의 사진관' },
-  { id:'closet',  style:'boutique', x:1930, y:1320, w:300, h:220, roof:'#d48a5a', wall:'#f7ead4', title:'MY CHARACTER', sub:'내 캐릭터 꾸미기' }
+  { id:'board',   style:'board',    x:440,  y:585,  w:280, h:220, roof:'#5f8a4a', wall:'#a26a40', title:'마을 게시판',   sub:'Thanks to · 방명록' },
+  { id:'bridge',  style:'hall',     x:1200, y:368,  w:400, h:260, roof:'#3f8f87', wall:'#efe5cf', title:'BIT BRIDGE',   sub:'동문 네트워크' },
+  { id:'people',  style:'cafe',     x:1960, y:585,  w:300, h:210, roof:'#5f7fa8', wall:'#f1e6cf', title:'OUR PEOPLE',   sub:'참석자 찾아보기' },
+  { id:'memory',  style:'studio',   x:440,  y:1345, w:300, h:230, roof:'#5c6a7d', wall:'#efdcbc', title:'MEMORY LANE',  sub:'추억의 사진관' },
+  { id:'closet',  style:'boutique', x:1960, y:1345, w:300, h:220, roof:'#d48a5a', wall:'#f7ead4', title:'MY CHARACTER', sub:'내 캐릭터 꾸미기' }
 ];
 const BS = 1.25;
 BUILDINGS.forEach(b => { b.door = { x: b.x, y: b.y + b.h/2*BS + 14 }; b.top = b.y - (b.h/2 + ({ hall: 70, studio: 40, boutique: 20, library: 10, cafe: 6, board: 4 }[b.style] || 0)) * BS; });
@@ -986,9 +1120,9 @@ function buildMap(){
     for (let yy = cy - h/2 + 14; yy < cy + h/2 - 8; yy += 15) for (let xx = cx - w/2 + 16; xx < cx + w/2 - 10; xx += 17){ const c = cols[Math.floor(rnd()*cols.length)]; b += `<circle cx="${f(xx + (rnd()-.5)*4)}" cy="${f(yy)}" r="5.5" fill="${c}"/><circle cx="${f(xx + (rnd()-.5)*4)}" cy="${f(yy)}" r="2" fill="#fff6c8"/>`; }
     return b;
   };
-  [[830, 560], [1570, 560]].forEach(([x, y]) => { s += bed(x, y, 170, 70, ['#c9b6f2', '#b9c8f4', '#f6a6c1']); });
-  [[530, 960], [1870, 960]].forEach(([x, y]) => { s += bed(x, y, 74, 150, ['#f6d36a', '#f8e08f']); });
-  [[850, 1385], [1550, 1385]].forEach(([x, y]) => { s += bed(x, y, 170, 70, ['#f6a6c1', '#f39a7a', '#fff']); });
+  [[820, 545], [1580, 545]].forEach(([x, y]) => { s += bed(x, y, 170, 70, ['#c9b6f2', '#b9c8f4', '#f6a6c1']); });
+  [[478, 975], [1922, 975]].forEach(([x, y]) => { s += bed(x, y, 74, 150, ['#f6d36a', '#f8e08f']); });
+  [[840, 1400], [1560, 1400]].forEach(([x, y]) => { s += bed(x, y, 170, 70, ['#f6a6c1', '#f39a7a', '#fff']); });
   // benches facing the fountain, lamps around the rim
   const bench = (x, y) => `<g transform="translate(${f(x)} ${f(y)})"><ellipse cx="0" cy="10" rx="34" ry="5" fill="rgba(60,50,20,.18)"/><rect x="-30" y="-6" width="60" height="11" rx="3" fill="#8b5a35"/><rect x="-30" y="-16" width="60" height="7" rx="3" fill="#a26a40"/><rect x="-25" y="4" width="5" height="8" fill="#5f3a20"/><rect x="20" y="4" width="5" height="8" fill="#5f3a20"/></g>`;
   [[-.66, -.5], [.66, -.5], [-.82, .3], [.82, .3], [-.42, .8], [.42, .8]].forEach(([a, b]) => { s += bench(P.x + a * (P.rx - 70), P.y + b * (P.ry - 50)); });
@@ -1229,32 +1363,12 @@ function statueURL(){
     const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff2b0"/><stop offset=".5" stop-color="#e9b949"/><stop offset="1" stop-color="#a87a17"/></linearGradient></defs><ellipse cx="200" cy="250" rx="100" ry="40" fill="#efeadf"/><text x="200" y="230" text-anchor="middle" font-family="Jua,sans-serif" font-size="190" fill="url(#g)" stroke="#9a7015" stroke-width="5">20</text></svg>`;
     return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
   }
-  // cast-metal numerals with bevelled edges, standing on a marble plinth with gold trim
-  const gold = new THREE.MeshStandardMaterial({ color: lin('#e6b544'), metalness: .62, roughness: .3, envMap: goldEnv(), envMapIntensity: 1.15, emissive: lin('#4d3300'), emissiveIntensity: .2 });
-  const marble = new THREE.MeshStandardMaterial({ color: lin('#f4f0e7'), roughness: .42, metalness: 0 });
-  const ext = { depth: .2, bevelEnabled: true, bevelThickness: .045, bevelSize: .035, bevelSegments: 5, curveSegments: 32 };
-  const two = new THREE.Shape();
-  two.moveTo(-.33, 0); two.lineTo(.34, 0); two.lineTo(.34, .17); two.lineTo(.02, .17); two.lineTo(.22, .42);
-  two.absarc(0, .68, .32, -.87, 3.05, false);
-  two.absarc(0, .68, .15, 3.05, -.72, true);
-  two.lineTo(-.33, .17); two.closePath();
-  const zero = new THREE.Shape(); zero.absellipse(0, .5, .33, .5, 0, Math.PI * 2, false);
-  const hole = new THREE.Path(); hole.absellipse(0, .5, .16, .33, 0, Math.PI * 2, true); zero.holes.push(hole);
-  const nums = new THREE.Group();
-  [[two, -.43], [zero, .42]].forEach(([sh, x]) => { const g = new THREE.ExtrudeGeometry(sh, ext); g.translate(0, 0, -.1); const m = new THREE.Mesh(g, gold); m.position.x = x; nums.add(m); });
-  nums.scale.setScalar(1.08); nums.position.y = .27;
-  const grp = new THREE.Group();
-  const plinth = new THREE.Mesh(new THREE.CylinderGeometry(.74, .8, .24, 72), marble); plinth.position.y = .12;
-  const cap = new THREE.Mesh(new THREE.CylinderGeometry(.68, .74, .05, 72), marble); cap.position.y = .265;
-  const rim = new THREE.Mesh(new THREE.TorusGeometry(.74, .022, 12, 120), gold); rim.rotation.x = Math.PI / 2; rim.position.y = .24;
-  const foot = new THREE.Mesh(new THREE.TorusGeometry(.8, .02, 12, 120), gold); foot.rotation.x = Math.PI / 2; foot.position.y = .02;
-  grp.add(plinth, cap, rim, foot, nums); grp.rotation.y = -.22;
+  const st = buildStatue(), grp = st.grp;
   const w = 460, h = 345, c = R3.cam;
   R3.renderer.setSize(w, h, false); c.aspect = w / h; c.position.set(0, 2.9, 5.2); c.lookAt(0, .5, 0); c.fov = 24; c.updateProjectionMatrix();
   R3.scene.add(grp); R3.renderer.render(R3.scene, c); R3.scene.remove(grp);
   const url = R3.renderer.domElement.toDataURL();
-  grp.traverse(o => { if (o.geometry) o.geometry.dispose(); });
-  gold.dispose(); marble.dispose();
+  st.dispose();
   return url;
 }
 
@@ -1326,12 +1440,12 @@ function addChar(c, { arrive = false } = {}){
   const el = document.createElement('div');
   el.className = 'char' + (c.bot ? ' bot' : '') + (c.id === meId ? ' me' : '');
   el.dataset.id = c.id;
-  el.innerHTML = `<div class="ui"><div class="bubble" hidden></div><div class="tag"><b>${esc(genLabel(c.gen))}</b>${esc(c.name)}</div></div><div class="body"><canvas width="112" height="140"></canvas></div>`;
+  el.innerHTML = `<div class="ui"><div class="bubble" hidden></div><div class="tag">${tagHTML(c)}</div></div><div class="body"><canvas width="112" height="140"></canvas></div>`;
   o.el = el; o.ctx = el.querySelector('canvas').getContext('2d'); o.frames = {}; o.fk = -1; o.step = 0; o.look = 0; o.anim = 0; o.blinking = false; o.blinkT = 1 + Math.random()*4; o.ready = false; queueSheet(o, c.id === meId);
   charsLayer.appendChild(el); chars.set(c.id, o); place(o); updateCount();
   return o;
 }
-function refreshChar(o){ buildSheet(o); o.el.querySelector('.tag').innerHTML = `<b>${esc(genLabel(o.gen))}</b>${esc(o.name)}`; }
+function refreshChar(o){ buildSheet(o); o.el.querySelector('.tag').innerHTML = tagHTML(o); }
 function removeChar(id){ const o = chars.get(id); if (!o) return; o.el.remove(); chars.delete(id); updateCount(); }
 function place(o){ o.el.style.transform = `translate3d(${o.x.toFixed(1)}px,${o.y.toFixed(1)}px,0)`; const z = Math.round(o.y); if (z !== o.z){ o.z = z; o.el.style.zIndex = z; } }
 function say(id, text){
@@ -1370,11 +1484,11 @@ function tick(now){
 /* ================= demo network (to be swapped for Supabase realtime) ================= */
 const bc = ('BroadcastChannel' in window) ? (() => { try { return new BroadcastChannel('bitforest'); } catch(e){ return null; } })() : null;
 const Net = {
-  post(type, data){ if (Cloud.on){ if (type === 'say' || type === 'move') cloudSend(type, data); return; } try { bc && bc.postMessage({ type, data }); } catch(e){} },
+  post(type, data){ if (Cloud.on){ if (type === 'say' || type === 'move' || type === 'gather') cloudSend(type, data); return; } try { bc && bc.postMessage({ type, data }); } catch(e){} },
   people(){ return store.get('bitforest.people', []); },
   savePerson(p){
-    if (Cloud.on) return Cloud.c.from('players').upsert({ id: p.id, gen: String(p.gen), name: p.name, av: p.av }).then(r => { if (r.error) throw r.error; });
-    const list = Net.people().filter(x => x.id !== p.id); list.push({ id: p.id, gen: p.gen, name: p.name, av: p.av }); store.set('bitforest.people', list);
+    if (Cloud.on) return Cloud.c.from('players').upsert(Object.assign({ id: p.id, gen: String(p.gen), name: p.name, av: p.av }, Cloud.memOk ? { memory: String(p.memory || '').slice(0, MEM_MAX) } : {})).then(r => { if (r.error) throw r.error; });
+    const list = Net.people().filter(x => x.id !== p.id); list.push({ id: p.id, gen: p.gen, name: p.name, av: p.av, memory: p.memory || '' }); store.set('bitforest.people', list);
   },
   dropPerson(id){
     if (Cloud.on) return Cloud.c.from('players').delete().eq('id', id).then(() => {});
@@ -1384,7 +1498,9 @@ const Net = {
 if (bc) bc.onmessage = e => {
   const { type, data } = e.data || {};
   if (type === 'join'){ if (!chars.has(data.id)){ addChar(data, { arrive: true }); arrivalToast(data); } }
-  else if (type === 'update'){ const o = chars.get(data.id); if (o){ Object.assign(o, { av: data.av, name: data.name, gen: data.gen }); refreshChar(o); } }
+  else if (type === 'update'){ const o = chars.get(data.id); if (o){ Object.assign(o, { av: data.av, name: data.name, gen: data.gen, memory: data.memory || '' }); refreshChar(o); } }
+  else if (type === 'qna'){ qaLocalCounts(); if (boardOpen() && boardUI.filter === 'qna') renderBoard(); }
+  else if (type === 'gather'){ onGather(data); }
   else if (type === 'leave'){ removeChar(data.id); }
   else if (type === 'say'){ say(data.id, data.text); }
   else if (type === 'move'){ const o = chars.get(data.id); if (o){ walkTo(o, data); o.holdUntil = performance.now() + 25000; } }
@@ -1407,6 +1523,8 @@ function makeBots(){
     const gen = Math.max(0, Math.min(40, Math.round(r()*40)));
     out.push({ id:'bot-' + i, gen, name, bot:true, av: randomAvatar(null, r) });
   }
+  const MEM = ['새벽까지 해커톤 하고 다 같이 먹은 국밥', '첫 발표 때 떨려서 슬라이드 넘기는 걸 까먹은 날', 'MT에서 밤새 한 마피아 게임', '프로젝트 마감 전날 동아리방의 공기', '처음으로 서비스에 진짜 사용자가 들어온 순간', '선배가 사준 떡볶이와 진로 상담', '세미나 끝나고 한강에서 먹은 치킨'];
+  out.forEach((b, i) => { if (i % 2 === 0) b.memory = MEM[(i / 2) % MEM.length]; });
   return out;
 }
 const BOTS = makeBots();
@@ -1446,32 +1564,38 @@ function closeSheet(){ sheet.hidden = true; if (panel.hidden) scrim.hidden = tru
 function closePanel(){ panel.hidden = true; if (sheet.hidden) scrim.hidden = true; }
 scrim.addEventListener('click', () => { closeSheet(); closePanel(); });
 
-function openCard(id){
+function openCard(id, flipped){
   const o = chars.get(id); if (!o) return;
-  const isMe = id === meId, me = chars.get(meId);
+  const isMe = id === meId, me = chars.get(meId), answered = answerCount.get(o.id) || 0;
   let actions;
   if (isMe){
-    actions = `<div class="hint">내 캐릭터예요. 광장 빈 곳을 누르면 그쪽으로 걸어가요.</div>
-      <div class="row"><button class="btn" type="button" data-act="edit">내 캐릭터 꾸미기</button></div>`;
+    actions = `<div class="row"><button class="btn" type="button" data-act="edit">${(o.memory || '').trim() ? '꾸미기 · 카드 뒷면 고치기' : '꾸미기 · 카드 뒷면 쓰기'}</button><button class="btn ghost" type="button" data-act="photo">📸 포토존</button></div>
+      <div class="row"><button class="btn ghost" type="button" data-act="cardimg">🃏 카드 이미지 저장</button></div>
+      <div class="hint">광장 빈 곳을 누르면 그쪽으로 걸어가요.</div>`;
   } else if (!me){
     actions = `<div class="hint">내 캐릭터를 만들면 인사하고 메시지를 보낼 수 있어요.</div>
       <div class="row"><button class="btn pop" type="button" data-act="join">내 캐릭터 만들기</button></div>`;
   } else {
-    actions = `<div class="row"><button class="btn ghost" type="button" data-act="wave">👋 인사하기</button><button class="btn ghost" type="button" data-act="goto">옆으로 가기</button></div>
+    actions = `<div class="row"><button class="btn ghost" type="button" data-act="wave">👋 인사하기</button><button class="btn ghost" type="button" data-act="goto">옆으로 가기</button>${answered ? '<button class="btn" type="button" data-act="thanks">🙏 답변 감사해요</button>' : ''}</div>
       <form class="field" id="msgForm" autocomplete="off"><input id="msgInput" maxlength="80" placeholder="${esc(o.name)}님께 메시지 보내기" aria-label="메시지"><button class="btn" type="submit">보내기</button></form>`;
   }
   sheet.innerHTML = `<button class="close" type="button" data-act="close" aria-label="닫기">${CLOSE_ICON}</button>
-    <div class="card-head"><div class="card-av">${avatarSVG(o.av)}</div>
-      <div><div class="card-gen">${esc(genLabel(o.gen))}</div><div class="card-name">${esc(o.name)}</div>${o.bot ? '<span class="tagchip">예시 캐릭터</span>' : (isMe ? '<span class="tagchip">나</span>' : '')}</div></div>
+    <div id="bcardWrap">${bitorCardHTML(o, flipped)}</div>
     <div class="card-actions">${actions}</div>`;
   sheet.hidden = false; showScrim();
+  const flip = () => { const c = $('.bcard', sheet); c.classList.toggle('flipped'); $('.flip-hint', sheet).textContent = `카드를 누르면 ${c.classList.contains('flipped') ? '앞면' : '뒷면'}이 보여요`; };
+  sheet.onkeydown = e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.classList && e.target.classList.contains('bcard')){ e.preventDefault(); flip(); } };
   sheet.onclick = e => {
     const a = e.target.closest('[data-act]'); if (!a) return;
     const act = a.dataset.act;
+    if (act === 'flip') flip();
     if (act === 'close') closeSheet();
-    if (act === 'edit'){ closeSheet(); openBuilding('closet'); }
+    if (act === 'edit'){ closeSheet(); openBuilding('closet'); setTimeout(() => { const m = $('#memIn'); if (m){ m.scrollIntoView({ block: 'center' }); if (!(o.memory || '').trim()) m.focus(); } }, 120); }
+    if (act === 'photo'){ closeSheet(); walkToStatue(); openStudio('solo'); }
+    if (act === 'cardimg'){ closeSheet(); openShot('내 BITor 카드', cardImage(o), `bitor-card-${genLabel(o.gen)}.png`); }
     if (act === 'join'){ closeSheet(); openEntry('who'); }
     if (act === 'wave'){ const text = `👋 ${o.name}님 안녕하세요!`; say(meId, text); Net.post('say', { id: meId, text }); sendMessage(o, '👋 인사를 보냈어요'); closeSheet(); }
+    if (act === 'thanks'){ const text = '답변 감사해요! 🙏'; say(meId, text); Net.post('say', { id: meId, text }); sendMessage(o, '🙏 질문에 답변해 주셔서 감사해요!'); closeSheet(); }
     if (act === 'goto'){ const p = { x: o.x + (Math.random() < .5 ? -40 : 40), y: o.y + 6 }; walkTo(me, p); me.holdUntil = performance.now() + 30000; Net.post('move', { id: meId, x: p.x, y: p.y }); closeSheet(); }
   };
   const f = $('#msgForm', sheet);
@@ -1518,7 +1642,7 @@ function openInbox(){
 // Draft storage: this browser only (synced across tabs). Moves to the shared database with the rest of the site.
 const BOARD_KEY = 'bitforest.board';
 const NOTE_COLORS = { yellow: '#fff1a8', pink: '#ffd6da', mint: '#cff2dd', sky: '#d6e9ff' };
-const boardUI = { filter: 'all', color: 'yellow', kind: 'fund', open: false, arm: null };
+const boardUI = { filter: 'qna', color: 'yellow', kind: 'fund', open: false, arm: null };
 function loadBoard(){ const b = store.get(BOARD_KEY, null); return b && Array.isArray(b.thanks) && Array.isArray(b.posts) ? b : { thanks: [], posts: [] }; }
 function saveBoard(b){ store.set(BOARD_KEY, b); Net.post('board', {}); }
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
@@ -1526,8 +1650,8 @@ const thanksGen = g => g === '' || g == null ? '' : (/^\d+$/.test(String(g)) ? g
 function fmtWhen(ts){ const d = new Date(ts); return d.toLocaleString('ko-KR', { month: 'numeric', day: 'numeric', hour: 'numeric', minute: '2-digit' }); }
 
 function openBoard(){
-  openPanel('마을 게시판', '함께해 주신 분들께 감사 인사, 그리고 방명록', '', renderBoard, true);
-  if (Cloud.on) boardFetch().then(() => { if (boardOpen()) renderBoard(); }).catch(e => { console.warn(e); toast('게시판을 불러오지 못했어요. 잠시 뒤 다시 열어 주세요'); });
+  openPanel('마을 게시판', '선배에게 묻는 질문, 방명록, 그리고 감사 인사', '', renderBoard, true);
+  if (Cloud.on) Promise.all([boardFetch(), qaFetch()]).then(() => { if (boardOpen()) renderBoard(); }).catch(e => { console.warn(e); toast('게시판을 불러오지 못했어요. 잠시 뒤 다시 열어 주세요'); });
 }
 function renderBoard(body){
   body = body || $('#panelBody');
@@ -1536,8 +1660,9 @@ function renderBoard(body){
   const fund = b.thanks.filter(t => t.kind === 'fund'), gift = b.thanks.filter(t => t.kind === 'gift');
   const person = t => `<li><b>${esc([thanksGen(t.gen), t.name].filter(Boolean).join(' '))}</b>${t.what ? `<span>${esc(t.what)}</span>` : ''}</li>`;
   const col = (title, list) => `<div class="ty-col"><h4>${title} <em>${list.length ? list.length + '명' : ''}</em></h4>${list.length ? `<ul>${list.map(person).join('')}</ul>` : `<p class="ty-empty">운영진이 명단을 올리면 여기에 표시돼요</p>`}</div>`;
-  const chips = `<div class="chips">${[['all', '전체'], ['thanks', 'Thanks to'], ['posts', '방명록']].map(([k, l]) => `<button class="chip" type="button" data-bf="${k}" aria-pressed="${U.filter === k}">${l}</button>`).join('')}</div>`;
+  const chips = `<div class="chips">${[['qna', '❓ 선배에게 질문'], ['posts', '방명록'], ['thanks', 'Thanks to']].map(([k, l]) => `<button class="chip" type="button" data-bf="${k}" aria-pressed="${U.filter === k}">${l}</button>`).join('')}</div>`;
 
+  if (U.filter === 'qna') return renderQA(body, chips);
   const thanks = `<section class="thanks">
     <div class="ty-ribbon">THANKS TO</div>
     <h3>BIT 20주년 홈커밍을 함께 만들어 주신 분들</h3>
@@ -1617,7 +1742,7 @@ function renderBoard(body){
 // When the site runs on its own address, everyone shares one plaza through Supabase.
 // If the database can't be reached (e.g. inside a preview), the page falls back to this-browser-only mode.
 const SB = { url: 'https://jrxpfenmulteniqaujwy.supabase.co', key: 'sb_publishable_oA2BK4zAnJm1czOvV-_TwQ_-YvJ_mLS' };
-const Cloud = { on: false, c: null, uid: null, ch: null, inboxCh: null, gaveUp: false, code: '' };
+const Cloud = { on: false, c: null, uid: null, ch: null, inboxCh: null, gaveUp: false, code: '', memOk: true };
 const pickFrom = (v, list, d) => list.includes(v) ? v : d;
 const isHex = v => typeof v === 'string' && /^#[0-9a-f]{6}$/i.test(v);
 function cleanAv(a){
@@ -1632,13 +1757,14 @@ function cleanAv(a){
     shoe: isHex(a.shoe) ? a.shoe : d.shoe, acc: pickFrom(a.acc, AV.acc, 'none'), accColor: isHex(a.accColor) ? a.accColor : d.accColor
   };
 }
-const normP = p => ({ id: p.id, gen: p.gen === 'G' ? 'G' : (parseInt(p.gen, 10) || 0), name: String(p.name || '').slice(0, 10), av: cleanAv(p.av) });
+const normP = p => ({ id: p.id, gen: p.gen === 'G' ? 'G' : (parseInt(p.gen, 10) || 0), name: String(p.name || '').slice(0, 10), av: cleanAv(p.av), memory: String(p.memory || '').slice(0, 60) });
 
 async function cloudStart(){
   if (!window.supabase || !window.supabase.createClient) return false;
   try {
     const c = window.supabase.createClient(SB.url, SB.key, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false } });
-    const { data, error } = await c.from('players').select('id,gen,name,av').order('created_at').limit(600);
+    let { data, error } = await c.from('players').select('id,gen,name,av,memory').order('created_at').limit(600);
+    if (error){ Cloud.memOk = false; ({ data, error } = await c.from('players').select('id,gen,name,av').order('created_at').limit(600)); }
     if (error) throw error;
     if (Cloud.gaveUp) return false;
     const { data: s } = await c.auth.getSession();
@@ -1665,8 +1791,15 @@ function cloudSubscribe(){
     .on('postgres_changes', { event: '*', schema: 'public', table: 'posts' }, boardChanged)
     .on('postgres_changes', { event: '*', schema: 'public', table: 'post_likes' }, boardChanged)
     .on('postgres_changes', { event: '*', schema: 'public', table: 'thanks' }, boardChanged)
+    .on('broadcast', { event: 'gather' }, ({ payload: d }) => { if (d && d.gen != null) onGather({ id: d.id, gen: d.gen, name: String(d.name || '').slice(0, 10) }); })
     .subscribe();
   Cloud.ch = ch;
+  // questions live on their own channel so the plaza keeps working before the Q&A tables exist
+  Cloud.c.channel('qna')
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'questions' }, qaChanged)
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'answers' }, qaChanged)
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'question_votes' }, qaChanged)
+    .subscribe();
 }
 function cloudSend(event, payload){ if (Cloud.ch) Cloud.ch.send({ type: 'broadcast', event, payload }).catch(() => {}); }
 async function subscribeInbox(){
@@ -1730,11 +1863,581 @@ const Board = {
   }
 };
 
+/* ================= image helpers ================= */
+async function fontsReady(){
+  try { await Promise.all([document.fonts.load('80px Jua'), document.fonts.load('36px "Gowun Dodum"')]); } catch (e) {}
+}
+function loadImg(src){ return new Promise(r => { const i = new Image(); i.onload = () => r(i); i.onerror = () => r(null); i.src = src; }); }
+function rrect(x, X, Y, w, h, r){ x.beginPath(); x.moveTo(X + r, Y); x.arcTo(X + w, Y, X + w, Y + h, r); x.arcTo(X + w, Y + h, X, Y + h, r); x.arcTo(X, Y + h, X, Y, r); x.arcTo(X, Y, X + w, Y, r); x.closePath(); }
+function sticker(x, text, cx, cy, size, align = 'center'){
+  x.save(); x.font = `${size}px Jua, "Apple SD Gothic Neo", sans-serif`; x.textAlign = align; x.textBaseline = 'middle'; x.lineJoin = 'round';
+  x.strokeStyle = '#4e2f19'; x.lineWidth = size * .5; x.strokeText(text, cx, cy + size * .08);
+  x.strokeStyle = '#a87443'; x.lineWidth = size * .36; x.strokeText(text, cx, cy);
+  const g = x.createLinearGradient(0, cy - size / 2, 0, cy + size / 2); g.addColorStop(0, '#effff6'); g.addColorStop(1, '#8fdcbc');
+  x.strokeStyle = '#2c5b4b'; x.lineWidth = size * .09; x.strokeText(text, cx, cy); x.fillStyle = g; x.fillText(text, cx, cy);
+  x.restore();
+}
+function starAt(x, cx, cy, r, col = '#fff6c8'){ x.save(); x.fillStyle = col; x.beginPath(); x.moveTo(cx, cy - r); x.quadraticCurveTo(cx, cy, cx + r, cy); x.quadraticCurveTo(cx, cy, cx, cy + r); x.quadraticCurveTo(cx, cy, cx - r, cy); x.quadraticCurveTo(cx, cy, cx, cy - r); x.fill(); x.restore(); }
+function wrapLines(x, text, maxW, maxLines){
+  const out = []; let line = '';
+  const words = String(text).split(/(\s+)/);
+  for (const w of words){
+    if (!w) continue;
+    if (x.measureText(line + w).width <= maxW){ line += w; continue; }
+    if (line.trim()){ out.push(line.trim()); line = ''; }
+    if (/^\s+$/.test(w)) continue;
+    for (const ch of w){ if (x.measureText(line + ch).width > maxW && line){ out.push(line); line = ch; } else line += ch; }
+  }
+  if (line.trim()) out.push(line.trim());
+  if (out.length > maxLines){ out.length = maxLines; out[maxLines - 1] = out[maxLines - 1].slice(0, -1) + '…'; }
+  return out;
+}
+const todayLabel = () => { const d = new Date(); return `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`; };
+function canvasBlob(c){ return new Promise(r => c.toBlob(r, 'image/png')); }
+function saveBlob(blob, name){
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 5000);
+}
+async function shareCanvas(c, name, title){
+  const blob = await canvasBlob(c); if (!blob) return 'fail';
+  const file = new File([blob], name, { type: 'image/png' });
+  try { if (navigator.canShare && navigator.canShare({ files: [file] })){ await navigator.share({ files: [file], title }); return 'shared'; } }
+  catch (e){ if (e && e.name === 'AbortError') return 'cancel'; }
+  saveBlob(blob, name); return 'saved';
+}
+
+/* ================= photo zone ================= */
+const POSES = [['v', '✌️ 브이'], ['heart', '🫶 하트'], ['jump', '🙌 점프'], ['wave', '👋 손 흔들기']];
+function heartShape(){
+  const s = new THREE.Shape();
+  s.moveTo(0, -.5); s.bezierCurveTo(-.18, -.32, -.56, -.08, -.56, .2); s.bezierCurveTo(-.56, .48, -.2, .56, 0, .3);
+  s.bezierCurveTo(.2, .56, .56, .48, .56, .2); s.bezierCurveTo(.56, -.08, .18, -.32, 0, -.5);
+  return s;
+}
+function posePhoto(rig, pose, m){
+  const { armL, armR, legL, legR, root, body } = rig;
+  poseAvatar(rig, 0, 0, false);
+  if (pose === 'wave'){ armR.rotation.set(-.25, 0, Math.PI - .8); armL.rotation.set(0, 0, -.25); }
+  if (pose === 'v'){
+    armR.rotation.set(-.55, 0, Math.PI - .88); armL.rotation.set(0, 0, -.22);
+    [-1, 1].forEach(sg => { const f = new THREE.Mesh(capsuleGeo(.045, .26), m.skin); f.position.y = -.72; f.rotation.z = sg * .34; armR.add(f); });
+  }
+  if (pose === 'heart'){
+    armL.rotation.set(-1.25, 0, .62); armR.rotation.set(-1.25, 0, -.62);
+    const h = new THREE.Mesh(geo('heart3', () => { const g = new THREE.ExtrudeGeometry(heartShape(), { depth: .16, bevelEnabled: true, bevelThickness: .07, bevelSize: .06, bevelSegments: 5, curveSegments: 24 }); g.translate(0, 0, -.08); return g; }), m.heart);
+    h.scale.setScalar(.66); h.position.set(0, 1.42, .82); body.add(h);
+  }
+  if (pose === 'jump'){
+    root.position.y = .7; armL.rotation.set(0, 0, -(Math.PI - .95)); armR.rotation.set(0, 0, Math.PI - .95);
+    legL.rotation.x = .6; legR.rotation.x = -.3;
+  }
+}
+function canvasTex(w, h, draw, repeat){
+  const c = document.createElement('canvas'); c.width = w; c.height = h; draw(c.getContext('2d'), w, h);
+  const t = new THREE.CanvasTexture(c); t.encoding = THREE.sRGBEncoding;
+  if (repeat){ t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(repeat, repeat); t.anisotropy = 8; }
+  return t;
+}
+function photoTextures(){
+  if (R3.photo) return R3.photo;
+  const tile = canvasTex(256, 256, (x) => {
+    x.fillStyle = '#efe4c6'; x.fillRect(0, 0, 256, 256); x.fillStyle = '#e8dab6'; x.fillRect(0, 0, 128, 128); x.fillRect(128, 128, 128, 128);
+    x.strokeStyle = '#d9c69c'; x.lineWidth = 5; x.strokeRect(0, 0, 256, 256); x.beginPath(); x.moveTo(128, 0); x.lineTo(128, 256); x.moveTo(0, 128); x.lineTo(256, 128); x.stroke();
+  }, 46);
+  const blob = canvasTex(128, 128, (x) => { const g = x.createRadialGradient(64, 64, 4, 64, 64, 62); g.addColorStop(0, 'rgba(40,46,20,.5)'); g.addColorStop(1, 'rgba(40,46,20,0)'); x.fillStyle = g; x.fillRect(0, 0, 128, 128); });
+  const sky = canvasTex(64, 512, (x, w, h) => {
+    const g = x.createLinearGradient(0, 0, 0, h); g.addColorStop(0, '#7fcbe6'); g.addColorStop(.45, '#bfe6f1'); g.addColorStop(.75, '#fdf0d6'); g.addColorStop(1, '#fbe2bd');
+    x.fillStyle = g; x.fillRect(0, 0, w, h);
+  });
+  return (R3.photo = { tile, blob, sky });
+}
+function buildStatue(){
+  const gold = new THREE.MeshStandardMaterial({ color: lin('#e6b544'), metalness: .62, roughness: .3, envMap: goldEnv(), envMapIntensity: 1.15, emissive: lin('#4d3300'), emissiveIntensity: .2 });
+  const marble = new THREE.MeshStandardMaterial({ color: lin('#f4f0e7'), roughness: .42, metalness: 0 });
+  const ext = { depth: .2, bevelEnabled: true, bevelThickness: .045, bevelSize: .035, bevelSegments: 5, curveSegments: 32 };
+  const two = new THREE.Shape();
+  two.moveTo(-.33, 0); two.lineTo(.34, 0); two.lineTo(.34, .17); two.lineTo(.02, .17); two.lineTo(.22, .42);
+  two.absarc(0, .68, .32, -.87, 3.05, false);
+  two.absarc(0, .68, .15, 3.05, -.72, true);
+  two.lineTo(-.33, .17); two.closePath();
+  const zero = new THREE.Shape(); zero.absellipse(0, .5, .33, .5, 0, Math.PI * 2, false);
+  const hole = new THREE.Path(); hole.absellipse(0, .5, .16, .33, 0, Math.PI * 2, true); zero.holes.push(hole);
+  const nums = new THREE.Group();
+  [[two, -.43], [zero, .42]].forEach(([sh, x]) => { const g = new THREE.ExtrudeGeometry(sh, ext); g.translate(0, 0, -.1); const m = new THREE.Mesh(g, gold); m.position.x = x; nums.add(m); });
+  nums.scale.setScalar(1.08); nums.position.y = .27;
+  const grp = new THREE.Group();
+  const plinth = new THREE.Mesh(new THREE.CylinderGeometry(.74, .8, .24, 72), marble); plinth.position.y = .12;
+  const cap = new THREE.Mesh(new THREE.CylinderGeometry(.68, .74, .05, 72), marble); cap.position.y = .265;
+  const rim = new THREE.Mesh(new THREE.TorusGeometry(.74, .022, 12, 120), gold); rim.rotation.x = Math.PI / 2; rim.position.y = .24;
+  const foot = new THREE.Mesh(new THREE.TorusGeometry(.8, .02, 12, 120), gold); foot.rotation.x = Math.PI / 2; foot.position.y = .02;
+  grp.add(plinth, cap, rim, foot, nums); grp.rotation.y = -.22;
+  return { grp, dispose(){ grp.traverse(o => { if (o.geometry) o.geometry.dispose(); }); gold.dispose(); marble.dispose(); } };
+}
+function photoSlots(n){
+  if (n <= 1) return [{ x: .5, z: 1.4, y: 0, ry: -.16 }];
+  const front = n > 6 ? Math.ceil(n / 2) : n, back = n - front, sp = 1.75, out = [];
+  for (let i = 0; i < front; i++){ const x = (i - (front - 1) / 2) * sp; out.push({ x, z: 1.4, y: 0, ry: -x * .05 }); }
+  for (let i = 0; i < back; i++){ const x = (i - (back - 1) / 2) * sp; out.push({ x, z: -.05, y: .74, ry: -x * .05, back: true }); }
+  return out;
+}
+const STATUE_Z = -5.4;
+function photoScene(people, pose){
+  const T = photoTextures(), root = new THREE.Group(), geos = [], mats = [], rigs = [];
+  const G = g => (geos.push(g), g), Mt = m => (mats.push(m), m);
+  // sky backdrop and plaza floor
+  const sky = new THREE.Mesh(G(new THREE.PlaneGeometry(220, 70)), Mt(new THREE.MeshBasicMaterial({ map: T.sky, toneMapped: false })));
+  sky.position.set(0, 22, -38); root.add(sky);
+  const ground = new THREE.Mesh(G(new THREE.PlaneGeometry(220, 120)), Mt(new THREE.MeshStandardMaterial({ map: T.tile, roughness: .95 })));
+  ground.rotation.x = -Math.PI / 2; ground.position.z = 20; root.add(ground);
+  // fountain with two tiers
+  const marble = Mt(new THREE.MeshStandardMaterial({ color: lin('#f3eee3'), roughness: .5 }));
+  const waterM = Mt(new THREE.MeshStandardMaterial({ color: lin('#86d3e6'), roughness: .12, metalness: .15, emissive: lin('#3fb0cc'), emissiveIntensity: .22 }));
+  const BZ = STATUE_Z;
+  const wall = new THREE.Mesh(G(new THREE.CylinderGeometry(5.3, 5.4, .5, 96)), marble); wall.position.set(0, .25, BZ);
+  const water = new THREE.Mesh(G(new THREE.CylinderGeometry(4.95, 4.95, .06, 96)), waterM); water.position.set(0, .48, BZ);
+  const lip = new THREE.Mesh(G(new THREE.TorusGeometry(5.15, .22, 16, 140)), marble); lip.rotation.x = Math.PI / 2; lip.position.set(0, .53, BZ);
+  const tier = new THREE.Mesh(G(new THREE.CylinderGeometry(2.75, 2.95, .55, 72)), marble); tier.position.set(0, .72, BZ);
+  root.add(wall, water, lip, tier);
+  const st = buildStatue(); st.grp.scale.setScalar(3.3); st.grp.position.set(0, .98, BZ); st.grp.rotation.y = -.08; root.add(st.grp);
+  // autumn tree line and two lamps
+  const rnd = mulberry32(20), trunkM = Mt(mat('#7d4f2e')), sph = G(new THREE.SphereGeometry(1, 20, 14)), cyl = G(new THREE.CylinderGeometry(.18, .24, 1, 10)), cone = G(new THREE.ConeGeometry(1, 2.2, 14));
+  const crowns = ['#ec7f35', '#d4622a', '#f0b93c', '#c75a3a', '#5aa65a', '#4f9a50', '#3f8a55'].map(c => Mt(mat(c, { roughness: .8 })));
+  for (let i = 0; i < 30; i++){
+    const x = -34 + i * 2.35 + (rnd() - .5) * 1.4, z = -21 - rnd() * 8, k = 1.05 + rnd() * .7;
+    const tr = new THREE.Mesh(cyl, trunkM); tr.scale.set(k, 1.6 * k, k); tr.position.set(x, .8 * k, z); root.add(tr);
+    if (rnd() < .3){ const c = new THREE.Mesh(cone, crowns[6]); c.scale.setScalar(1.3 * k); c.position.set(x, 2.8 * k, z); root.add(c); }
+    else { const cm = crowns[Math.floor(rnd() * 6)]; const c = new THREE.Mesh(sph, cm); c.scale.set(1.7 * k, 1.55 * k, 1.7 * k); c.position.set(x, 2.9 * k, z); const c2 = new THREE.Mesh(sph, cm); c2.scale.setScalar(1.05 * k); c2.position.set(x + .9 * k, 2.4 * k, z + .4); root.add(c, c2); }
+  }
+  const poleM = Mt(mat('#3d4a4a', { roughness: .5 })), bulbM = Mt(new THREE.MeshStandardMaterial({ color: lin('#ffe9a3'), emissive: lin('#ffd36a'), emissiveIntensity: 1.1 }));
+  [-1, 1].forEach(sg => { const x = sg * 6.6, z = -1.4; const p = new THREE.Mesh(cyl, poleM); p.scale.set(.45, 4.2, .45); p.position.set(x, 2.1, z); const b = new THREE.Mesh(G(new THREE.BoxGeometry(.7, .7, .7)), bulbM); b.position.set(x, 4.5, z); const cp = new THREE.Mesh(G(new THREE.ConeGeometry(.62, .42, 4)), poleM); cp.rotation.y = Math.PI / 4; cp.position.set(x, 5.06, z); root.add(p, b, cp); });
+  // the people
+  const blobM = Mt(new THREE.MeshBasicMaterial({ map: T.blob, transparent: true, depthWrite: false })), blobG = G(new THREE.PlaneGeometry(2, 2));
+  const heartM = Mt(new THREE.MeshStandardMaterial({ color: lin('#ff6f8f'), roughness: .35, emissive: lin('#c22a55'), emissiveIntensity: .15 }));
+  const slots = photoSlots(people.length);
+  people.forEach((p, i) => {
+    const rig = buildAvatar(p.av), s = slots[i];
+    posePhoto(rig, pose, { skin: rig.skinM, heart: heartM });
+    rig.root.position.x = s.x; rig.root.position.z = s.z; rig.root.position.y += s.y; rig.root.rotation.y = s.ry; root.add(rig.root);
+    const b = new THREE.Mesh(blobG, blobM); b.rotation.x = -Math.PI / 2; b.position.set(s.x, s.y + .02, s.z + .05); root.add(b);
+    rigs.push(rig);
+  });
+  return { root, slots, dispose(){ geos.forEach(g => g.dispose()); mats.forEach(m => m.dispose()); st.dispose(); rigs.forEach(disposeRig); } };
+}
+function renderPhoto(people, pose, w = 1080, h = 1440){
+  if (!initR3()) return null;
+  const sc = photoScene(people, pose), c = R3.cam;
+  const half = Math.max(...sc.slots.map(s => Math.abs(s.x))) + 1.4, vfov = 34, aspect = w / h;
+  const hfov = 2 * Math.atan(Math.tan(vfov * Math.PI / 360) * aspect), dist = Math.max(12, half / Math.tan(hfov / 2) + 1), lift = (dist - 12) * .12;
+  R3.renderer.setSize(w, h, false);
+  // aim so the front row's feet sit near the bottom of the photo
+  const cy = 2.2 + lift, pitch = Math.atan2(cy, dist) - .4 * vfov * Math.PI / 180;
+  c.aspect = aspect; c.fov = vfov; c.position.set(0, cy, 1.4 + dist); c.lookAt(0, cy - Math.tan(pitch) * dist, 1.4); c.updateProjectionMatrix();
+  R3.scene.add(sc.root); R3.renderer.render(R3.scene, c); R3.scene.remove(sc.root);
+  const out = document.createElement('canvas'); out.width = w; out.height = h; out.getContext('2d').drawImage(R3.renderer.domElement, 0, 0);
+  const top = new THREE.Vector3(0, 6.1, STATUE_Z).project(c);
+  out.statueTop = { x: (top.x + 1) / 2 * w, y: (1 - top.y) / 2 * h };
+  sc.dispose();
+  return out;
+}
+async function composePhoto(shot, lines){
+  await fontsReady();
+  const c = document.createElement('canvas'); c.width = 1080; c.height = 1920; const x = c.getContext('2d');
+  x.fillStyle = '#fdf8ea'; x.fillRect(0, 0, 1080, 1920);
+  x.drawImage(shot, 0, 0, 1080, 1440);
+  const s = shot.statueTop || { x: 540, y: 420 };
+  [[-230, -30, 26], [210, -70, 20], [260, 80, 30], [-280, 120, 16], [40, -150, 22], [-120, -120, 14]].forEach(([dx, dy, r]) => starAt(x, s.x + dx, s.y + dy, r));
+  // logo, top left
+  sticker(x, '모여봐요', 74, 92, 46, 'left'); sticker(x, '뱌티의 숲', 64, 172, 82, 'left');
+  // bottom card with a scalloped edge
+  x.fillStyle = '#fdf8ea'; x.beginPath(); x.moveTo(0, 1470);
+  for (let i = 0; i < 18; i++) x.quadraticCurveTo(i * 60 + 30, 1424, i * 60 + 60, 1470);
+  x.lineTo(1080, 1920); x.lineTo(0, 1920); x.closePath(); x.fill();
+  x.textAlign = 'center'; x.textBaseline = 'alphabetic';
+  x.fillStyle = '#22453e'; x.font = '88px Jua, sans-serif'; x.fillText(lines.title, 540, 1612);
+  x.fillStyle = '#5d7a70'; x.font = '38px "Gowun Dodum", sans-serif';
+  wrapLines(x, lines.sub, 920, 2).forEach((l, i) => x.fillText(l, 540, 1686 + i * 50));
+  x.save(); x.font = '30px "Gowun Dodum", sans-serif'; const label = `BIT 20TH HOMECOMING  ·  ${todayLabel()}`, tw = x.measureText(label).width + 64;
+  rrect(x, 540 - tw / 2, 1790, tw, 64, 32); x.fillStyle = '#2e8a69'; x.fill(); x.fillStyle = '#fdf8ea'; x.fillText(label, 540, 1832); x.restore();
+  return c;
+}
+
+const studioEl = $('#studio');
+const STU = { mode: 'solo', pose: 'v', canvas: null, token: 0 };
+function sameGen(a, b){ return String(a.gen) === String(b.gen); }
+function groupMembers(){
+  const me = chars.get(meId);
+  const d = o => Math.hypot(o.x - FOUNTAIN.x, o.y - FOUNTAIN.y);
+  const mates = visibleChars().filter(o => o.id !== meId && sameGen(o, me)).sort((a, b) => d(a) - d(b)).slice(0, 11);
+  const mid = Math.floor((Math.min(mates.length + 1, 6) - 1) / 2), arr = mates.slice(); arr.splice(mid, 0, me);
+  return arr;
+}
+function lineUp(list){
+  list.forEach((o, i) => {
+    const k = i - (list.length - 1) / 2, p = { x: FOUNTAIN.x + k * 46, y: FOUNTAIN.y + 205 + (Math.abs(Math.round(k)) % 2) * 16 };
+    walkTo(o, p); o.holdUntil = performance.now() + 45000;
+    if (o.id === meId) Net.post('move', { id: meId, x: p.x, y: p.y });
+  });
+}
+function gather(){
+  const me = chars.get(meId); if (!me) return;
+  lineUp(visibleChars().filter(o => sameGen(o, me)));
+  Net.post('gather', { id: meId, gen: me.gen, name: me.name });
+}
+function onGather(d){
+  lineUp(visibleChars().filter(o => o.id !== meId && String(o.gen) === String(d.gen)));
+  const me = chars.get(meId);
+  if (me && String(me.gen) === String(d.gen) && d.id !== meId) toast(`📸 <b>${esc(genLabel(d.gen))} ${esc(d.name)}</b>님이 20 동상 앞에서 동기 단체샷을 찍자고 해요!`);
+}
+function walkToStatue(){
+  const me = chars.get(meId); if (!me) return;
+  const p = { x: FOUNTAIN.x + (Math.random() - .5) * 120, y: FOUNTAIN.y + 205 };
+  walkTo(me, p); me.holdUntil = performance.now() + 30000; Net.post('move', { id: meId, x: p.x, y: p.y });
+}
+function openStudio(mode){
+  if (!meId){ toast('내 캐릭터를 만들면 사진을 찍을 수 있어요'); return openEntry('who'); }
+  STU.mode = mode || 'solo'; closeSheet(); closePanel(); studioEl.hidden = false;
+  if (STU.mode === 'group') gather();
+  studioUI(); shoot();
+}
+function studioUI(){
+  const me = chars.get(meId); if (!me) return;
+  studioEl.querySelectorAll('[data-mode]').forEach(b => b.setAttribute('aria-pressed', b.dataset.mode === STU.mode));
+  studioEl.querySelectorAll('[data-pose]').forEach(b => b.setAttribute('aria-pressed', b.dataset.pose === STU.pose));
+  const n = STU.mode === 'group' ? groupMembers().length : 1;
+  $('#stInfo').textContent = STU.mode === 'solo' ? '포즈를 고르면 바로 다시 찍어요'
+    : n > 1 ? `지금 광장에 있는 ${genLabel(me.gen)} BITor ${n}명이 함께 찍혀요` : `지금 광장에 ${genLabel(me.gen)} 동기가 없어요. 동기들이 들어오면 다시 찍어 보세요`;
+}
+async function shoot(){
+  const tok = ++STU.token, me = chars.get(meId); if (!me) return;
+  $('#stLoading').hidden = false; studioEl.querySelectorAll('[data-st=save],[data-st=share]').forEach(b => b.disabled = true);
+  await new Promise(r => requestAnimationFrame(() => setTimeout(r, 40)));
+  if (tok !== STU.token) return;
+  const people = STU.mode === 'group' ? groupMembers() : [me];
+  let shot = null; try { shot = renderPhoto(people.map(o => ({ av: o.av })), STU.pose); } catch (e){ console.warn(e); }
+  if (tok !== STU.token) return;
+  if (!shot){ $('#stLoading').textContent = '이 기기에서는 사진을 만들 수 없어요'; return; }
+  const names = people.map(o => o.name);
+  const lines = STU.mode === 'group' && people.length > 1
+    ? { title: `${genLabel(me.gen)} 동기 단체샷`, sub: names.join(' · ') }
+    : { title: `${genLabel(me.gen)} ${me.name}`, sub: '20년, 우리 여기서 다시 만나요' };
+  const c = await composePhoto(shot, lines);
+  if (tok !== STU.token) return;
+  STU.canvas = c; $('#stImg').src = c.toDataURL('image/jpeg', .9);
+  $('#stLoading').hidden = true; studioEl.querySelectorAll('[data-st=save],[data-st=share]').forEach(b => b.disabled = false);
+}
+function photoName(){ const me = chars.get(meId); return `bitforest-${me ? genLabel(me.gen) : ''}-${STU.mode === 'group' ? 'group' : 'photo'}.png`; }
+$('#stPose').innerHTML = POSES.map(([k, l]) => `<button type="button" data-pose="${k}" aria-pressed="false">${l}</button>`).join('');
+studioEl.addEventListener('click', async e => {
+  const t = e.target.closest('button'); if (!t){ if (e.target === studioEl) studioEl.hidden = true; return; }
+  if (t.dataset.st === 'close'){ studioEl.hidden = true; return; }
+  if (t.dataset.mode && t.dataset.mode !== STU.mode){ STU.mode = t.dataset.mode; if (STU.mode === 'group') gather(); studioUI(); return shoot(); }
+  if (t.dataset.pose && t.dataset.pose !== STU.pose){ STU.pose = t.dataset.pose; studioUI(); return shoot(); }
+  if (t.dataset.st === 'save' && STU.canvas){ const b = await canvasBlob(STU.canvas); if (b){ saveBlob(b, photoName()); toast('사진 저장을 시작했어요. 안 되면 사진을 길게 눌러 저장해 주세요'); } }
+  if (t.dataset.st === 'share' && STU.canvas){
+    const r = await shareCanvas(STU.canvas, photoName(), '모여봐요 뱌티의 숲');
+    if (r === 'saved') toast('이 브라우저는 바로 공유가 안 돼서 사진을 저장했어요. 인스타그램에서 올려 주세요');
+  }
+});
+function nearStatue(o){ const dx = (o.x - FOUNTAIN.x) / 430, dy = (o.y - FOUNTAIN.y) / 310; return dx * dx + dy * dy < 1; }
+setInterval(() => {
+  const me = chars.get(meId), btn = $('#photoBtn');
+  btn.hidden = !(me && nearStatue(me) && !app.classList.contains('stage') && studioEl.hidden && entry.hidden && panel.hidden && sheet.hidden);
+}, 400);
+$('#photoBtn').addEventListener('click', () => openStudio('solo'));
+
+/* ================= BITor card ================= */
+const MEM_MAX = 60;
+function bitorCardHTML(o, flipped){
+  const n = answerCount.get(o.id) || 0, isMe = o.id === meId;
+  const chips = [o.bot ? '<span class="tagchip">예시 캐릭터</span>' : '', isMe ? '<span class="tagchip">나</span>' : '', n ? `<span class="tagchip ans-chip">💬 답변 ${n}개</span>` : ''].join('');
+  const mem = (o.memory || '').trim();
+  return `<div class="bcard${flipped ? ' flipped' : ''}" data-act="flip" role="button" tabindex="0" aria-label="BITor 카드 뒤집기">
+    <div class="bcard-in">
+      <div class="bcard-f"><div class="pic">${avatarSVG(o.av)}</div>
+        <div class="info"><div class="kicker">BITor CARD</div><div class="g">${esc(genLabel(o.gen))}</div><div class="n">${esc(o.name)}</div><div class="chips2">${chips}</div></div>
+        <span class="corner">BIT 20th</span></div>
+      <div class="bcard-b"><div class="q">BIT에서 가장 기억에 남는 순간</div>
+        ${mem ? `<p>“${esc(mem)}”</p>` : `<p class="empty-mem">${isMe ? '아직 비어 있어요. 아래 ‘카드 뒷면 쓰기’로 채워 보세요' : '아직 비어 있어요'}</p>`}
+        <div class="sig">${esc(genLabel(o.gen))} ${esc(o.name)}</div></div>
+    </div></div>
+    <p class="flip-hint">카드를 누르면 ${flipped ? '앞면' : '뒷면'}이 보여요</p>`;
+}
+async function cardImage(o){
+  await fontsReady();
+  const c = document.createElement('canvas'); c.width = 1080; c.height = 1350; const x = c.getContext('2d');
+  x.fillStyle = '#fdf8ea'; x.fillRect(0, 0, 1080, 1350);
+  x.fillStyle = 'rgba(139,90,53,.07)'; for (let yy = 30; yy < 1350; yy += 46) for (let xx = (yy / 46 % 2) * 23 + 20; xx < 1080; xx += 46){ x.beginPath(); x.arc(xx, yy, 3, 0, 7); x.fill(); }
+  x.textAlign = 'center'; x.fillStyle = '#8b5a35'; x.font = '40px Jua, sans-serif'; x.fillText('BITor CARD', 540, 102);
+  // front
+  x.save(); rrect(x, 100, 140, 880, 500, 44); x.fillStyle = '#4e2f19'; x.fill(); rrect(x, 112, 140, 856, 486, 38);
+  const g = x.createLinearGradient(112, 140, 968, 626); g.addColorStop(0, '#e2f8ec'); g.addColorStop(.6, '#a6e0c4'); g.addColorStop(1, '#7cc7a3'); x.fillStyle = g; x.fill();
+  x.lineWidth = 10; x.strokeStyle = '#fdf8ea'; x.stroke(); x.restore();
+  x.save(); x.fillStyle = 'rgba(255,255,255,.55)'; x.beginPath(); x.ellipse(300, 420, 170, 170, 0, 0, 7); x.fill(); x.restore();
+  const av = await loadImg(avatarURL(o.av, 'full')); if (av) x.drawImage(av, 150, 166, 300, 375);
+  x.textAlign = 'left'; x.fillStyle = '#2c5b4b'; x.font = '26px "Gowun Dodum", sans-serif'; x.fillText('B I T o r   C A R D', 500, 280);
+  x.fillStyle = '#1f6b52'; x.font = '56px Jua, sans-serif'; x.fillText(genLabel(o.gen), 500, 360);
+  x.fillStyle = '#22453e'; x.font = '104px Jua, sans-serif'; wrapLines(x, o.name, 440, 1).forEach(l => x.fillText(l, 496, 470));
+  const n = answerCount.get(o.id) || 0;
+  if (n){ x.font = '30px Jua, sans-serif'; const lab = `💬 답변 ${n}개`, tw = x.measureText(lab).width + 40; rrect(x, 500, 506, tw, 52, 26); x.fillStyle = '#2e8a69'; x.fill(); x.fillStyle = '#fff'; x.fillText(lab, 520, 543); }
+  x.textAlign = 'right'; x.fillStyle = 'rgba(34,69,62,.6)'; x.font = '26px "Gowun Dodum", sans-serif'; x.fillText('BIT 20th Homecoming', 930, 600);
+  // back
+  x.save(); rrect(x, 100, 700, 880, 500, 44); x.fillStyle = '#c9b38a'; x.fill(); rrect(x, 112, 700, 856, 486, 38); x.fillStyle = '#fffaf0'; x.fill();
+  x.strokeStyle = 'rgba(201,179,138,.35)'; x.lineWidth = 2; for (let yy = 800; yy < 1160; yy += 54){ x.beginPath(); x.moveTo(170, yy); x.lineTo(910, yy); x.stroke(); }
+  x.restore();
+  x.textAlign = 'center'; x.fillStyle = '#8b5a35'; x.font = '32px "Gowun Dodum", sans-serif'; x.fillText('BIT에서 가장 기억에 남는 순간', 540, 780);
+  const mem = (o.memory || '').trim() || '아직 비어 있어요';
+  x.fillStyle = '#22453e'; x.font = '58px Jua, sans-serif';
+  const ls = wrapLines(x, mem ? `“${mem}”` : '', 720, 4); ls.forEach((l, i) => x.fillText(l, 540, 960 - (ls.length - 1) * 38 + i * 76));
+  x.fillStyle = '#5d7a70'; x.font = '30px "Gowun Dodum", sans-serif'; x.fillText(`— ${genLabel(o.gen)} ${o.name}`, 540, 1150);
+  sticker(x, '모여봐요 뱌티의 숲', 540, 1280, 54);
+  return c;
+}
+const shotEl = $('#shotModal'); let shotCanvas = null, shotName = '';
+async function openShot(title, canvasPromise, name){
+  shotEl.hidden = false; $('#shotTitle').textContent = title; $('#shotImg').removeAttribute('src'); $('#shotLoading').hidden = false; shotName = name;
+  shotCanvas = await canvasPromise; $('#shotImg').src = shotCanvas.toDataURL('image/jpeg', .92); $('#shotLoading').hidden = true;
+}
+shotEl.addEventListener('click', async e => {
+  const t = e.target.closest('button'); if (!t){ if (e.target === shotEl) shotEl.hidden = true; return; }
+  if (t.dataset.sh === 'close') shotEl.hidden = true;
+  if (t.dataset.sh === 'save' && shotCanvas){ const b = await canvasBlob(shotCanvas); if (b){ saveBlob(b, shotName); toast('저장을 시작했어요. 안 되면 이미지를 길게 눌러 저장해 주세요'); } }
+  if (t.dataset.sh === 'share' && shotCanvas){ const r = await shareCanvas(shotCanvas, shotName, '모여봐요 뱌티의 숲'); if (r === 'saved') toast('이 브라우저는 바로 공유가 안 돼서 이미지를 저장했어요'); }
+});
+
+/* ================= Q&A board ================= */
+const QA_TAGS = [['job', '취업', '#ffcfb3'], ['grad', '대학원', '#c9d8ff'], ['startup', '창업', '#c3ecd0'], ['club', '학회생활', '#ffe39a'], ['etc', '기타', '#e3d2f6']];
+const QA_T = Object.fromEntries(QA_TAGS.map(([k, l, c]) => [k, { l, c }]));
+const QA_KEY = 'bitforest.qna';
+const qaUI = { tag: 'all', sort: 'hot', thread: null, newTag: 'job', anon: false, arm: null };
+let qaCache = null, qaMine = new Set(), qaTimer = 0;
+const answerCount = new Map();
+const genNum = g => (g === 'G' || g === '' || g == null || isNaN(+g)) ? null : +g;
+function tagHTML(o){ const n = answerCount.get(o.id) || 0; return `<b>${esc(genLabel(o.gen))}</b>${esc(o.name)}${n ? `<i class="ans" aria-label="답변 ${n}개">💬${n}</i>` : ''}`; }
+function refreshTags(){ chars.forEach(o => { const t = o.el.querySelector('.tag'); if (t) t.innerHTML = tagHTML(o); }); }
+function countAnswers(all){ answerCount.clear(); all.forEach(a => { if (a.author) answerCount.set(a.author, (answerCount.get(a.author) || 0) + 1); }); refreshTags(); }
+const BOT_QA = {
+  job: '저도 같은 고민 했어요! 관심 직무 하나를 정하고, 학회 프로젝트에서 내가 한 일을 한 문장으로 설명할 수 있게 정리해 두면 면접에서 정말 도움이 돼요.',
+  grad: '연구실에 연락하기 전에 교수님 최근 논문 두세 편은 꼭 읽어 보세요. 질문이 훨씬 구체적이 되고, 컨택할 때 인상도 달라져요.',
+  startup: '작게라도 먼저 만들어서 사람들한테 보여주는 게 제일 빨라요. 학회 사람들한테 피드백 받는 것부터 시작해 보세요!',
+  club: '학회는 결국 사람이 남더라고요. 프로젝트 끝나면 회고를 꼭 같이 하고, 선배들한테 먼저 연락하는 걸 어려워하지 마세요.',
+  etc: '좋은 질문이에요! 행사장에서 만나면 더 자세히 얘기해요 😊'
+};
+function seedQuestions(){
+  const young = BOTS.filter(b => typeof b.gen === 'number' && b.gen >= 28), old = BOTS.filter(b => typeof b.gen === 'number' && b.gen <= 16);
+  const Y = i => young[i % young.length], O = i => old[i % old.length], now = Date.now();
+  const A = (b, text, t) => ({ id: 'exa' + t, author: b.id, gen: b.gen, name: b.name, av: b.av, text, ts: now - t });
+  return [
+    { id: 'ex1', example: true, author: Y(0).id, anon: false, gen: Y(0).gen, name: Y(0).name, av: Y(0).av, tag: 'job', text: '개발 직무 인턴을 준비하려면 3학년 때 뭘 해두면 좋을까요?', ts: now - 5400e3, votes: [Y(1).id, Y(2).id, O(0).id], answers: [A(O(1), '저는 학회 프로젝트 하나를 끝까지 파서 포트폴리오로 썼어요. 기술 하나를 깊게 판 경험을 면접에서 제일 많이 물어보더라고요.', 3600e3)] },
+    { id: 'ex2', example: true, author: Y(1).id, anon: true, gen: Y(1).gen, name: '', av: null, tag: 'grad', text: '대학원 진학이랑 취업 사이에서 고민 중인데, 선배님들은 어떻게 결정하셨어요?', ts: now - 4000e3, votes: [Y(0).id, Y(3).id, O(2).id, Y(4).id, O(3).id], answers: [] },
+    { id: 'ex3', example: true, author: Y(2).id, anon: false, gen: Y(2).gen, name: Y(2).name, av: Y(2).av, tag: 'club', text: '학회 활동하면서 제일 도움이 됐던 경험이 궁금해요!', ts: now - 1800e3, votes: [Y(3).id], answers: [] }
+  ];
+}
+function qaLocal(){
+  let d = store.get(QA_KEY, null);
+  if (!d || !Array.isArray(d.questions)) d = { questions: [] };
+  if (!d.seeded){ d.seeded = true; d.questions = seedQuestions().concat(d.questions); store.set(QA_KEY, d); }
+  return d;
+}
+function qaList(){
+  if (Cloud.on) return qaCache && qaCache.questions ? qaCache.questions : [];
+  return qaLocal().questions.map(q => Object.assign({}, q, { mine: !!meId && q.author === meId }));
+}
+function qaLocalCounts(){ countAnswers(qaLocal().questions.flatMap(q => q.answers)); }
+async function qaFetch(){
+  const c = Cloud.c;
+  const [q, a, v, m] = await Promise.all([
+    c.from('questions').select('id,anon,author_gen,author_name,author_av,tag,text,created_at').order('created_at', { ascending: false }).limit(300),
+    c.from('answers').select('id,question_id,author,author_gen,author_name,author_av,text,created_at').order('created_at').limit(3000),
+    c.from('question_votes').select('question_id,user_id').limit(10000),
+    Cloud.uid ? c.rpc('my_questions') : Promise.resolve({ data: [] })
+  ]);
+  if (q.error || a.error){ qaCache = { missing: true, questions: [] }; return qaCache; }
+  qaMine = new Set((m.data || []).map(x => String(typeof x === 'object' && x ? Object.values(x)[0] : x)));
+  const G2 = g => g === 'G' ? 'G' : (parseInt(g, 10) || 0);
+  const answers = a.data.map(x => ({ id: String(x.id), q: String(x.question_id), author: x.author, gen: G2(x.author_gen), name: x.author_name || 'BITor', av: cleanAv(x.author_av), text: x.text, ts: Date.parse(x.created_at) }));
+  const votes = v.data || [];
+  qaCache = { questions: q.data.map(x => {
+    const id = String(x.id);
+    return { id, anon: !!x.anon, gen: G2(x.author_gen), name: x.author_name || '', av: x.author_av ? cleanAv(x.author_av) : null, tag: QA_T[x.tag] ? x.tag : 'etc', text: x.text, ts: Date.parse(x.created_at),
+      votes: votes.filter(k => String(k.question_id) === id).map(k => k.user_id), answers: answers.filter(k => k.q === id), mine: qaMine.has(id) };
+  }) };
+  countAnswers(answers);
+  return qaCache;
+}
+function qaChanged(){
+  clearTimeout(qaTimer);
+  qaTimer = setTimeout(async () => {
+    try { await qaFetch(); if (boardOpen() && boardUI.filter === 'qna') renderBoard(); if (app.classList.contains('stage')) stageQRender(true); } catch (e) {}
+  }, 300);
+}
+function qaLocalSave(d){ store.set(QA_KEY, d); qaLocalCounts(); Net.post('qna', {}); }
+function botAnswer(qid){
+  if (!demoOn) return;
+  setTimeout(() => {
+    const d = qaLocal(), q = d.questions.find(x => x.id === qid); if (!q) return;
+    const myG = genNum(q.gen), bots = BOTS.filter(b => chars.has(b.id) && (myG == null || (typeof b.gen === 'number' && b.gen < myG)));
+    const b = (bots.length ? bots : BOTS)[Math.floor(Math.random() * (bots.length || BOTS.length))];
+    const text = BOT_QA[q.tag] || BOT_QA.etc;
+    q.answers.push({ id: uid(), author: b.id, gen: b.gen, name: b.name, av: b.av, text, ts: Date.now() });
+    qaLocalSave(d);
+    if (chars.has(b.id)) say(b.id, '질문에 답변 남겼어요!');
+    if (q.author === meId) receive({ from: b.id, fromName: b.name, fromGen: b.gen, fromAv: b.av, to: meId, text: '❓ 내 질문에 답변이 달렸어요: ' + text.slice(0, 60), ts: Date.now() });
+    if (boardOpen() && boardUI.filter === 'qna') renderBoard();
+  }, 4000 + Math.random() * 3000);
+}
+const QA = {
+  async ask(text, tag, anon){
+    if (Cloud.on){ const { data, error } = await Cloud.c.rpc('ask_question', { p_text: text, p_tag: tag, p_anon: anon }); if (error) throw error; qaMine.add(String(data)); await qaFetch(); return; }
+    const me = chars.get(meId), d = qaLocal(), q = { id: uid(), author: meId, anon, gen: me.gen, name: anon ? '' : me.name, av: anon ? null : me.av, tag, text, ts: Date.now(), votes: [], answers: [] };
+    d.questions.push(q); qaLocalSave(d); botAnswer(q.id);
+  },
+  async vote(id){
+    if (Cloud.on){
+      const q = qaList().find(x => x.id === id); if (!q) return;
+      const r = q.votes.includes(meId) ? await Cloud.c.from('question_votes').delete().eq('question_id', +id).eq('user_id', meId) : await Cloud.c.from('question_votes').insert({ question_id: +id });
+      if (r.error) throw r.error; await qaFetch(); return;
+    }
+    const d = qaLocal(), q = d.questions.find(x => x.id === id); if (!q) return;
+    q.votes = q.votes.includes(meId) ? q.votes.filter(x => x !== meId) : q.votes.concat(meId); qaLocalSave(d);
+  },
+  async answer(qid, text){
+    if (Cloud.on){ const { error } = await Cloud.c.from('answers').insert({ question_id: +qid, text }); if (error) throw error; await qaFetch(); return; }
+    const me = chars.get(meId), d = qaLocal(), q = d.questions.find(x => x.id === qid); if (!q) return;
+    q.answers.push({ id: uid(), author: meId, gen: me.gen, name: me.name, av: me.av, text, ts: Date.now() }); qaLocalSave(d);
+  },
+  async removeQ(id){
+    if (Cloud.on){ const { error } = await Cloud.c.rpc('delete_question', { p_id: +id }); if (error) throw error; await qaFetch(); return; }
+    const d = qaLocal(); d.questions = d.questions.filter(x => x.id !== id); qaLocalSave(d);
+  },
+  async removeA(qid, aid){
+    if (Cloud.on){ const { error } = await Cloud.c.from('answers').delete().eq('id', +aid); if (error) throw error; await qaFetch(); return; }
+    const d = qaLocal(), q = d.questions.find(x => x.id === qid); if (!q) return; q.answers = q.answers.filter(a => a.id !== aid); qaLocalSave(d);
+  }
+};
+const askerLabel = q => q.anon ? `${genLabel(q.gen)} BITor` : `${genLabel(q.gen)} ${q.name}`;
+function answerLabel(q, a){
+  const an = genNum(a.gen), qn = genNum(q.gen), who = `<b>${esc(genLabel(a.gen))} ${esc(a.name)}</b>`;
+  if (an != null && qn != null && an < qn) return `${who} 선배의 답변`;
+  if (an != null && qn != null && an === qn) return `${who} 동기의 답변`;
+  return `${who}님의 답변`;
+}
+const tagPill = k => `<span class="qtag" style="--tc:${QA_T[k].c}">${QA_T[k].l}</span>`;
+function qNote(q){
+  const voted = !!meId && q.votes.includes(meId), n = q.answers.length;
+  return `<article class="qnote" style="--tc:${QA_T[q.tag].c};--r:${((q.ts % 7) - 3) * .55}deg" data-open="${esc(q.id)}" tabindex="0" role="button" aria-label="질문 열기">
+    <div class="qtop">${tagPill(q.tag)}${q.example ? '<span class="tagchip">예시</span>' : ''}${q.mine ? '<span class="tagchip mine">내 질문</span>' : ''}</div>
+    <span class="qmark" aria-hidden="true">Q</span>
+    <p>${esc(q.text)}</p>
+    <footer><span class="by">${esc(askerLabel(q))}<time>${fmtWhen(q.ts)}</time></span>
+      <span class="acts"><button type="button" class="me2${voted ? ' on' : ''}" data-vote="${esc(q.id)}" aria-pressed="${voted}">🙋 나도 궁금해요${q.votes.length ? ' ' + q.votes.length : ''}</button>
+      <button type="button" class="ansn${n ? ' has' : ''}" data-open="${esc(q.id)}">💬 ${n ? '답변 ' + n + '개' : '답변하기'}</button></span></footer>
+  </article>`;
+}
+function renderQA(body, chips){
+  const U = qaUI, me = chars.get(meId);
+  const draft = $('#qaText', body) ? $('#qaText', body).value : '', aDraft = $('#ansText', body) ? $('#ansText', body).value : '';
+  if (Cloud.on && qaCache && qaCache.missing){ body.innerHTML = chips + `<div class="empty">질문 게시판은 운영진이 데이터베이스 업데이트를 마치면 열려요.</div>`; return bindQA(body); }
+  const list = qaList();
+  if (U.thread){
+    const q = list.find(x => x.id === U.thread);
+    if (q){ body.innerHTML = chips + threadHTML(q, me); const ta = $('#ansText', body); if (ta && aDraft) ta.value = aDraft; return bindQA(body); }
+    U.thread = null;
+  }
+  let qs = list.filter(q => U.tag === 'all' || q.tag === U.tag);
+  if (U.sort === 'open') qs = qs.filter(q => !q.answers.length);
+  qs.sort(U.sort === 'new' ? (a, b) => b.ts - a.ts : (a, b) => b.votes.length - a.votes.length || b.ts - a.ts);
+  const writer = me ? `<form class="qa-write" id="qaForm" autocomplete="off">
+      <div class="bd-who"><span class="mini-av">${U.anon ? '<span class="anon-av">?</span>' : avatarSVG(me.av, { viewBox: HEAD_VB })}</span><span><b>${esc(U.anon ? `${genLabel(me.gen)} BITor` : `${genLabel(me.gen)} ${me.name}`)}</b>(으)로 질문하기</span></div>
+      <textarea id="qaText" maxlength="200" rows="3" placeholder="선배 BITor들에게 궁금한 걸 물어보세요. 진로, 대학원, 창업, 학회 생활 무엇이든 좋아요"></textarea>
+      <div class="qa-tags" role="group" aria-label="질문 분야">${QA_TAGS.map(([k, l, c]) => `<button type="button" class="qtag-btn" style="--tc:${c}" data-newtag="${k}" aria-pressed="${U.newTag === k}">${l}</button>`).join('')}</div>
+      <div class="bd-bar"><button type="button" class="toggle" data-anon aria-pressed="${U.anon}">${U.anon ? '✓ ' : ''}이름 숨기고 기수만 표시</button><button class="btn" type="submit">질문 붙이기</button></div>
+    </form>`
+    : `<div class="bd-write empty"><span>내 캐릭터를 만들면 선배들에게 질문할 수 있어요</span><button class="btn" type="button" data-bd="join">내 캐릭터 만들기</button></div>`;
+  const filters = `<div class="qa-bar"><div class="chips qa-filter">${[['all', '전체 분야', '#fff']].concat(QA_TAGS).map(([k, l]) => `<button class="chip" type="button" data-qtag="${k}" aria-pressed="${U.tag === k}">${l}</button>`).join('')}</div>
+    <div class="seg qa-sort">${[['hot', '많이 궁금해한 순'], ['new', '최신순'], ['open', '답변 기다리는']].map(([k, l]) => `<button type="button" data-qsort="${k}" aria-pressed="${U.sort === k}">${l}</button>`).join('')}</div></div>`;
+  const notes = qs.length ? qs.map(qNote).join('') : `<div class="bd-empty">${U.sort === 'open' ? '답변을 기다리는 질문이 없어요. 다들 답변을 받았어요!' : '아직 질문이 없어요.<br>첫 질문을 붙여 보세요!'}</div>`;
+  body.innerHTML = chips + `<section class="qna"><p class="qa-intro">선배 BITor에게 묻고 싶은 걸 남겨 주세요. 답변이 달리면 편지함으로 알려드려요.</p>${writer}${filters}<div class="cork qa-cork">${notes}</div></section>`;
+  const ta = $('#qaText', body); if (ta && draft) ta.value = draft;
+  bindQA(body);
+}
+function threadHTML(q, me){
+  const voted = !!meId && q.votes.includes(meId), U = qaUI;
+  const ans = q.answers.slice().sort((a, b) => a.ts - b.ts).map(a => `<div class="ans-item"><span class="mini-av">${avatarSVG(a.av, { viewBox: HEAD_VB })}</span>
+      <div class="ans-body"><div class="who">${answerLabel(q, a)}</div><p>${esc(a.text)}</p>
+      <div class="ans-foot"><time>${fmtWhen(a.ts)}</time>${a.author && a.author !== meId && chars.has(a.author) ? `<button type="button" class="linkish sm" data-find="${esc(a.author)}">광장에서 찾아가기</button>` : ''}${a.author === meId ? `<button type="button" class="linkish sm" data-dela="${esc(a.id)}">${U.arm === 'a' + a.id ? '한 번 더 누르면 지워져요' : '지우기'}</button>` : ''}</div></div></div>`).join('');
+  return `<section class="qna"><button type="button" class="qa-back" data-back>← 질문 목록</button>
+    <article class="qa-big" style="--tc:${QA_T[q.tag].c}"><div class="qtop">${tagPill(q.tag)}${q.example ? '<span class="tagchip">예시</span>' : ''}${q.mine ? '<span class="tagchip mine">내 질문</span>' : ''}</div>
+      <p class="qtext"><span class="qmark-inline">Q.</span> ${esc(q.text)}</p>
+      <div class="qmeta">${esc(askerLabel(q))} · ${fmtWhen(q.ts)}</div>
+      <div class="row"><button type="button" class="me2${voted ? ' on' : ''}" data-vote="${esc(q.id)}" aria-pressed="${voted}">🙋 나도 궁금해요${q.votes.length ? ' ' + q.votes.length : ''}</button>
+      ${q.mine ? `<button type="button" class="linkish sm" data-delq="${esc(q.id)}">${U.arm === 'q' + q.id ? '한 번 더 누르면 지워져요' : '질문 지우기'}</button>` : ''}</div></article>
+    <h3 class="bd-h">답변 <span>${q.answers.length ? q.answers.length + '개' : ''}</span></h3>
+    <div class="ans-list">${ans || '<div class="bd-empty light">아직 답변이 없어요. 경험을 나눠 줄 선배를 기다리고 있어요!</div>'}</div>
+    ${me ? `<form class="qa-write" id="ansForm" autocomplete="off"><div class="bd-who"><span class="mini-av">${avatarSVG(me.av, { viewBox: HEAD_VB })}</span><span><b>${esc(genLabel(me.gen))} ${esc(me.name)}</b>(으)로 답변하기</span></div>
+      <textarea id="ansText" maxlength="300" rows="3" placeholder="${q.mine ? '덧붙이고 싶은 내용이나 감사 인사를 남겨 보세요' : '경험을 나눠 주세요. 답변이 달리면 질문한 BITor에게 알림이 가요'}"></textarea>
+      <div class="bd-bar"><span class="hint">답변을 남기면 광장 이름표에 💬 배지가 생겨요</span><button class="btn" type="submit">답변 달기</button></div></form>`
+      : `<div class="bd-write empty"><span>내 캐릭터를 만들면 답변할 수 있어요</span><button class="btn" type="button" data-bd="join">내 캐릭터 만들기</button></div>`}
+  </section>`;
+}
+function bindQA(body){
+  const U = qaUI;
+  const busy = async (fn, ok, fail) => { try { await fn(); U.arm = null; renderBoard(body); if (ok) toast(ok); } catch (e){ console.warn(e); U.arm = null; renderBoard(body); toast(fail || '저장하지 못했어요. 잠시 뒤 다시 시도해 주세요'); } };
+  body.onclick = e => {
+    const t = e.target.closest('button, article[data-open]'); if (!t) return;
+    const d = t.dataset;
+    if (d.bf){ boardUI.filter = d.bf; U.thread = null; return renderBoard(body); }
+    if (d.bd === 'join'){ closePanel(); return openEntry('who'); }
+    if (d.qtag){ U.tag = d.qtag; return renderBoard(body); }
+    if (d.qsort){ U.sort = d.qsort; return renderBoard(body); }
+    if (d.newtag){ U.newTag = d.newtag; body.querySelectorAll('[data-newtag]').forEach(x => x.setAttribute('aria-pressed', x === t)); return; }
+    if (t.hasAttribute('data-anon')){ U.anon = !U.anon; return renderBoard(body); }
+    if (t.hasAttribute('data-back')){ U.thread = null; U.arm = null; return renderBoard(body); }
+    if (d.vote){ if (!meId) return toast('내 캐릭터를 만들면 누를 수 있어요'); t.disabled = true; return busy(() => QA.vote(d.vote)); }
+    if (d.delq){ if (U.arm !== 'q' + d.delq){ U.arm = 'q' + d.delq; return renderBoard(body); } return busy(() => QA.removeQ(d.delq).then(() => { U.thread = null; }), '질문을 지웠어요'); }
+    if (d.dela){ if (U.arm !== 'a' + d.dela){ U.arm = 'a' + d.dela; return renderBoard(body); } return busy(() => QA.removeA(U.thread, d.dela), '답변을 지웠어요'); }
+    if (d.find){ closePanel(); return focusChar(d.find); }
+    if (d.open){ U.thread = d.open; U.arm = null; renderBoard(body); body.scrollTop = 0; }
+  };
+  body.onkeydown = e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.matches && e.target.matches('article[data-open]')){ e.preventDefault(); U.thread = e.target.dataset.open; renderBoard(body); } };
+  body.onsubmit = e => {
+    e.preventDefault();
+    const btn = e.target.querySelector('[type=submit]');
+    if (e.target.id === 'qaForm'){
+      const ta = $('#qaText', body), text = ta.value.trim(); if (!text || !meId) return ta.focus();
+      btn.disabled = true;
+      QA.ask(text, U.newTag, U.anon).then(() => { ta.value = ''; U.sort = 'new'; renderBoard(body); toast('질문을 게시판에 붙였어요! 답변이 달리면 편지함으로 알려드릴게요'); })
+        .catch(err => { console.warn(err); btn.disabled = false; toast('질문을 붙이지 못했어요. 잠시 뒤 다시 시도해 주세요'); });
+    }
+    if (e.target.id === 'ansForm'){
+      const ta = $('#ansText', body), text = ta.value.trim(); if (!text || !meId) return ta.focus();
+      btn.disabled = true;
+      QA.answer(U.thread, text).then(() => { ta.value = ''; renderBoard(body); toast('답변을 남겼어요. 질문한 BITor에게 알림이 갔어요'); })
+        .catch(err => { console.warn(err); btn.disabled = false; toast('답변을 남기지 못했어요. 잠시 뒤 다시 시도해 주세요'); });
+    }
+  };
+}
+
+/* ----- stage screen: questions waiting for an answer ----- */
+let stageQi = 0;
+function stageQRender(keep){
+  const el = $('#stageQ');
+  if (!app.classList.contains('stage')){ el.hidden = true; return; }
+  const open = qaList().filter(q => !q.answers.length).sort((a, b) => b.votes.length - a.votes.length || b.ts - a.ts);
+  if (!open.length){ el.hidden = true; return; }
+  if (!keep) stageQi++;
+  const q = open[stageQi % open.length];
+  el.hidden = false;
+  el.innerHTML = `<div class="sq-head"><span class="sq-label">❓ 답변을 기다리는 질문</span><span class="sq-count">${(stageQi % open.length) + 1} / ${open.length}</span></div>
+    <p>${tagPill(q.tag)} ${esc(q.text)}</p><div class="sq-by">${esc(askerLabel(q))}${q.votes.length ? ` · 🙋 ${q.votes.length}명이 궁금해해요` : ''} · 마을 게시판에서 답변해 주세요</div>`;
+  el.classList.remove('swap'); void el.offsetWidth; el.classList.add('swap');
+}
+setInterval(() => stageQRender(false), 7000);
+
 /* ================= panels / buildings ================= */
 function openPanel(title, sub, html, after, wide){
   panel.classList.toggle('wide', !!wide);
   $('#panelTitle').textContent = title; $('#panelSub').textContent = sub;
-  const body = $('#panelBody'); body.innerHTML = html; body.onclick = null; body.onchange = null; body.oninput = null; body.onsubmit = null; body.scrollTop = 0;
+  const body = $('#panelBody'); body.innerHTML = html; body.onclick = null; body.onchange = null; body.oninput = null; body.onsubmit = null; body.onkeydown = null; body.scrollTop = 0;
   closeSheet(); panel.hidden = false; showScrim(); after && after(body);
 }
 $('#panelClose').addEventListener('click', closePanel);
@@ -1818,12 +2521,14 @@ function openBuilding(id){
       return;
     }
     const draft = Object.assign({}, me.av);
-    openPanel('MY CHARACTER', `${genLabel(me.gen)} ${me.name}의 옷장`, `<div class="stagebox" style="margin-bottom:14px"><span class="nametag">${esc(genLabel(me.gen))} ${esc(me.name)}</span><div id="edPrev"></div></div><div class="row" style="justify-content:center;margin-bottom:14px"><button class="btn ghost" type="button" id="edRand">🎲 랜덤으로 바꾸기</button><button class="btn" type="button" id="edSave">저장하고 광장에 반영</button></div><div id="edRoot"></div>`, body => {
+    openPanel('MY CHARACTER', `${genLabel(me.gen)} ${me.name}의 옷장`, `<div class="stagebox" style="margin-bottom:14px"><span class="nametag">${esc(genLabel(me.gen))} ${esc(me.name)}</span><div id="edPrev"></div></div>
+      <div class="mem-edit"><label for="memIn">🃏 BITor 카드 뒷면 · BIT에서 가장 기억에 남는 순간</label><input id="memIn" maxlength="${MEM_MAX}" placeholder="예: 새벽까지 해커톤 하고 다 같이 먹은 국밥" value="${esc(me.memory || '')}"><p class="hint">광장에서 내 캐릭터를 누르면 카드 뒷면에 보여요</p></div>
+      <div class="row" style="justify-content:center;margin-bottom:14px"><button class="btn ghost" type="button" id="edRand">🎲 랜덤으로 바꾸기</button><button class="btn" type="button" id="edSave">저장하고 광장에 반영</button></div><div id="edRoot"></div>`, body => {
       const prev = () => { $('#edPrev', body).innerHTML = avatarSVG(draft); };
       prev();
       const ed = mountEditor($('#edRoot', body), draft, prev);
       $('#edRand', body).onclick = () => { Object.assign(draft, randomAvatar(draft.g)); prev(); ed.render(); };
-      $('#edSave', body).onclick = () => { me.av = Object.assign({}, draft); refreshChar(me); Promise.resolve(Net.savePerson(me)).catch(() => toast('저장하지 못했어요. 잠시 뒤 다시 시도해 주세요')); Net.post('update', { id: me.id, av: me.av, name: me.name, gen: me.gen }); closePanel(); toast('새 모습으로 광장에 반영했어요!', me.av); };
+      $('#edSave', body).onclick = () => { me.av = Object.assign({}, draft); me.memory = ($('#memIn', body).value || '').trim().slice(0, MEM_MAX); refreshChar(me); Promise.resolve(Net.savePerson(me)).catch(() => toast('저장하지 못했어요. 잠시 뒤 다시 시도해 주세요')); Net.post('update', { id: me.id, av: me.av, name: me.name, gen: me.gen, memory: me.memory }); closePanel(); toast('새 모습과 카드를 광장에 반영했어요!', me.av); };
     });
   }
 }
@@ -1929,7 +2634,7 @@ async function enterForest(){
   const oldId = meId;
   if (oldId){ removeChar(oldId); if (!Cloud.on){ Net.dropPerson(oldId); Net.post('leave', { id: oldId }); } }
   meId = Cloud.on ? Cloud.uid : 'u-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
-  const me = { id: meId, gen: draft.gen, name: draft.name.trim().slice(0, 10), av: Object.assign({}, draft.av) };
+  const me = { id: meId, gen: draft.gen, name: draft.name.trim().slice(0, 10), av: Object.assign({}, draft.av), memory: '' };
   try { await Net.savePerson(me); } catch (e){ console.warn(e); meId = null; return fail(); }
   store.set('bitforest.me', meId);
   if (Cloud.on) subscribeInbox();
@@ -1940,6 +2645,7 @@ async function enterForest(){
   loadInbox(); $('#talk').hidden = false;
   if (!app.classList.contains('stage')){ const { h } = vpSize(); centerOn(GATE.x, GATE.y - 200, clamp(h/1500, .5, .9)); setTimeout(() => centerOn(PLAZA.x, PLAZA.y + 120, cam.s, true), 1800); }
   toast(`숲에 오신 걸 환영해요, <b>${esc(genLabel(me.gen))} ${esc(me.name)}</b>님!`, me.av);
+  setTimeout(() => toast('📸 광장 가운데 20 동상 앞에 가면 사진을 찍을 수 있어요'), 9000);
   setTimeout(() => say(meId, '👋 안녕하세요!'), 2600);
 }
 
@@ -1978,6 +2684,7 @@ function handleTap(target, sx, sy){
   if (!target) return;
   const ch = target.closest && target.closest('.char'); if (ch){ openCard(ch.dataset.id); return; }
   const b = target.closest && target.closest('[data-b]'); if (b){ openBuilding(b.dataset.b); return; }
+  if (target.closest && target.closest('.statue')){ if (!meId) return openStudio(); const me = chars.get(meId); if (me && nearStatue(me)) return openStudio('solo'); walkToStatue(); toast('20 동상 앞으로 가는 중이에요. 도착하면 사진을 찍을 수 있어요'); return; }
   const me = chars.get(meId);
   if (me && !app.classList.contains('stage')){
     const p = toWorld(sx, sy);
@@ -2006,10 +2713,12 @@ menu.onclick = e => {
   const a = e.target.closest('[data-act]'); if (!a) return;
   const act = a.dataset.act;
   if (act === 'me'){ menu.hidden = true; openBuilding('closet'); }
+  if (act === 'photo'){ menu.hidden = true; if (meId) walkToStatue(); openStudio('solo'); }
   if (act === 'stage'){
     const on = app.classList.toggle('stage'); $('#stageState').textContent = on ? '켜짐' : '꺼짐';
     menu.hidden = true; closeSheet(); closePanel(); defaultView(true);
     if (on) toast('전광판 모드예요. 큰 화면에 띄워 두면 새로 온 BITor가 바로 보여요');
+    if (on && Cloud.on) qaFetch().then(() => stageQRender(true)).catch(() => {}); else stageQRender(true);
   }
   if (act === 'bots'){ showBots = !showBots; if (showBots) ensureDemo(); app.classList.toggle('hide-bots', !showBots); $('#botState').textContent = showBots ? '켜짐' : '꺼짐'; updateCount(); }
   if (act === 'reset'){
@@ -2056,7 +2765,7 @@ drawMini();
 const bootReady = (async () => {
   const people = await Promise.race([cloudStart(), new Promise(r => setTimeout(() => r(false), 7000))]);
   if (!people){
-    Cloud.gaveUp = true; Cloud.on = false; ensureDemo();
+    Cloud.gaveUp = true; Cloud.on = false; ensureDemo(); qaLocalCounts();
     Net.people().forEach(p => { if (p.id !== meId) addChar(p); });
     const mine = meId && Net.people().find(p => p.id === meId);
     if (mine) welcomeBack(mine); else { meId = null; store.del('bitforest.me'); }
@@ -2065,6 +2774,7 @@ const bootReady = (async () => {
   showBots = false; app.classList.add('hide-bots'); $('#botState').textContent = '꺼짐';
   $('#menuNote').textContent = '광장에 보이는 캐릭터는 모두 실제로 입장한 BITor들이에요. 예시 캐릭터를 켜면 분위기를 미리 볼 수 있어요.';
   cloudSubscribe();
+  qaFetch().catch(() => {});
   meId = null;
   people.forEach(p => { if (p.id !== Cloud.uid) addChar(normP(p)); });
   const mine = Cloud.uid && people.find(p => p.id === Cloud.uid);
