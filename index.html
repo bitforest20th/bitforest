@@ -26,7 +26,7 @@
 <title>모여봐요 뱌티의 숲</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&family=Cinzel:wght@700;900&display=swap">
 <style>
 /* Layout: one full-screen pannable island (2400×1800 world) — HUD pinned to the corners, entry flow and panels as wooden-framed paper signboards. Single daytime look by design. */
 :root{
@@ -87,6 +87,9 @@ button{cursor:pointer}
 .char .bubble::after{content:"";position:absolute;left:50%;bottom:-6px;margin-left:-6px;border:6px solid transparent;border-bottom:0;border-top-color:#fff}
 .char.me .tag{background:var(--pop);color:#fff}
 .char.me .tag b{color:#fff}
+.char .mdot{display:none;position:absolute;right:14px;top:6px;width:7px;height:7px;border-radius:50%;background:#e8483b;border:1.5px solid #fff;box-shadow:0 1px 2px rgba(0,0,0,.25);transform:scale(var(--inv));transform-origin:50% 50%;z-index:2;pointer-events:none}
+.char.newmem .mdot{display:block;animation:dotPop 1.8s ease-in-out infinite}
+@keyframes dotPop{50%{transform:scale(calc(var(--inv) * 1.25))}}
 .char.me::before{content:"";position:absolute;left:50%;bottom:-3px;width:46px;height:14px;margin-left:-23px;border:3px solid var(--pop);border-radius:50%;opacity:.85;animation:ring 1.6s ease-in-out infinite}
 .char.focus .body{animation:hop .45s ease-out 4}
 .legL,.legR{transform-box:fill-box;transform-origin:50% 0}
@@ -148,7 +151,7 @@ button{cursor:pointer}
 
 /* ---------- sheet / panel ---------- */
 .scrim{position:absolute;inset:0;z-index:28;background:rgba(28,52,46,.28)}
-.sheet{position:absolute;left:50%;bottom:0;z-index:30;width:min(100%,440px);transform:translateX(-50%);background:var(--paper);border-radius:24px 24px 0 0;box-shadow:0 -8px 30px rgba(30,40,20,.25);padding:18px max(18px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 18px) max(18px,env(safe-area-inset-left,0px));animation:up .3s ease-out}
+.sheet{position:absolute;left:50%;bottom:0;z-index:30;box-sizing:border-box;width:min(100%,440px);transform:translateX(-50%);background:var(--paper);border-radius:24px 24px 0 0;box-shadow:0 -8px 30px rgba(30,40,20,.25);padding:18px max(18px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 18px) max(18px,env(safe-area-inset-left,0px));animation:up .3s ease-out}
 @keyframes up{from{transform:translate(-50%,40px);opacity:0}}
 .close{position:absolute;top:12px;right:12px;width:36px;height:36px;border:0;border-radius:50%;background:var(--paper-2);display:grid;place-items:center}
 .card-head{display:flex;gap:16px;align-items:center}
@@ -171,6 +174,15 @@ button{cursor:pointer}
 .panel-head h2{margin:0;font-family:var(--font-display);font-weight:400;font-size:28px;letter-spacing:.02em}
 .panel-head p{margin:4px 0 0;color:var(--ink-soft)}
 .panel-head .close{top:calc(env(safe-area-inset-top,0px) + 16px)}
+.panel-head{padding-left:66px}
+.panel-head .expand{position:absolute;left:16px;top:calc(env(safe-area-inset-top,0px) + 16px);width:38px;height:38px;border:2px solid var(--paper-line);border-radius:12px;background:#fff;color:var(--ink);display:grid;place-items:center}
+.panel-head .expand[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.panel{transition:width .28s ease}
+.panel.full,.panel.wide.full{width:100%}
+.panel.full .panel-body>*{max-width:1080px;margin-left:auto;margin-right:auto}
+.panel.full .cork{grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
+.panel.full .people{grid-template-columns:repeat(auto-fill,minmax(120px,1fr))}
+@media (max-width:560px){.panel-head{padding-left:20px}.panel-head .expand{display:none}}
 .panel-body{flex:1;overflow:auto;touch-action:pan-y;padding:18px max(20px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 24px) 20px}
 
 /* timeline */
@@ -194,6 +206,7 @@ button{cursor:pointer}
 
 /* people */
 .chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+@media (max-width:440px){.bd-tabs{gap:5px;flex-wrap:nowrap}.bd-tabs .chip{padding-left:10px;padding-right:10px;font-size:13.5px;white-space:nowrap}}
 .chip{border:2px solid var(--paper-line);background:#fff;border-radius:999px;padding:6px 12px;font-size:14px}
 .chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
 .people{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:10px}
@@ -307,6 +320,7 @@ button{cursor:pointer}
 .ty-row{display:grid;grid-template-columns:120px minmax(0,1fr);gap:8px}
 .ty-del{display:flex;flex-wrap:wrap;gap:6px}
 .bd-h{margin:0 0 10px;font-family:var(--font-display);font-weight:400;font-size:21px}
+.bd-h.sec-h{margin-top:28px}
 .bd-h span{font-size:14px;color:var(--ink-soft)}
 .bd-write{background:var(--note);border-radius:6px;padding:12px;box-shadow:0 3px 8px rgba(60,40,10,.15);margin-bottom:16px;display:flex;flex-direction:column;gap:8px}
 .bd-write.empty{background:var(--paper-2);align-items:center;text-align:center;color:var(--ink-soft);padding:18px}
@@ -335,7 +349,11 @@ button{cursor:pointer}
 .char .tag .ans{font-style:normal;margin-left:4px;padding:0 5px 1px;border-radius:999px;background:var(--leaf);color:#fff;font-size:.86em}
 
 /* photo zone */
-.photo-btn{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 150px);z-index:22;display:flex;align-items:center;gap:8px;height:52px;padding:0 24px;border:0;border-radius:999px;background:linear-gradient(180deg,#f8d36a,#e9a92b);color:#4e2f19;font-family:var(--font-display);font-size:19px;white-space:nowrap;box-shadow:0 4px 0 #b07f17,0 12px 24px rgba(40,30,10,.28);animation:pop .3s ease-out}
+.iconbtn.cam{transition:background .2s,color .2s}
+.iconbtn.cam.near{background:linear-gradient(180deg,#f8d36a,#e9a92b);color:#4e2f19;animation:camPulse 1.6s ease-in-out infinite}
+.iconbtn.cam .near-tip{display:none;position:absolute;top:calc(100% + 6px);left:50%;transform:translateX(-50%);white-space:nowrap;padding:3px 9px;border-radius:999px;background:#e9a92b;color:#4e2f19;font-family:var(--font-display);font-size:13px;box-shadow:0 2px 0 #b07f17}
+.iconbtn.cam.near .near-tip{display:block}
+@keyframes camPulse{50%{box-shadow:0 0 0 6px rgba(246,196,83,.35),var(--lift)}}
 .studio{position:absolute;inset:0;z-index:55;display:grid;place-items:center;background:rgba(30,64,56,.4);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);overflow:auto;touch-action:pan-y;padding:calc(env(safe-area-inset-top,0px) + 14px) max(14px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 14px) max(14px,env(safe-area-inset-left,0px))}
 .studio-card{position:relative;width:min(100%,440px);background:var(--paper);border:4px solid var(--wood);border-radius:28px;box-shadow:0 6px 0 var(--wood-dk),0 24px 50px rgba(20,30,20,.35);padding:22px 20px 18px;display:flex;flex-direction:column;gap:12px;animation:pop .3s ease-out}
 .studio-card h2{margin:0;font-family:var(--font-display);font-weight:400;font-size:27px;text-wrap:balance}
@@ -353,27 +371,61 @@ button{cursor:pointer}
 .st-actions .btn{height:48px;font-size:17px}
 
 /* BITor card */
-.bcard{perspective:1100px;cursor:pointer;outline-offset:4px}
-.bcard-in{position:relative;width:100%;aspect-ratio:1.72;transition:transform .6s cubic-bezier(.3,.7,.2,1);transform-style:preserve-3d}
+.bcard{--w:min(282px,72vw);width:var(--w);margin:0 auto;font-size:calc(var(--w) / 25);perspective:1200px;cursor:pointer;outline-offset:4px;-webkit-tap-highlight-color:transparent}
+.bcard-in{position:relative;width:100%;aspect-ratio:5/7;transition:transform .6s cubic-bezier(.3,.7,.2,1);transform-style:preserve-3d}
 .bcard.flipped .bcard-in{transform:rotateY(180deg)}
-.bcard-f,.bcard-b{position:absolute;inset:0;border-radius:20px;-webkit-backface-visibility:hidden;backface-visibility:hidden;overflow:hidden;box-shadow:0 4px 0 #c5b083,0 12px 24px rgba(40,30,10,.2)}
-.bcard-f{display:grid;grid-template-columns:40% minmax(0,1fr);grid-template-rows:100%;align-items:center;background:linear-gradient(150deg,#e2f8ec,#a6e0c4 62%,#7cc7a3);border:4px solid #fdf8ea}
-.bcard-f .pic{position:relative;height:100%;overflow:hidden;background:radial-gradient(circle at 50% 62%,rgba(255,255,255,.75) 0,rgba(255,255,255,0) 62%)}
-.bcard-f .pic img{position:absolute;left:50%;bottom:0;transform:translateX(-50%);height:96%;width:auto;max-width:none}
-.bcard-f .info{min-width:0;padding:0 14px 0 2px;display:flex;flex-direction:column;gap:2px}
-.bcard-f .kicker{font-size:10.5px;letter-spacing:.2em;color:#2c5b4b}
-.bcard-f .g{font-family:var(--font-display);font-size:19px;color:#1f6b52}
-.bcard-f .n{font-family:var(--font-display);font-size:32px;line-height:1.05;color:var(--ink);overflow-wrap:anywhere}
-.bcard-f .chips2{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px}
-.bcard-f .chips2 .tagchip{margin:0;background:rgba(253,248,234,.85)}
-.bcard-f .chips2 .ans-chip{background:var(--leaf);color:#fff}
-.bcard-f .corner{position:absolute;right:12px;bottom:8px;font-size:11px;letter-spacing:.12em;color:rgba(34,69,62,.55)}
-.bcard-b{transform:rotateY(180deg);background:#fffaf0 repeating-linear-gradient(180deg,transparent 0 31px,rgba(201,179,138,.28) 31px 33px);border:4px solid #e8d7ad;padding:16px 20px;display:flex;flex-direction:column;justify-content:center;gap:8px;text-align:center}
-.bcard-b .q{font-size:12.5px;letter-spacing:.06em;color:var(--wood)}
-.bcard-b p{margin:0;font-family:var(--font-display);font-size:21px;line-height:1.35;color:var(--ink);overflow-wrap:anywhere}
-.bcard-b p.empty-mem{font-family:var(--font-body);font-size:15px;color:var(--ink-soft)}
-.bcard-b .sig{font-size:13px;color:var(--ink-soft)}
-.sheet .close{z-index:3}
+.bcard-f,.bcard-b{position:absolute;inset:0;border-radius:1.1em;-webkit-backface-visibility:hidden;backface-visibility:hidden;overflow:hidden;padding:.75em;display:flex;flex-direction:column;background:linear-gradient(145deg,var(--t1),var(--t2) 42%,var(--t1) 52%,var(--t2) 66%,var(--t3));box-shadow:inset 0 0 0 .16em rgba(255,255,255,.6),inset 0 0 0 .36em rgba(0,0,0,.16),0 .5em 1.5em rgba(30,20,5,.35)}
+.t-legend{--t1:#fbe9a6;--t2:#d9a63a;--t3:#8f6418;--tk:#5a3b08;--tg:#fff4c8}
+.t-epic{--t1:#e6d2fd;--t2:#9d6fe2;--t3:#5b2f9e;--tk:#3a1a6b;--tg:#f3e9ff}
+.t-rare{--t1:#d3eaff;--t2:#62a2e7;--t3:#2a5ea8;--tk:#163b6e;--tg:#e8f4ff}
+.t-fresh{--t1:#d6f5e0;--t2:#5fc191;--t3:#2a7a59;--tk:#174a37;--tg:#ebfbf0}
+.t-guest{--t1:#f6f8fb;--t2:#bcc5d2;--t3:#7a8596;--tk:#3d4655;--tg:#ffffff}
+.tc-top{flex:none;display:flex;align-items:center;gap:.45em;height:2.7em;padding:0 .4em 0 .22em;border-radius:1.35em;background:linear-gradient(180deg,#fffdf6,#efe2c2);box-shadow:0 0 0 .15em var(--tk),inset 0 -.15em 0 rgba(0,0,0,.1)}
+.tc-gem{flex:none;width:2.3em;height:2.3em;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 34% 28%,#fff 0 7%,var(--t1) 16%,var(--t2) 48%,var(--t3) 82%,var(--tk));box-shadow:0 0 0 .13em var(--tg),0 0 0 .25em var(--tk)}
+.tc-gem b{font:900 1.12em/1 Cinzel,Georgia,serif;color:#fff;text-shadow:0 .08em 0 var(--tk),0 0 .3em var(--tk)}
+.tc-gem b.s{font-size:.82em;letter-spacing:-.02em}
+.tc-name{flex:1;min-width:0;font-family:var(--font-display);font-size:1.6em;line-height:1;color:#2a2116;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tc-attr{flex:none;width:1.9em;height:1.9em;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#7fdcaa,#2e8a69 60%,#155a41);box-shadow:0 0 0 .12em var(--tg),0 0 0 .22em var(--tk);color:#fff}
+.tc-attr svg{width:1.15em;height:1.15em}
+.tc-rank{flex:none;display:flex;justify-content:space-between;align-items:center;padding:.4em .3em .3em}
+.tc-stars{display:flex;gap:.08em}
+.tc-stars i{width:1.4em;height:1.4em;background:radial-gradient(circle at 40% 35%,#fffbe0,#ffcd3c 50%,#e08f0c);clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);filter:drop-shadow(0 .05em 0 var(--tk))}
+.tc-tier{font:900 .9em/1 Cinzel,Georgia,serif;letter-spacing:.16em;color:var(--tk);padding:.28em .6em .22em .75em;border-radius:.3em;background:linear-gradient(180deg,var(--tg),var(--t1));box-shadow:0 0 0 .1em var(--tk)}
+.tc-art{position:relative;flex:1;min-height:0;margin:.15em .1em .6em;border-radius:.3em;overflow:hidden;box-shadow:0 0 0 .2em var(--tk),0 0 0 .36em var(--tg),0 0 0 .46em var(--tk);background:linear-gradient(180deg,var(--t1) 0%,#f4fbf0 52%,#a5dc8f 53%,#7cc36c 100%)}
+.tc-art .tc-bg{position:absolute;inset:0;width:100%;height:100%}
+.tc-art img{position:absolute;left:50%;bottom:3%;height:90%;width:auto;max-width:none;transform:translateX(-50%);filter:drop-shadow(0 .25em .2em rgba(20,40,20,.3))}
+.tc-foil{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(115deg,transparent 32%,rgba(255,255,255,.5) 44%,rgba(255,236,170,.35) 49%,rgba(200,170,255,.3) 54%,transparent 64%);background-size:260% 100%;background-position:120% 0;animation:foil 4.5s ease-in-out infinite}
+.t-fresh .tc-foil,.t-guest .tc-foil{opacity:.55}
+@keyframes foil{0%{background-position:120% 0}55%,100%{background-position:-60% 0}}
+.tc-spark{position:absolute;z-index:2;color:#fff;font-size:1em;text-shadow:0 0 .4em var(--t2);animation:twinkle 2.4s ease-in-out infinite}
+@keyframes twinkle{50%{opacity:.25;transform:scale(.7)}}
+.tc-box{flex:none;display:flex;flex-direction:column;height:8.4em;border-radius:.3em;padding:.4em .65em .35em;background:linear-gradient(180deg,#fffaf0,#f1e4c6);box-shadow:0 0 0 .14em var(--tk)}
+.tc-type{font-family:var(--font-display);font-size:.9em;line-height:1.2;color:#3a2a14}
+.tc-type b{font-weight:400;color:var(--t3)}
+.tc-flavor{flex:1;min-height:0;margin:.25em 0 0;font-size:.98em;line-height:1.38;color:#3d3222;overflow:hidden}
+.tc-chips{display:flex;gap:.3em;flex-wrap:wrap;margin-bottom:.2em}
+.tc-chips span{font-size:.78em;padding:.15em .55em;border-radius:999px;background:var(--tg);color:var(--tk);box-shadow:0 0 0 .1em var(--t3)}
+.tc-chips span.ans{background:#2e8a69;color:#fff;box-shadow:none}
+.tc-stat{display:flex;justify-content:flex-end;gap:.9em;padding-top:.25em;border-top:.1em solid rgba(58,42,20,.45);font:700 .86em/1.1 Cinzel,Georgia,serif;color:#2a2116;letter-spacing:.04em}
+.tc-foot{flex:none;display:flex;justify-content:space-between;padding:.35em .25em 0;font:700 .6em/1 Cinzel,Georgia,serif;letter-spacing:.12em;color:var(--tk);opacity:.8}
+.bcard-b{transform:rotateY(180deg)}
+.tb-in{position:relative;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:1em .9em .8em;border-radius:.5em;background:repeating-linear-gradient(45deg,rgba(255,255,255,.07) 0 .5em,transparent .5em 1.2em),repeating-linear-gradient(-45deg,rgba(255,255,255,.07) 0 .5em,transparent .5em 1.2em),radial-gradient(ellipse at 50% 42%,var(--t3),var(--tk) 78%);box-shadow:0 0 0 .2em var(--tk),inset 0 0 0 .3em var(--t2),inset 0 0 0 .42em var(--tk)}
+.tb-crest{font-family:var(--font-display);font-size:1.7em;line-height:1;letter-spacing:.14em;color:var(--tg);text-shadow:0 .08em 0 rgba(0,0,0,.4);display:flex;align-items:center;gap:.4em}
+.tb-crest::before,.tb-crest::after{content:"";width:1.6em;height:.12em;background:linear-gradient(90deg,transparent,var(--t1))}
+.tb-crest::after{transform:scaleX(-1)}
+.tb-plaque{position:relative;width:100%;flex:1;margin:.8em 0;display:flex;flex-direction:column;justify-content:space-between;align-items:center;gap:.6em;text-align:center;padding:1.1em 1em;border-radius:.6em;background:#fffaf0 repeating-linear-gradient(180deg,transparent 0 2.2em,rgba(201,179,138,.3) 2.2em 2.3em);box-shadow:0 0 0 .18em var(--t2),0 0 0 .32em var(--tk),inset 0 0 0 .5em #fffaf0,inset 0 0 0 .62em rgba(201,179,138,.6)}
+.tb-plaque .q{font-size:.95em;letter-spacing:.04em;color:var(--wood);margin-top:.3em}
+.tb-plaque>div:first-child{display:flex;flex-direction:column;align-items:center}
+.tb-orn{display:flex;align-items:center;gap:.35em;margin-top:.45em;color:var(--t2)}
+.tb-orn::before,.tb-orn::after{content:"";width:2.6em;height:.1em;background:currentColor;opacity:.7}
+.tb-orn svg{width:1.1em;height:1.1em}
+.tb-plaque p{margin:0;font-family:var(--font-display);font-size:1.7em;line-height:1.4;color:#2a2116;overflow-wrap:anywhere}
+.tb-plaque p.empty-mem{font-family:var(--font-body);font-size:1.05em;color:var(--ink-soft)}
+.tb-plaque .sig{font-size:.92em;color:var(--ink-soft)}
+.tb-foot{font-family:var(--font-display);font-size:1em;color:var(--tg);opacity:.9}
+@media (prefers-reduced-motion:reduce){.tc-foil,.tc-spark{animation:none}}
+@media (max-height:720px){.bcard{--w:min(240px,64vw)}}
+.sheet:has(#bcardWrap){max-height:calc(100% - 12px);overflow-y:auto}
 #bcardWrap{margin-top:30px}
 .flip-hint{font-size:12px;color:var(--ink-soft);text-align:center;margin:8px 0 0}
 .mem-edit{margin:0 0 16px;padding:14px;border-radius:16px;background:#fffaf0;border:2px dashed var(--paper-line);display:flex;flex-direction:column;gap:8px}
@@ -437,7 +489,7 @@ button{cursor:pointer}
 .stage-q .sq-count{font-size:13px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
 .stage-q p{margin:0;font-family:var(--font-display);font-size:24px;line-height:1.35;overflow-wrap:anywhere}
 .stage-q .sq-by{font-size:14px;color:var(--ink-soft)}
-.stage .photo-btn{display:none}
+.stage .iconbtn.cam{display:none}
 
 @media (max-width:560px){
   .logo{width:148px}
@@ -455,6 +507,7 @@ button{cursor:pointer}
 </style>
 </head>
 <body>
+
 <div id="app">
   <div id="viewport">
     <div id="world">
@@ -472,6 +525,7 @@ button{cursor:pointer}
         <span class="long">현재 <b id="count">0</b>명의 BITor가 모였어요</span>
         <span class="short"><b id="countS">0</b>명</span>
       </button>
+      <button class="iconbtn cam" id="photoBtn" type="button" aria-label="20 동상 포토존" title="20 동상 앞에서 사진 찍기"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.6"/></svg><span class="near-tip" aria-hidden="true">찰칵!</span></button>
       <button class="iconbtn" id="inboxBtn" type="button" aria-label="받은 메시지">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>
         <span class="badge" id="badge" hidden>0</span>
@@ -514,12 +568,12 @@ button{cursor:pointer}
     </div>
   </div>
 
-  <button class="photo-btn" id="photoBtn" type="button" hidden>📸 20 동상 앞에서 사진 찍기</button>
   <div id="toasts" aria-live="polite"></div>
   <div class="scrim" id="scrim" hidden></div>
   <section class="sheet" id="sheet" hidden aria-label="캐릭터 정보"></section>
   <aside class="panel" id="panel" hidden>
     <div class="panel-head">
+      <button class="expand" type="button" id="panelExpand" aria-label="전체 화면으로 보기" aria-pressed="false" title="전체 화면으로 보기"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18M7 8l-4 4 4 4M17 8l4 4-4 4"/></svg></button>
       <h2 id="panelTitle"></h2><p id="panelSub"></p>
       <button class="close" type="button" id="panelClose" aria-label="닫기"><svg width="18" height="18" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
     </div>
@@ -1409,6 +1463,10 @@ const app = $('#app'), charsLayer = $('#chars');
 const chars = new Map();
 let meId = store.get('bitforest.me', null);
 let showBots = true;
+let seenMem = store.get('bitforest.seenMem', {});
+const hasNewMem = o => !!o && o.id !== meId && !!(o.memory || '').trim() && seenMem[o.id] !== o.memory;
+function updateMemDot(o){ if (o && o.el) o.el.classList.toggle('newmem', hasNewMem(o)); }
+function markMemSeen(o){ if (!o || !(o.memory || '').trim() || seenMem[o.id] === o.memory) return; seenMem[o.id] = o.memory; store.set('bitforest.seenMem', seenMem); updateMemDot(o); }
 
 function plazaPoint(){
   for (let i = 0; i < 30; i++){ const a = Math.random()*Math.PI*2, d = Math.sqrt(Math.random()); const p = { x: PLAZA.x + Math.cos(a)*d*(PLAZA.rx - 60), y: PLAZA.y + Math.sin(a)*d*(PLAZA.ry - 46) }; if (Math.hypot((p.x - FOUNTAIN.x)/1.6, p.y - FOUNTAIN.y) > FOUNTAIN.r * .78) return p; }
@@ -1440,12 +1498,12 @@ function addChar(c, { arrive = false } = {}){
   const el = document.createElement('div');
   el.className = 'char' + (c.bot ? ' bot' : '') + (c.id === meId ? ' me' : '');
   el.dataset.id = c.id;
-  el.innerHTML = `<div class="ui"><div class="bubble" hidden></div><div class="tag">${tagHTML(c)}</div></div><div class="body"><canvas width="112" height="140"></canvas></div>`;
+  el.innerHTML = `<div class="ui"><div class="bubble" hidden></div><div class="tag">${tagHTML(c)}</div></div><div class="body"><canvas width="112" height="140"></canvas></div><span class="mdot" title="카드 뒷면이 새로 쓰였어요"></span>`;
   o.el = el; o.ctx = el.querySelector('canvas').getContext('2d'); o.frames = {}; o.fk = -1; o.step = 0; o.look = 0; o.anim = 0; o.blinking = false; o.blinkT = 1 + Math.random()*4; o.ready = false; queueSheet(o, c.id === meId);
-  charsLayer.appendChild(el); chars.set(c.id, o); place(o); updateCount();
+  charsLayer.appendChild(el); chars.set(c.id, o); place(o); updateMemDot(o); updateCount();
   return o;
 }
-function refreshChar(o){ buildSheet(o); o.el.querySelector('.tag').innerHTML = tagHTML(o); }
+function refreshChar(o){ buildSheet(o); o.el.querySelector('.tag').innerHTML = tagHTML(o); updateMemDot(o); }
 function removeChar(id){ const o = chars.get(id); if (!o) return; o.el.remove(); chars.delete(id); updateCount(); }
 function place(o){ o.el.style.transform = `translate3d(${o.x.toFixed(1)}px,${o.y.toFixed(1)}px,0)`; const z = Math.round(o.y); if (z !== o.z){ o.z = z; o.el.style.zIndex = z; } }
 function say(id, text){
@@ -1520,7 +1578,7 @@ function makeBots(){
   for (let i = 2; i < 44; i++){
     let name; do { name = SUR[Math.floor(r()*SUR.length)] + GIVEN[Math.floor(r()*GIVEN.length)]; } while (used.has(name));
     used.add(name);
-    const gen = Math.max(0, Math.min(40, Math.round(r()*40)));
+    const gen = Math.max(1, Math.min(40, Math.round(r()*40)));
     out.push({ id:'bot-' + i, gen, name, bot:true, av: randomAvatar(null, r) });
   }
   const MEM = ['새벽까지 해커톤 하고 다 같이 먹은 국밥', '첫 발표 때 떨려서 슬라이드 넘기는 걸 까먹은 날', 'MT에서 밤새 한 마피아 게임', '프로젝트 마감 전날 동아리방의 공기', '처음으로 서비스에 진짜 사용자가 들어온 순간', '선배가 사준 떡볶이와 진로 상담', '세미나 끝나고 한강에서 먹은 치킨'];
@@ -1582,7 +1640,7 @@ function openCard(id, flipped){
   sheet.innerHTML = `<button class="close" type="button" data-act="close" aria-label="닫기">${CLOSE_ICON}</button>
     <div id="bcardWrap">${bitorCardHTML(o, flipped)}</div>
     <div class="card-actions">${actions}</div>`;
-  sheet.hidden = false; showScrim();
+  sheet.hidden = false; showScrim(); markMemSeen(o);
   const flip = () => { const c = $('.bcard', sheet); c.classList.toggle('flipped'); $('.flip-hint', sheet).textContent = `카드를 누르면 ${c.classList.contains('flipped') ? '앞면' : '뒷면'}이 보여요`; };
   sheet.onkeydown = e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.classList && e.target.classList.contains('bcard')){ e.preventDefault(); flip(); } };
   sheet.onclick = e => {
@@ -1642,7 +1700,7 @@ function openInbox(){
 // Draft storage: this browser only (synced across tabs). Moves to the shared database with the rest of the site.
 const BOARD_KEY = 'bitforest.board';
 const NOTE_COLORS = { yellow: '#fff1a8', pink: '#ffd6da', mint: '#cff2dd', sky: '#d6e9ff' };
-const boardUI = { filter: 'qna', color: 'yellow', kind: 'fund', open: false, arm: null };
+const boardUI = { filter: 'all', color: 'yellow', kind: 'fund', open: false, arm: null };
 function loadBoard(){ const b = store.get(BOARD_KEY, null); return b && Array.isArray(b.thanks) && Array.isArray(b.posts) ? b : { thanks: [], posts: [] }; }
 function saveBoard(b){ store.set(BOARD_KEY, b); Net.post('board', {}); }
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
@@ -1650,17 +1708,17 @@ const thanksGen = g => g === '' || g == null ? '' : (/^\d+$/.test(String(g)) ? g
 function fmtWhen(ts){ const d = new Date(ts); return d.toLocaleString('ko-KR', { month: 'numeric', day: 'numeric', hour: 'numeric', minute: '2-digit' }); }
 
 function openBoard(){
-  openPanel('마을 게시판', '선배에게 묻는 질문, 방명록, 그리고 감사 인사', '', renderBoard, true);
+  openPanel('마을 게시판', '감사 인사, 방명록, 그리고 선배에게 묻는 질문', '', renderBoard, true);
   if (Cloud.on) Promise.all([boardFetch(), qaFetch()]).then(() => { if (boardOpen()) renderBoard(); }).catch(e => { console.warn(e); toast('게시판을 불러오지 못했어요. 잠시 뒤 다시 열어 주세요'); });
 }
 function renderBoard(body){
   body = body || $('#panelBody');
-  const draft = $('#bdText', body) ? $('#bdText', body).value : '';
+  const draft = $('#bdText', body) ? $('#bdText', body).value : '', qDraft = $('#qaText', body) ? $('#qaText', body).value : '';
   const b = Cloud.on ? (boardCache || { thanks: [], posts: [] }) : loadBoard(), me = chars.get(meId), U = boardUI;
   const fund = b.thanks.filter(t => t.kind === 'fund'), gift = b.thanks.filter(t => t.kind === 'gift');
   const person = t => `<li><b>${esc([thanksGen(t.gen), t.name].filter(Boolean).join(' '))}</b>${t.what ? `<span>${esc(t.what)}</span>` : ''}</li>`;
   const col = (title, list) => `<div class="ty-col"><h4>${title} <em>${list.length ? list.length + '명' : ''}</em></h4>${list.length ? `<ul>${list.map(person).join('')}</ul>` : `<p class="ty-empty">운영진이 명단을 올리면 여기에 표시돼요</p>`}</div>`;
-  const chips = `<div class="chips">${[['qna', '❓ 선배에게 질문'], ['posts', '방명록'], ['thanks', 'Thanks to']].map(([k, l]) => `<button class="chip" type="button" data-bf="${k}" aria-pressed="${U.filter === k}">${l}</button>`).join('')}</div>`;
+  const chips = `<div class="chips bd-tabs">${[['all', '모두 보기'], ['thanks', 'Thanks to'], ['posts', '방명록'], ['qna', '선배에게 질문']].map(([k, l]) => `<button class="chip" type="button" data-bf="${k}" aria-pressed="${U.filter === k}">${l}</button>`).join('')}</div>`;
 
   if (U.filter === 'qna') return renderQA(body, chips);
   const thanks = `<section class="thanks">
@@ -1694,18 +1752,23 @@ function renderBoard(body){
       <span class="acts"><button type="button" class="like${liked ? ' on' : ''}" data-like="${esc(p.id)}" aria-pressed="${liked}" aria-label="좋아요">♥${likes.length ? ' ' + likes.length : ''}</button>
       ${mine ? `<button type="button" class="del" data-del="${esc(p.id)}">${U.arm === p.id ? '지울까요?' : '지우기'}</button>` : ''}</span></footer></article>`;
   }).join('') : `<div class="bd-empty">아직 방명록이 비어 있어요.<br>첫 메모를 붙여 보세요!</div>`;
-  const guest = `<section class="guest"><h3 class="bd-h">방명록 <span>${posts.length ? posts.length + '개' : ''}</span></h3>${writer}<div class="cork">${notes}</div></section>`;
+  const guest = `<section class="guest"><h3 class="bd-h sec-h">방명록 <span>${posts.length ? posts.length + '개' : ''}</span></h3>${writer}<div class="cork">${notes}</div></section>`;
 
-  body.innerHTML = chips + (U.filter !== 'posts' ? thanks : '') + (U.filter !== 'thanks' ? guest : '');
+  const all = U.filter === 'all';
+  body.innerHTML = chips + (all || U.filter === 'thanks' ? thanks : '') + (all || U.filter === 'posts' ? guest : '') + (all ? qaListHTML(me) : '');
   const ta = $('#bdText', body); if (ta && draft) ta.value = draft;
+  const qta = $('#qaText', body); if (qta && qDraft) qta.value = qDraft;
+  const qh = all ? bindQA(body) : null;
 
   const busy = async (fn, okMsg, failMsg) => {
     try { await fn(); U.arm = null; renderBoard(body); if (okMsg) toast(okMsg); }
     catch (err) { console.warn(err); U.arm = null; renderBoard(body); toast(failMsg || '저장하지 못했어요. 잠시 뒤 다시 시도해 주세요'); }
   };
+  body.onkeydown = qh ? qh.keydown : null;
   body.onclick = e => {
+    if (qh && e.target.closest('.qna')) return qh.click(e);
     const t = e.target.closest('button'); if (!t) return;
-    if (t.dataset.bf){ U.filter = t.dataset.bf; return renderBoard(body); }
+    if (t.dataset.bf){ U.filter = t.dataset.bf; qaUI.thread = null; return renderBoard(body); }
     if (t.dataset.bd === 'toggle'){ U.open = !U.open; U.arm = null; return renderBoard(body); }
     if (t.dataset.bd === 'join'){ closePanel(); return openEntry('who'); }
     if (t.dataset.kind){ U.kind = t.dataset.kind; return renderBoard(body); }
@@ -1720,6 +1783,7 @@ function renderBoard(body){
     }
   };
   body.onsubmit = e => {
+    if (qh && e.target.id === 'qaForm') return qh.submit(e);
     e.preventDefault();
     if (e.target.id === 'bdForm'){
       const me2 = chars.get(meId), ta = $('#bdText', body), text = ta.value.trim();
@@ -1865,7 +1929,7 @@ const Board = {
 
 /* ================= image helpers ================= */
 async function fontsReady(){
-  try { await Promise.all([document.fonts.load('80px Jua'), document.fonts.load('36px "Gowun Dodum"')]); } catch (e) {}
+  try { await Promise.all([document.fonts.load('80px Jua'), document.fonts.load('36px "Gowun Dodum"'), document.fonts.load('900 40px Cinzel'), document.fonts.load('700 40px Cinzel')]); } catch (e) {}
 }
 function loadImg(src){ return new Promise(r => { const i = new Image(); i.onload = () => r(i); i.onerror = () => r(null); i.src = src; }); }
 function rrect(x, X, Y, w, h, r){ x.beginPath(); x.moveTo(X + r, Y); x.arcTo(X + w, Y, X + w, Y + h, r); x.arcTo(X + w, Y + h, X, Y + h, r); x.arcTo(X, Y + h, X, Y, r); x.arcTo(X, Y, X + w, Y, r); x.closePath(); }
@@ -2140,56 +2204,157 @@ studioEl.addEventListener('click', async e => {
 });
 function nearStatue(o){ const dx = (o.x - FOUNTAIN.x) / 430, dy = (o.y - FOUNTAIN.y) / 310; return dx * dx + dy * dy < 1; }
 setInterval(() => {
-  const me = chars.get(meId), btn = $('#photoBtn');
-  btn.hidden = !(me && nearStatue(me) && !app.classList.contains('stage') && studioEl.hidden && entry.hidden && panel.hidden && sheet.hidden);
+  const me = chars.get(meId), near = !!(me && nearStatue(me));
+  const btn = $('#photoBtn'); if (btn.classList.contains('near') !== near){ btn.classList.toggle('near', near); btn.setAttribute('aria-label', near ? '20 동상 앞이에요. 사진 찍기' : '20 동상 포토존'); }
 }, 400);
-$('#photoBtn').addEventListener('click', () => openStudio('solo'));
+$('#photoBtn').addEventListener('click', () => { const me = chars.get(meId); if (me && !nearStatue(me)) walkToStatue(); openStudio('solo'); });
 
 /* ================= BITor card ================= */
 const MEM_MAX = 60;
+const TIERS = {
+  legend: { label: 'LEGEND', stars: 5, c: ['#fbe9a6', '#d9a63a', '#8f6418', '#5a3b08', '#fff4c8'], flavor: '뱌티의 숲을 처음 일군 전설의 BITor. 그때 심은 씨앗이 지금의 숲이 되었다.' },
+  epic: { label: 'EPIC', stars: 4, c: ['#e6d2fd', '#9d6fe2', '#5b2f9e', '#3a1a6b', '#f3e9ff'], flavor: '숲에 단단히 뿌리를 내린 BITor. 후배들에게 든든한 그늘이 되어 준다.' },
+  rare: { label: 'RARE', stars: 3, c: ['#d3eaff', '#62a2e7', '#2a5ea8', '#163b6e', '#e8f4ff'], flavor: '숲을 한층 울창하게 키운 BITor. 어디서든 반짝이는 존재감을 뽐낸다.' },
+  fresh: { label: 'FRESH', stars: 2, c: ['#d6f5e0', '#5fc191', '#2a7a59', '#174a37', '#ebfbf0'], flavor: '지금 이 숲을 가장 푸르게 채우는 BITor. 성장 가능성은 무한대.' },
+  guest: { label: 'GUEST', stars: 1, c: ['#f6f8fb', '#bcc5d2', '#7a8596', '#3d4655', '#ffffff'], flavor: '뱌티의 숲을 찾아온 반가운 손님. 오늘만큼은 모두가 BITor!' }
+};
+function cardTier(gen){ const g = genNum(gen); return g == null || g < 1 ? 'guest' : g < 10 ? 'legend' : g < 20 ? 'epic' : g < 30 ? 'rare' : 'fresh'; }
+const cardSerial = o => 'BIT20-' + (genNum(o.gen) ? String(o.gen).padStart(3, '0') : 'G');
+const LEAF_SVG = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 3C10 3 4 8.5 4 15.5c0 1.6.4 3 1 4.2C6.6 13.8 10.4 10 15 8c-4 2.8-6.8 6.6-8 11.6 1.2.6 2.6.9 4 .9C18 20.5 21 13 20 3z"/></svg>';
+const CARD_BG_SVG = '<svg class="tc-bg" viewBox="0 0 220 180" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><g opacity=".55"><circle cx="34" cy="30" r="11" fill="#fff"/><circle cx="46" cy="27" r="8" fill="#fff"/><circle cx="176" cy="40" r="9" fill="#fff"/><circle cx="187" cy="38" r="6" fill="#fff"/></g><path d="M0 104 Q55 84 110 98 T220 92 V180 H0z" fill="#9ed389"/><g fill="#3f8f55"><path d="M14 104 l12 -34 l12 34z"/><path d="M8 112 l13 -28 l13 28z" fill="#2f7a47"/><path d="M186 100 l13 -36 l13 36z"/><path d="M198 110 l11 -26 l11 26z" fill="#2f7a47"/></g><circle cx="44" cy="96" r="13" fill="#e8743b"/><circle cx="54" cy="90" r="10" fill="#f0a23b"/><rect x="45" y="100" width="4" height="14" fill="#7a4d2a"/><circle cx="168" cy="94" r="12" fill="#d94f3a"/><rect x="166" y="100" width="4" height="12" fill="#7a4d2a"/><ellipse cx="110" cy="166" rx="46" ry="8" fill="#000" opacity=".14"/><path d="M0 150 Q110 132 220 150 V180 H0z" fill="#7cc36c"/></svg>';
 function bitorCardHTML(o, flipped){
-  const n = answerCount.get(o.id) || 0, isMe = o.id === meId;
-  const chips = [o.bot ? '<span class="tagchip">예시 캐릭터</span>' : '', isMe ? '<span class="tagchip">나</span>' : '', n ? `<span class="tagchip ans-chip">💬 답변 ${n}개</span>` : ''].join('');
+  const n = answerCount.get(o.id) || 0, isMe = o.id === meId, tk = cardTier(o.gen), T = TIERS[tk], g = genNum(o.gen);
+  const chips = [o.bot ? '<span>예시 캐릭터</span>' : '', isMe ? '<span>나</span>' : '', n ? `<span class="ans">💬 답변 ${n}개</span>` : ''].join('');
   const mem = (o.memory || '').trim();
-  return `<div class="bcard${flipped ? ' flipped' : ''}" data-act="flip" role="button" tabindex="0" aria-label="BITor 카드 뒤집기">
+  const sparks = T.stars >= 4 ? '<i class="tc-spark" style="left:12%;top:16%">✦</i><i class="tc-spark" style="right:14%;top:30%;animation-delay:.8s">✦</i><i class="tc-spark" style="left:22%;top:48%;font-size:.7em;animation-delay:1.5s">✦</i>' : '';
+  return `<div class="bcard${flipped ? ' flipped' : ''}" data-act="flip" role="button" tabindex="0" aria-label="BITor 카드 뒤집기, ${esc(genLabel(o.gen))} ${esc(o.name)}, ${T.label} 등급">
     <div class="bcard-in">
-      <div class="bcard-f"><div class="pic">${avatarSVG(o.av)}</div>
-        <div class="info"><div class="kicker">BITor CARD</div><div class="g">${esc(genLabel(o.gen))}</div><div class="n">${esc(o.name)}</div><div class="chips2">${chips}</div></div>
-        <span class="corner">BIT 20th</span></div>
-      <div class="bcard-b"><div class="q">BIT에서 가장 기억에 남는 순간</div>
-        ${mem ? `<p>“${esc(mem)}”</p>` : `<p class="empty-mem">${isMe ? '아직 비어 있어요. 아래 ‘카드 뒷면 쓰기’로 채워 보세요' : '아직 비어 있어요'}</p>`}
-        <div class="sig">${esc(genLabel(o.gen))} ${esc(o.name)}</div></div>
+      <div class="bcard-f t-${tk}">
+        <div class="tc-top"><span class="tc-gem">${g ? `<b>${g}</b>` : '<b class="s">G</b>'}</span><span class="tc-name">${esc(o.name)}</span><span class="tc-attr" title="숲 속성">${LEAF_SVG}</span></div>
+        <div class="tc-rank"><span class="tc-stars" aria-hidden="true">${'<i></i>'.repeat(T.stars)}</span><span class="tc-tier">${T.label}</span></div>
+        <div class="tc-art">${CARD_BG_SVG}${avatarSVG(o.av)}<div class="tc-foil"></div>${sparks}</div>
+        <div class="tc-box"><div class="tc-type"><b>[</b> BITor / ${esc(genLabel(o.gen))} <b>]</b></div><p class="tc-flavor">${T.flavor}</p>${chips ? `<div class="tc-chips">${chips}</div>` : ''}<div class="tc-stat"><span>ANS/${n}</span><span>GEN/${g || 'G'}</span></div></div>
+        <div class="tc-foot"><span>${cardSerial(o)}</span><span>20th HOMECOMING</span></div>
+      </div>
+      <div class="bcard-b t-${tk}"><div class="tb-in">
+        <div class="tb-crest">BITor</div>
+        <div class="tb-plaque"><div><div class="q">BIT에서 가장 기억에 남는 순간</div><div class="tb-orn">${LEAF_SVG}</div></div>
+          ${mem ? `<p>“${esc(mem)}”</p>` : `<p class="empty-mem">${isMe ? '아직 비어 있어요. 아래 ‘카드 뒷면 쓰기’로 채워 보세요' : '아직 비어 있어요'}</p>`}
+          <div class="sig">— ${esc(genLabel(o.gen))} ${esc(o.name)}</div></div>
+        <div class="tb-foot">모여봐요 뱌티의 숲</div>
+      </div></div>
     </div></div>
     <p class="flip-hint">카드를 누르면 ${flipped ? '앞면' : '뒷면'}이 보여요</p>`;
 }
+function cardFrame(x, E, C){
+  const g = x.createLinearGradient(0, 0, E(25), E(35)); [[0, C[0]], [.42, C[1]], [.52, C[0]], [.66, C[1]], [1, C[2]]].forEach(([s, c]) => g.addColorStop(s, c));
+  x.save(); x.shadowColor = 'rgba(30,20,5,.35)'; x.shadowBlur = E(1.4); x.shadowOffsetY = E(.5); rrect(x, 0, 0, E(25), E(35), E(1.1)); x.fillStyle = g; x.fill(); x.restore();
+  rrect(x, E(.08), E(.08), E(24.84), E(34.84), E(1.05)); x.lineWidth = E(.16); x.strokeStyle = 'rgba(255,255,255,.6)'; x.stroke();
+  rrect(x, E(.26), E(.26), E(24.48), E(34.48), E(.9)); x.lineWidth = E(.2); x.strokeStyle = 'rgba(0,0,0,.16)'; x.stroke();
+}
+function ringRect(x, X, Y, w, h, r, rings){ let o = 0; rings.slice().reverse().forEach(([wd]) => o += wd); let d = o; rings.slice().reverse().forEach(([wd, c]) => { rrect(x, X - d, Y - d, w + 2 * d, h + 2 * d, r + d); x.fillStyle = c; x.fill(); d -= wd; }); }
+function leafAt(x, cx, cy, s){ x.save(); x.translate(cx - s / 2, cy - s / 2); x.scale(s / 24, s / 24); x.fill(new Path2D('M20 3C10 3 4 8.5 4 15.5c0 1.6.4 3 1 4.2C6.6 13.8 10.4 10 15 8c-4 2.8-6.8 6.6-8 11.6 1.2.6 2.6.9 4 .9C18 20.5 21 13 20 3z')); x.restore(); }
+function starShape(x, cx, cy, r){ const P = [[50, 0], [61, 35], [98, 35], [68, 57], [79, 91], [50, 70], [21, 91], [32, 57], [2, 35], [39, 35]]; x.beginPath(); P.forEach(([px, py], i) => { const X = cx + (px - 50) / 50 * r, Y = cy + (py - 50) / 50 * r; i ? x.lineTo(X, Y) : x.moveTo(X, Y); }); x.closePath(); }
+async function drawCardFront(x, o, X, Y, W){
+  const u = W / 25, E = v => v * u, tk = cardTier(o.gen), T = TIERS[tk], C = T.c, g = genNum(o.gen), n = answerCount.get(o.id) || 0;
+  x.save(); x.translate(X, Y); cardFrame(x, E, C);
+  // name bar
+  ringRect(x, E(.75), E(.75), E(23.5), E(2.7), E(1.35), [[E(.15), C[3]]]);
+  const nb = x.createLinearGradient(0, E(.75), 0, E(3.45)); nb.addColorStop(0, '#fffdf6'); nb.addColorStop(1, '#efe2c2'); rrect(x, E(.75), E(.75), E(23.5), E(2.7), E(1.35)); x.fillStyle = nb; x.fill();
+  const gx = E(2.12), gy = E(2.1);
+  [[1.4, C[3]], [1.28, C[4]]].forEach(([r, c]) => { x.beginPath(); x.arc(gx, gy, E(r), 0, 7); x.fillStyle = c; x.fill(); });
+  const gg = x.createRadialGradient(gx - E(.4), gy - E(.5), 0, gx, gy, E(1.2)); [[0, '#fff'], [.08, '#fff'], [.18, C[0]], [.5, C[1]], [.85, C[2]], [1, C[3]]].forEach(([s, c]) => gg.addColorStop(s, c));
+  x.beginPath(); x.arc(gx, gy, E(1.15), 0, 7); x.fillStyle = gg; x.fill();
+  x.textAlign = 'center'; x.textBaseline = 'middle'; x.font = `900 ${E(g ? (g > 9 ? 1.12 : 1.3) : 1.05)}px Cinzel, Georgia, serif`;
+  x.lineJoin = 'round'; x.lineWidth = E(.22); x.strokeStyle = C[3]; x.strokeText(g ? String(g) : 'G', gx, gy + E(.08)); x.fillStyle = '#fff'; x.fillText(g ? String(g) : 'G', gx, gy + E(.08));
+  const ax = E(25 - .75 - .4 - .95);
+  [[1.17, C[3]], [1.07, C[4]]].forEach(([r, c]) => { x.beginPath(); x.arc(ax, gy, E(r), 0, 7); x.fillStyle = c; x.fill(); });
+  const ag = x.createRadialGradient(ax - E(.3), gy - E(.3), 0, ax, gy, E(.95)); ag.addColorStop(0, '#7fdcaa'); ag.addColorStop(.6, '#2e8a69'); ag.addColorStop(1, '#155a41'); x.beginPath(); x.arc(ax, gy, E(.95), 0, 7); x.fillStyle = ag; x.fill();
+  x.fillStyle = '#fff'; leafAt(x, ax, gy, E(1.15));
+  x.textAlign = 'left'; x.fillStyle = '#2a2116'; x.font = `${E(1.6)}px Jua, sans-serif`; x.fillText(wrapLines(x, o.name, E(15.6), 1)[0] || '', E(3.85), gy + E(.1));
+  // rarity row
+  for (let i = 0; i < T.stars; i++){ const cx = E(1.65 + i * 1.5), cy = E(4.45); const sg = x.createRadialGradient(cx - E(.1), cy - E(.15), 0, cx, cy, E(.7)); sg.addColorStop(0, '#fffbe0'); sg.addColorStop(.5, '#ffcd3c'); sg.addColorStop(1, '#e08f0c'); starShape(x, cx, cy, E(.7)); x.fillStyle = sg; x.fill(); x.lineWidth = E(.07); x.strokeStyle = C[3]; x.lineJoin = 'round'; x.stroke(); }
+  x.font = `900 ${E(.9)}px Cinzel, Georgia, serif`; const lab = T.label.split('').join(String.fromCharCode(8202)), lw = x.measureText(T.label).width + E(.16 * .9 * T.label.length) + E(1.35);
+  const lx = E(25 - .75 - .3) - lw; ringRect(x, lx, E(3.75), lw, E(1.4), E(.3), [[E(.1), C[3]]]);
+  const lg = x.createLinearGradient(0, E(3.75), 0, E(5.15)); lg.addColorStop(0, C[4]); lg.addColorStop(1, C[0]); rrect(x, lx, E(3.75), lw, E(1.4), E(.3)); x.fillStyle = lg; x.fill();
+  x.fillStyle = C[3]; x.textAlign = 'center'; if ('letterSpacing' in x) x.letterSpacing = E(.14) + 'px'; x.fillText(T.label, lx + lw / 2 + E(.07), E(4.5)); if ('letterSpacing' in x) x.letterSpacing = '0px';
+  // art window
+  const AX = E(.85), AY = E(5.6), AW = E(23.3), AH = E(18.65);
+  ringRect(x, AX, AY, AW, AH, E(.3), [[E(.1), C[3]], [E(.16), C[4]], [E(.2), C[3]]]);
+  x.save(); rrect(x, AX, AY, AW, AH, E(.3)); x.clip();
+  const sky = x.createLinearGradient(0, AY, 0, AY + AH); sky.addColorStop(0, C[0]); sky.addColorStop(.52, '#f4fbf0'); sky.addColorStop(.53, '#a5dc8f'); sky.addColorStop(1, '#7cc36c'); x.fillStyle = sky; x.fillRect(AX, AY, AW, AH);
+  const bg = await loadImg('data:image/svg+xml;charset=utf-8,' + encodeURIComponent(CARD_BG_SVG.replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" width="220" height="180" ')));
+  if (bg){ const s = Math.max(AW / 220, AH / 180), bw = 220 * s, bh = 180 * s; x.drawImage(bg, AX + (AW - bw) / 2, AY + AH - bh, bw, bh); }
+  const av = await loadImg(avatarURL(o.av, 'full'));
+  if (av){ const ah = AH * .9, aw = ah * 280 / 350; x.save(); x.shadowColor = 'rgba(20,40,20,.3)'; x.shadowBlur = E(.3); x.shadowOffsetY = E(.25); x.drawImage(av, AX + (AW - aw) / 2, AY + AH * .97 - ah, aw, ah); x.restore(); }
+  const fo = x.createLinearGradient(AX, AY, AX + AW, AY + AH); [[0, 'rgba(255,255,255,0)'], [.2, 'rgba(255,255,255,0)'], [.3, 'rgba(255,255,255,.22)'], [.34, 'rgba(255,236,170,.14)'], [.38, 'rgba(200,170,255,.12)'], [.46, 'rgba(255,255,255,0)'], [1, 'rgba(255,255,255,0)']].forEach(([s, c]) => fo.addColorStop(s, c));
+  x.globalAlpha = T.stars >= 3 ? 1 : .55; x.fillStyle = fo; x.fillRect(AX, AY, AW, AH); x.globalAlpha = 1;
+  if (T.stars >= 4){ starAt(x, AX + AW * .12, AY + AH * .16, E(.55)); starAt(x, AX + AW * .86, AY + AH * .3, E(.5)); starAt(x, AX + AW * .22, AY + AH * .48, E(.35)); }
+  x.restore();
+  // text box
+  const BX = E(.75), BY = E(24.85), BW = E(23.5), BH = E(8.4);
+  ringRect(x, BX, BY, BW, BH, E(.3), [[E(.14), C[3]]]);
+  const bx = x.createLinearGradient(0, BY, 0, BY + BH); bx.addColorStop(0, '#fffaf0'); bx.addColorStop(1, '#f1e4c6'); rrect(x, BX, BY, BW, BH, E(.3)); x.fillStyle = bx; x.fill();
+  x.textAlign = 'left'; x.textBaseline = 'alphabetic'; x.fillStyle = '#3a2a14';
+  x.font = `${E(.9)}px Jua, sans-serif`; let tx = BX + E(.65);
+  [['[ ', C[2]], [`BITor / ${genLabel(o.gen)}`, '#3a2a14'], [' ]', C[2]]].forEach(([t, c]) => { x.fillStyle = c; x.fillText(t, tx, BY + E(1.3)); tx += x.measureText(t).width; });
+  x.fillStyle = '#3d3222'; x.font = `${E(.98)}px "Gowun Dodum", sans-serif`;
+  const chips = [o.bot ? ['예시 캐릭터', 0] : null, o.id === meId ? ['나', 0] : null, n ? [`💬 답변 ${n}개`, 1] : null].filter(Boolean);
+  wrapLines(x, T.flavor, BW - E(1.3), chips.length ? 2 : 3).forEach((l, i) => x.fillText(l, BX + E(.65), BY + E(2.75) + i * E(1.36)));
+  let cx = BX + E(.65); x.font = `${E(.78)}px "Gowun Dodum", sans-serif`;
+  chips.forEach(([t, ans]) => { const w = x.measureText(t).width + E(1.1); rrect(x, cx, BY + E(5.35), w, E(1.25), E(.62)); x.fillStyle = ans ? '#2e8a69' : C[4]; x.fill(); if (!ans){ x.lineWidth = E(.1); x.strokeStyle = C[2]; x.stroke(); } x.fillStyle = ans ? '#fff' : C[3]; x.fillText(t, cx + E(.55), BY + E(6.24)); cx += w + E(.3); });
+  x.fillStyle = 'rgba(58,42,20,.45)'; x.fillRect(BX + E(.65), BY + E(6.95), BW - E(1.3), E(.1));
+  x.fillStyle = '#2a2116'; x.font = `700 ${E(.86)}px Cinzel, Georgia, serif`; x.textAlign = 'right'; x.fillText(`ANS/${n}    GEN/${g || 'G'}`, BX + BW - E(.65), BY + E(7.95));
+  // foot
+  x.font = `700 ${E(.6)}px Cinzel, Georgia, serif`; x.fillStyle = C[3]; x.globalAlpha = .8;
+  x.textAlign = 'left'; x.fillText(cardSerial(o), E(1), E(34.15)); x.textAlign = 'right'; x.fillText('20th HOMECOMING', E(24), E(34.15)); x.globalAlpha = 1;
+  x.restore();
+}
+function drawCardBack(x, o, X, Y, W){
+  const u = W / 25, E = v => v * u, T = TIERS[cardTier(o.gen)], C = T.c;
+  x.save(); x.translate(X, Y); cardFrame(x, E, C);
+  const IX = E(.75), IY = E(.75), IW = E(23.5), IH = E(33.5);
+  ringRect(x, IX, IY, IW, IH, E(.5), [[E(.2), C[3]]]);
+  x.save(); rrect(x, IX, IY, IW, IH, E(.5)); x.clip();
+  const rg = x.createRadialGradient(IX + IW / 2, IY + IH * .42, 0, IX + IW / 2, IY + IH * .42, IH * .6); rg.addColorStop(0, C[2]); rg.addColorStop(1, C[3]); x.fillStyle = rg; x.fillRect(IX, IY, IW, IH);
+  x.strokeStyle = 'rgba(255,255,255,.07)'; x.lineWidth = E(.5); for (let d = -IH; d < IW + IH; d += E(1.7)){ x.beginPath(); x.moveTo(IX + d, IY); x.lineTo(IX + d - IH, IY + IH); x.stroke(); x.beginPath(); x.moveTo(IX + d - IH, IY); x.lineTo(IX + d, IY + IH); x.stroke(); }
+  rrect(x, IX + E(.15), IY + E(.15), IW - E(.3), IH - E(.3), E(.4)); x.lineWidth = E(.3); x.strokeStyle = C[1]; x.stroke();
+  rrect(x, IX + E(.36), IY + E(.36), IW - E(.72), IH - E(.72), E(.3)); x.lineWidth = E(.12); x.strokeStyle = C[3]; x.stroke();
+  x.restore();
+  // crest
+  x.textAlign = 'center'; x.textBaseline = 'middle'; x.font = `${E(1.7)}px Jua, sans-serif`; x.fillStyle = C[4];
+  if ('letterSpacing' in x) x.letterSpacing = E(.24) + 'px'; x.fillText('BITor', E(12.5) + E(.12), E(2.8)); if ('letterSpacing' in x) x.letterSpacing = '0px';
+  [[-1, E(7.6)], [1, E(17.4)]].forEach(([s, x0]) => { const lg = x.createLinearGradient(x0 - s * E(2.4), 0, x0, 0); lg.addColorStop(0, 'rgba(0,0,0,0)'); lg.addColorStop(1, C[0]); x.fillStyle = lg; x.fillRect(Math.min(x0, x0 - s * E(2.4)), E(2.7), E(2.4), E(.14)); });
+  // plaque
+  const PX = E(1.65), PY = E(4.3), PW = E(21.7), PH = E(26.6);
+  ringRect(x, PX, PY, PW, PH, E(.6), [[E(.14), C[3]], [E(.18), C[1]]]);
+  rrect(x, PX, PY, PW, PH, E(.6)); x.fillStyle = '#fffaf0'; x.fill();
+  x.save(); rrect(x, PX, PY, PW, PH, E(.6)); x.clip(); x.fillStyle = 'rgba(201,179,138,.3)'; for (let yy = PY + E(2.2); yy < PY + PH; yy += E(2.3)) x.fillRect(PX, yy, PW, E(.1)); x.restore();
+  rrect(x, PX + E(.5), PY + E(.5), PW - E(1), PH - E(1), E(.3)); x.lineWidth = E(.12); x.strokeStyle = 'rgba(201,179,138,.6)'; x.stroke();
+  const mem = (o.memory || '').trim();
+  x.fillStyle = '#8b5a35'; x.font = `${E(.95)}px "Gowun Dodum", sans-serif`; x.fillText('BIT에서 가장 기억에 남는 순간', E(12.5), PY + E(2.3));
+  x.fillStyle = C[1]; x.globalAlpha = .7; x.fillRect(E(12.5) - E(3.6), PY + E(3.75), E(2.6), E(.1)); x.fillRect(E(12.5) + E(1), PY + E(3.75), E(2.6), E(.1)); x.globalAlpha = 1; leafAt(x, E(12.5), PY + E(3.8), E(1.1));
+  x.fillStyle = mem ? '#2a2116' : '#6d7f78'; x.font = mem ? `${E(1.7)}px Jua, sans-serif` : `${E(1.05)}px "Gowun Dodum", sans-serif`;
+  const ls = wrapLines(x, mem ? `“${mem}”` : '아직 비어 있어요', PW - E(3), 6), lh = E(mem ? 2.4 : 1.5);
+  ls.forEach((l, i) => x.fillText(l, E(12.5), PY + PH / 2 - (ls.length - 1) * lh / 2 + i * lh));
+  x.fillStyle = '#6d7f78'; x.font = `${E(.92)}px "Gowun Dodum", sans-serif`; x.fillText(`— ${genLabel(o.gen)} ${o.name}`, E(12.5), PY + PH - E(2.2));
+  x.fillStyle = C[4]; x.globalAlpha = .9; x.font = `${E(1)}px Jua, sans-serif`; x.fillText('모여봐요 뱌티의 숲', E(12.5), E(32.6)); x.globalAlpha = 1;
+  x.restore();
+}
 async function cardImage(o){
   await fontsReady();
-  const c = document.createElement('canvas'); c.width = 1080; c.height = 1350; const x = c.getContext('2d');
-  x.fillStyle = '#fdf8ea'; x.fillRect(0, 0, 1080, 1350);
+  const c = document.createElement('canvas'); c.width = 1080; c.height = 1350; const x = c.getContext('2d'), C = TIERS[cardTier(o.gen)].c;
+  const bg = x.createLinearGradient(0, 0, 0, 1350); bg.addColorStop(0, '#fdf8ea'); bg.addColorStop(1, '#f1e6cc'); x.fillStyle = bg; x.fillRect(0, 0, 1080, 1350);
+  const glow = x.createRadialGradient(540, 660, 0, 540, 660, 620); glow.addColorStop(0, C[0]); glow.addColorStop(1, 'rgba(253,248,234,0)'); x.fillStyle = glow; x.fillRect(0, 0, 1080, 1350);
   x.fillStyle = 'rgba(139,90,53,.07)'; for (let yy = 30; yy < 1350; yy += 46) for (let xx = (yy / 46 % 2) * 23 + 20; xx < 1080; xx += 46){ x.beginPath(); x.arc(xx, yy, 3, 0, 7); x.fill(); }
-  x.textAlign = 'center'; x.fillStyle = '#8b5a35'; x.font = '40px Jua, sans-serif'; x.fillText('BITor CARD', 540, 102);
-  // front
-  x.save(); rrect(x, 100, 140, 880, 500, 44); x.fillStyle = '#4e2f19'; x.fill(); rrect(x, 112, 140, 856, 486, 38);
-  const g = x.createLinearGradient(112, 140, 968, 626); g.addColorStop(0, '#e2f8ec'); g.addColorStop(.6, '#a6e0c4'); g.addColorStop(1, '#7cc7a3'); x.fillStyle = g; x.fill();
-  x.lineWidth = 10; x.strokeStyle = '#fdf8ea'; x.stroke(); x.restore();
-  x.save(); x.fillStyle = 'rgba(255,255,255,.55)'; x.beginPath(); x.ellipse(300, 420, 170, 170, 0, 0, 7); x.fill(); x.restore();
-  const av = await loadImg(avatarURL(o.av, 'full')); if (av) x.drawImage(av, 150, 166, 300, 375);
-  x.textAlign = 'left'; x.fillStyle = '#2c5b4b'; x.font = '26px "Gowun Dodum", sans-serif'; x.fillText('B I T o r   C A R D', 500, 280);
-  x.fillStyle = '#1f6b52'; x.font = '56px Jua, sans-serif'; x.fillText(genLabel(o.gen), 500, 360);
-  x.fillStyle = '#22453e'; x.font = '104px Jua, sans-serif'; wrapLines(x, o.name, 440, 1).forEach(l => x.fillText(l, 496, 470));
-  const n = answerCount.get(o.id) || 0;
-  if (n){ x.font = '30px Jua, sans-serif'; const lab = `💬 답변 ${n}개`, tw = x.measureText(lab).width + 40; rrect(x, 500, 506, tw, 52, 26); x.fillStyle = '#2e8a69'; x.fill(); x.fillStyle = '#fff'; x.fillText(lab, 520, 543); }
-  x.textAlign = 'right'; x.fillStyle = 'rgba(34,69,62,.6)'; x.font = '26px "Gowun Dodum", sans-serif'; x.fillText('BIT 20th Homecoming', 930, 600);
-  // back
-  x.save(); rrect(x, 100, 700, 880, 500, 44); x.fillStyle = '#c9b38a'; x.fill(); rrect(x, 112, 700, 856, 486, 38); x.fillStyle = '#fffaf0'; x.fill();
-  x.strokeStyle = 'rgba(201,179,138,.35)'; x.lineWidth = 2; for (let yy = 800; yy < 1160; yy += 54){ x.beginPath(); x.moveTo(170, yy); x.lineTo(910, yy); x.stroke(); }
-  x.restore();
-  x.textAlign = 'center'; x.fillStyle = '#8b5a35'; x.font = '32px "Gowun Dodum", sans-serif'; x.fillText('BIT에서 가장 기억에 남는 순간', 540, 780);
-  const mem = (o.memory || '').trim() || '아직 비어 있어요';
-  x.fillStyle = '#22453e'; x.font = '58px Jua, sans-serif';
-  const ls = wrapLines(x, mem ? `“${mem}”` : '', 720, 4); ls.forEach((l, i) => x.fillText(l, 540, 960 - (ls.length - 1) * 38 + i * 76));
-  x.fillStyle = '#5d7a70'; x.font = '30px "Gowun Dodum", sans-serif'; x.fillText(`— ${genLabel(o.gen)} ${o.name}`, 540, 1150);
-  sticker(x, '모여봐요 뱌티의 숲', 540, 1280, 54);
+  x.textAlign = 'center'; x.textBaseline = 'alphabetic'; x.fillStyle = C[3]; x.font = '72px Jua, sans-serif';
+  if ('letterSpacing' in x) x.letterSpacing = '6px'; x.fillText('BITor CARD', 543, 170); if ('letterSpacing' in x) x.letterSpacing = '0px';
+  x.fillStyle = '#8b5a35'; x.font = '30px "Gowun Dodum", sans-serif'; x.fillText(`${TIERS[cardTier(o.gen)].label} · ${genLabel(o.gen)} ${o.name}`, 540, 230);
+  const W = 452, H = W * 1.4;
+  x.save(); x.translate(300, 300 + H / 2); x.rotate(-.045); await drawCardFront(x, o, -W / 2, -H / 2, W); x.restore();
+  x.save(); x.translate(780, 300 + H / 2); x.rotate(.045); drawCardBack(x, o, -W / 2, -H / 2, W); x.restore();
+  x.fillStyle = 'rgba(78,47,25,.55)'; x.font = '28px "Gowun Dodum", sans-serif'; x.fillText('BIT 20th Homecoming', 540, 1090);
+  sticker(x, '모여봐요 뱌티의 숲', 540, 1215, 60);
   return c;
 }
 const shotEl = $('#shotModal'); let shotCanvas = null, shotName = '';
@@ -2333,17 +2498,10 @@ function qNote(q){
       <button type="button" class="ansn${n ? ' has' : ''}" data-open="${esc(q.id)}">💬 ${n ? '답변 ' + n + '개' : '답변하기'}</button></span></footer>
   </article>`;
 }
-function renderQA(body, chips){
-  const U = qaUI, me = chars.get(meId);
-  const draft = $('#qaText', body) ? $('#qaText', body).value : '', aDraft = $('#ansText', body) ? $('#ansText', body).value : '';
-  if (Cloud.on && qaCache && qaCache.missing){ body.innerHTML = chips + `<div class="empty">질문 게시판은 운영진이 데이터베이스 업데이트를 마치면 열려요.</div>`; return bindQA(body); }
-  const list = qaList();
-  if (U.thread){
-    const q = list.find(x => x.id === U.thread);
-    if (q){ body.innerHTML = chips + threadHTML(q, me); const ta = $('#ansText', body); if (ta && aDraft) ta.value = aDraft; return bindQA(body); }
-    U.thread = null;
-  }
-  let qs = list.filter(q => U.tag === 'all' || q.tag === U.tag);
+function qaListHTML(me){
+  const U = qaUI;
+  if (Cloud.on && qaCache && qaCache.missing) return `<section class="qna"><h3 class="bd-h sec-h">선배에게 질문</h3><div class="empty">질문 게시판은 운영진이 데이터베이스 업데이트를 마치면 열려요.</div></section>`;
+  let qs = qaList().filter(q => U.tag === 'all' || q.tag === U.tag);
   if (U.sort === 'open') qs = qs.filter(q => !q.answers.length);
   qs.sort(U.sort === 'new' ? (a, b) => b.ts - a.ts : (a, b) => b.votes.length - a.votes.length || b.ts - a.ts);
   const writer = me ? `<form class="qa-write" id="qaForm" autocomplete="off">
@@ -2356,9 +2514,19 @@ function renderQA(body, chips){
   const filters = `<div class="qa-bar"><div class="chips qa-filter">${[['all', '전체 분야', '#fff']].concat(QA_TAGS).map(([k, l]) => `<button class="chip" type="button" data-qtag="${k}" aria-pressed="${U.tag === k}">${l}</button>`).join('')}</div>
     <div class="seg qa-sort">${[['hot', '많이 궁금해한 순'], ['new', '최신순'], ['open', '답변 기다리는']].map(([k, l]) => `<button type="button" data-qsort="${k}" aria-pressed="${U.sort === k}">${l}</button>`).join('')}</div></div>`;
   const notes = qs.length ? qs.map(qNote).join('') : `<div class="bd-empty">${U.sort === 'open' ? '답변을 기다리는 질문이 없어요. 다들 답변을 받았어요!' : '아직 질문이 없어요.<br>첫 질문을 붙여 보세요!'}</div>`;
-  body.innerHTML = chips + `<section class="qna"><p class="qa-intro">선배 BITor에게 묻고 싶은 걸 남겨 주세요. 답변이 달리면 편지함으로 알려드려요.</p>${writer}${filters}<div class="cork qa-cork">${notes}</div></section>`;
+  return `<section class="qna"><h3 class="bd-h sec-h">선배에게 질문 <span>${qs.length ? qs.length + '개' : ''}</span></h3><p class="qa-intro">선배 BITor에게 묻고 싶은 걸 남겨 주세요. 답변이 달리면 편지함으로 알려드려요.</p>${writer}${filters}<div class="cork qa-cork">${notes}</div></section>`;
+}
+function renderQA(body, chips){
+  const U = qaUI, me = chars.get(meId);
+  const draft = $('#qaText', body) ? $('#qaText', body).value : '', aDraft = $('#ansText', body) ? $('#ansText', body).value : '';
+  if (U.thread && !(Cloud.on && qaCache && qaCache.missing)){
+    const q = qaList().find(x => x.id === U.thread);
+    if (q){ body.innerHTML = chips + threadHTML(q, me); const ta = $('#ansText', body); if (ta && aDraft) ta.value = aDraft; return bindQA(body); }
+    U.thread = null;
+  }
+  body.innerHTML = chips + qaListHTML(me);
   const ta = $('#qaText', body); if (ta && draft) ta.value = draft;
-  bindQA(body);
+  return bindQA(body);
 }
 function threadHTML(q, me){
   const voted = !!meId && q.votes.includes(meId), U = qaUI;
@@ -2396,9 +2564,9 @@ function bindQA(body){
     if (d.delq){ if (U.arm !== 'q' + d.delq){ U.arm = 'q' + d.delq; return renderBoard(body); } return busy(() => QA.removeQ(d.delq).then(() => { U.thread = null; }), '질문을 지웠어요'); }
     if (d.dela){ if (U.arm !== 'a' + d.dela){ U.arm = 'a' + d.dela; return renderBoard(body); } return busy(() => QA.removeA(U.thread, d.dela), '답변을 지웠어요'); }
     if (d.find){ closePanel(); return focusChar(d.find); }
-    if (d.open){ U.thread = d.open; U.arm = null; renderBoard(body); body.scrollTop = 0; }
+    if (d.open){ U.thread = d.open; U.arm = null; boardUI.filter = 'qna'; renderBoard(body); body.scrollTop = 0; }
   };
-  body.onkeydown = e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.matches && e.target.matches('article[data-open]')){ e.preventDefault(); U.thread = e.target.dataset.open; renderBoard(body); } };
+  body.onkeydown = e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.matches && e.target.matches('article[data-open]')){ e.preventDefault(); U.thread = e.target.dataset.open; boardUI.filter = 'qna'; renderBoard(body); } };
   body.onsubmit = e => {
     e.preventDefault();
     const btn = e.target.querySelector('[type=submit]');
@@ -2415,6 +2583,7 @@ function bindQA(body){
         .catch(err => { console.warn(err); btn.disabled = false; toast('답변을 남기지 못했어요. 잠시 뒤 다시 시도해 주세요'); });
     }
   };
+  return { click: body.onclick, keydown: body.onkeydown, submit: body.onsubmit };
 }
 
 /* ----- stage screen: questions waiting for an answer ----- */
@@ -2434,8 +2603,11 @@ function stageQRender(keep){
 setInterval(() => stageQRender(false), 7000);
 
 /* ================= panels / buildings ================= */
+let panelFull = store.get('bitforest.panelFull', false);
+function setPanelFull(on){ panelFull = on; panel.classList.toggle('full', on); const b = $('#panelExpand'); b.setAttribute('aria-pressed', on); const l = on ? '반으로 줄이기' : '전체 화면으로 보기'; b.setAttribute('aria-label', l); b.title = l; store.set('bitforest.panelFull', on); }
+$('#panelExpand').addEventListener('click', () => setPanelFull(!panelFull));
 function openPanel(title, sub, html, after, wide){
-  panel.classList.toggle('wide', !!wide);
+  panel.classList.toggle('wide', !!wide); setPanelFull(panelFull);
   $('#panelTitle').textContent = title; $('#panelSub').textContent = sub;
   const body = $('#panelBody'); body.innerHTML = html; body.onclick = null; body.onchange = null; body.oninput = null; body.onsubmit = null; body.onkeydown = null; body.scrollTop = 0;
   closeSheet(); panel.hidden = false; showScrim(); after && after(body);
