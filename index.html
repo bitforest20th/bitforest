@@ -135,6 +135,48 @@ button{cursor:pointer}
 .saybar{display:flex;gap:6px;padding:6px;border-radius:999px;background:var(--paper);box-shadow:var(--lift)}
 .saybar input{flex:1;min-width:0;border:0;background:transparent;padding:0 12px;outline:none;font-size:15px}
 .saybar button,.btn{border:0;border-radius:999px;height:40px;padding:0 18px;background:var(--leaf);color:#fff;font-family:var(--font-display);font-size:16px;white-space:nowrap}
+.admin-box{padding:18px;border-radius:18px;background:#fff;border:2px solid #f0c9bd}
+.admin-box h3{margin:0 0 6px;font-family:var(--font-display);font-weight:400;font-size:21px;color:#b4442c}
+.admin-box>p{margin:0 0 14px;line-height:1.6;color:var(--ink-soft);font-size:14.5px}
+.admin-opts{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+.admin-opts label{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:14px;border:2px solid var(--paper-line);background:var(--paper);font-size:13.5px;line-height:1.5;color:var(--ink-soft);cursor:pointer}
+.admin-opts label:has(input:checked){border-color:#b4442c;background:#fff4f0}
+.admin-opts b{font-size:15px;color:var(--ink)}
+.admin-opts input{margin-top:4px;accent-color:#b4442c}
+#admCode{width:100%;box-sizing:border-box;height:46px;border:2px solid var(--paper-line);border-radius:14px;padding:0 14px;font-size:16px;background:#fff;outline:none;margin-bottom:10px}
+.btn.danger-btn{width:100%;background:#b4442c;white-space:normal;height:auto;min-height:48px;padding:8px 18px;line-height:1.35}
+.btn.danger-btn:disabled{opacity:.7}
+#admMsg{margin:10px 0 0}
+.saybar .logbtn{position:relative;width:40px;padding:0;display:grid;place-items:center;background:var(--paper-2);color:var(--ink)}
+.saybar .logbtn[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.logdot{position:absolute;top:5px;right:5px;width:8px;height:8px;border-radius:50%;background:#e8483b;border:1.5px solid var(--paper)}
+.chatlog{position:absolute;z-index:22;right:max(12px,env(safe-area-inset-right,0px));top:calc(env(safe-area-inset-top,0px) + 74px);bottom:calc(env(safe-area-inset-bottom,0px) + 12px);width:min(340px,calc(100% - 24px));box-sizing:border-box;display:flex;flex-direction:column;background:rgba(253,248,234,.97);border:2px solid var(--paper-line);border-radius:20px;box-shadow:var(--lift),0 12px 30px rgba(30,40,20,.18);overflow:hidden;animation:clIn .25s ease-out}
+.chatlog[hidden]{display:none}
+@keyframes clIn{from{opacity:0;transform:translateX(24px)}}
+.cl-head{position:relative;flex:none;padding:14px 56px 10px 18px;border-bottom:2px dashed var(--paper-line)}
+.cl-head h2{margin:0;font-family:var(--font-display);font-weight:400;font-size:21px}
+.cl-head p{margin:2px 0 0;font-size:12.5px;color:var(--ink-soft)}
+.cl-head .close{top:12px;right:12px}
+.cl-list{flex:1;min-height:0;overflow-y:auto;margin:0;padding:10px 12px 14px;list-style:none;display:flex;flex-direction:column;gap:10px;overscroll-behavior:contain}
+.cl-item{display:flex;gap:9px;align-items:flex-start}
+.cl-av{flex:none;width:34px;height:34px;border-radius:50%;background:var(--mint);overflow:hidden}
+.cl-av img{width:100%;height:100%;object-fit:cover}
+.cl-msg{min-width:0;flex:1}
+.cl-who{display:flex;align-items:baseline;gap:5px;font-size:12.5px;color:var(--ink-soft)}
+.cl-who b{font-family:var(--font-display);font-weight:400;font-size:14px;color:var(--ink)}
+.cl-who b i{font-style:normal;color:var(--leaf);margin-right:3px}
+.cl-who time{margin-left:auto;font-size:11px;white-space:nowrap}
+.cl-text{display:inline-block;margin-top:3px;padding:7px 12px;border-radius:4px 16px 16px 16px;background:#fff;box-shadow:0 1px 0 var(--paper-line);font-size:15px;line-height:1.45;overflow-wrap:anywhere}
+.cl-item.me .cl-text{background:var(--mint)}
+.cl-empty{position:absolute;left:0;right:0;top:46%;margin:0;text-align:center;font-size:14px;line-height:1.6;color:var(--ink-soft);pointer-events:none}
+.cl-empty[hidden]{display:none}
+.cl-new{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);border:0;border-radius:999px;height:34px;padding:0 14px;background:var(--ink);color:var(--paper);font-size:13.5px;box-shadow:var(--lift)}
+@media (max-width:900px){.chatlog{bottom:calc(var(--hudb,124px) + 10px)}}
+@media (max-width:560px){.chatlog{width:min(320px,84vw);top:calc(env(safe-area-inset-top,0px) + 68px)}}
+.stage .chatlog{width:min(420px,34vw);bottom:calc(env(safe-area-inset-bottom,0px) + 150px)}
+.stage .cl-text{font-size:19px}
+.stage .cl-who b{font-size:17px}
+.stage .cl-av{width:44px;height:44px}
 .mapctl{margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
 .zoom{display:flex;flex-direction:column;gap:6px}
 #mini{width:144px;height:108px;border-radius:16px;border:3px solid var(--paper);box-shadow:var(--lift);display:block;cursor:pointer;background:var(--water)}
@@ -540,6 +582,7 @@ button{cursor:pointer}
     <button type="button" data-act="me">내 캐릭터 꾸미기</button>
     <button type="button" data-act="photo">📸 20 동상 포토존</button>
     <button type="button" data-act="stage"><span>전광판 모드</span><span id="stageState">꺼짐</span></button>
+    <button type="button" data-act="chatlog"><span>채팅 내역 보기</span><span id="logState">꺼짐</span></button>
     <button type="button" data-act="bots"><span>예시 캐릭터 보이기</span><span id="botState">켜짐</span></button>
     <button type="button" data-act="reset" class="danger" id="resetBtn">내 캐릭터 지우고 처음부터</button>
     <div class="note" id="menuNote">초안이에요. 지금 광장에 있는 캐릭터 대부분은 분위기를 보여주는 예시 캐릭터예요. 같은 브라우저에서 탭을 두 개 열면 서로의 캐릭터가 보여요.</div>
@@ -556,6 +599,7 @@ button{cursor:pointer}
       </div>
       <form class="saybar" id="sayForm" autocomplete="off">
         <input id="sayInput" maxlength="40" placeholder="광장에 한마디 남기기" aria-label="광장에 한마디">
+        <button type="button" class="logbtn" id="logBtn" aria-label="채팅 내역 보기" aria-pressed="false" aria-controls="chatLog" title="채팅 내역 보기"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12.5h5"/></svg><span class="logdot" hidden></span></button>
         <button type="submit">말하기</button>
       </form>
     </div>
@@ -568,6 +612,12 @@ button{cursor:pointer}
     </div>
   </div>
 
+  <aside class="chatlog" id="chatLog" hidden aria-label="광장 채팅 내역">
+    <div class="cl-head"><div><h2>광장 채팅</h2><p>이 화면을 연 뒤부터의 대화예요</p></div><button class="close" type="button" id="chatLogClose" aria-label="채팅 내역 닫기"><svg width="18" height="18" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+    <ol class="cl-list" id="clList" aria-live="polite"></ol>
+    <p class="cl-empty" id="clEmpty">아직 대화가 없어요.<br>광장에 첫 인사를 남겨 보세요!</p>
+    <button class="cl-new" type="button" id="clNew" hidden>새 대화 보기 ↓</button>
+  </aside>
   <div id="toasts" aria-live="polite"></div>
   <div class="scrim" id="scrim" hidden></div>
   <section class="sheet" id="sheet" hidden aria-label="캐릭터 정보"></section>
@@ -1508,6 +1558,7 @@ function removeChar(id){ const o = chars.get(id); if (!o) return; o.el.remove();
 function place(o){ o.el.style.transform = `translate3d(${o.x.toFixed(1)}px,${o.y.toFixed(1)}px,0)`; const z = Math.round(o.y); if (z !== o.z){ o.z = z; o.el.style.zIndex = z; } }
 function say(id, text){
   const o = chars.get(id); if (!o) return;
+  logChat(o, text);
   const b = o.el.querySelector('.bubble'); b.textContent = text; b.hidden = false;
   b.style.animation = 'none'; void b.offsetWidth; b.style.animation = '';
   clearTimeout(o.bt); o.bt = setTimeout(() => { b.hidden = true; }, 5200);
@@ -1542,7 +1593,7 @@ function tick(now){
 /* ================= demo network (to be swapped for Supabase realtime) ================= */
 const bc = ('BroadcastChannel' in window) ? (() => { try { return new BroadcastChannel('bitforest'); } catch(e){ return null; } })() : null;
 const Net = {
-  post(type, data){ if (Cloud.on){ if (type === 'say' || type === 'move' || type === 'gather') cloudSend(type, data); return; } try { bc && bc.postMessage({ type, data }); } catch(e){} },
+  post(type, data){ if (Cloud.on){ if (type === 'say' || type === 'move' || type === 'gather' || type === 'reset') cloudSend(type, data); return; } try { bc && bc.postMessage({ type, data }); } catch(e){} },
   people(){ return store.get('bitforest.people', []); },
   savePerson(p){
     if (Cloud.on) return Cloud.c.from('players').upsert(Object.assign({ id: p.id, gen: String(p.gen), name: p.name, av: p.av }, Cloud.memOk ? { memory: String(p.memory || '').slice(0, MEM_MAX) } : {})).then(r => { if (r.error) throw r.error; });
@@ -1560,6 +1611,7 @@ if (bc) bc.onmessage = e => {
   else if (type === 'qna'){ qaLocalCounts(); if (boardOpen() && boardUI.filter === 'qna') renderBoard(); }
   else if (type === 'gather'){ onGather(data); }
   else if (type === 'leave'){ removeChar(data.id); }
+  else if (type === 'reset'){ kicked(false); }
   else if (type === 'say'){ say(data.id, data.text); }
   else if (type === 'move'){ const o = chars.get(data.id); if (o){ walkTo(o, data); o.holdUntil = performance.now() + 25000; } }
   else if (type === 'msg'){ if (data.to === meId) receive(data); }
@@ -1851,7 +1903,8 @@ function cloudSubscribe(){
     .on('broadcast', { event: 'move' }, ({ payload: d }) => { const o = d && chars.get(d.id); if (o && isFinite(d.x) && isFinite(d.y) && inIsland(d.x, d.y, .95)){ walkTo(o, { x: +d.x, y: +d.y }); o.holdUntil = performance.now() + 25000; } })
     .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'players' }, ({ new: p }) => { if (p && !chars.has(p.id)){ const c = normP(p); addChar(c, { arrive: true }); arrivalToast(c); } })
     .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'players' }, ({ new: p }) => { const o = p && chars.get(p.id); if (o && p.id !== meId){ Object.assign(o, normP(p)); refreshChar(o); } })
-    .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'players' }, ({ old }) => { if (old && old.id && old.id !== meId) removeChar(old.id); })
+    .on('broadcast', { event: 'reset' }, () => kicked(false))
+    .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'players' }, ({ old }) => { if (!old || !old.id) return; if (old.id === meId) kicked(false); else removeChar(old.id); })
     .on('postgres_changes', { event: '*', schema: 'public', table: 'posts' }, boardChanged)
     .on('postgres_changes', { event: '*', schema: 'public', table: 'post_likes' }, boardChanged)
     .on('postgres_changes', { event: '*', schema: 'public', table: 'thanks' }, boardChanged)
@@ -2607,7 +2660,7 @@ let panelFull = store.get('bitforest.panelFull', false);
 function setPanelFull(on){ panelFull = on; panel.classList.toggle('full', on); const b = $('#panelExpand'); b.setAttribute('aria-pressed', on); const l = on ? '반으로 줄이기' : '전체 화면으로 보기'; b.setAttribute('aria-label', l); b.title = l; store.set('bitforest.panelFull', on); }
 $('#panelExpand').addEventListener('click', () => setPanelFull(!panelFull));
 function openPanel(title, sub, html, after, wide){
-  panel.classList.toggle('wide', !!wide); setPanelFull(panelFull);
+  panel.classList.toggle('wide', !!wide); setPanelFull(panelFull); panel.style.zIndex = '';
   $('#panelTitle').textContent = title; $('#panelSub').textContent = sub;
   const body = $('#panelBody'); body.innerHTML = html; body.onclick = null; body.onchange = null; body.oninput = null; body.onsubmit = null; body.onkeydown = null; body.scrollTop = 0;
   closeSheet(); panel.hidden = false; showScrim(); after && after(body);
@@ -2893,6 +2946,7 @@ menu.onclick = e => {
     if (on) toast('전광판 모드예요. 큰 화면에 띄워 두면 새로 온 BITor가 바로 보여요');
     if (on && Cloud.on) qaFetch().then(() => stageQRender(true)).catch(() => {}); else stageQRender(true);
   }
+  if (act === 'chatlog'){ setChatLog(clEl.hidden); menu.hidden = true; }
   if (act === 'bots'){ showBots = !showBots; if (showBots) ensureDemo(); app.classList.toggle('hide-bots', !showBots); $('#botState').textContent = showBots ? '켜짐' : '꺼짐'; updateCount(); }
   if (act === 'reset'){
     if (!meId){ menu.hidden = true; openEntry('who'); return; }
@@ -2902,6 +2956,93 @@ menu.onclick = e => {
     Object.assign(draft, { gen: null, name: '', style: 'r', av: null }); openEntry('welcome');
   }
 };
+
+/* ================= chat log ================= */
+// 머리 위 말풍선은 그대로 두고, 같은 대화를 오른쪽 창에 차례로 쌓아 보여줘요 (이 기기에만 저장)
+const CL_KEY = 'bitforest.chatlog', CL_MAX = 200;
+let chatLog = store.get(CL_KEY, []).filter(m => m && Date.now() - m.ts < 6 * 3600e3).slice(-CL_MAX);
+const clEl = $('#chatLog'), clList = $('#clList');
+const clTime = ts => { const d = new Date(ts); return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); };
+function clItemHTML(m){
+  return `<li class="cl-item${m.id === meId ? ' me' : ''}"><span class="cl-av">${avatarSVG(m.av, { viewBox: HEAD_VB })}</span><div class="cl-msg"><div class="cl-who"><b><i>${esc(genLabel(m.gen))}</i>${esc(m.name)}</b><time datetime="${new Date(m.ts).toISOString()}">${clTime(m.ts)}</time></div><span class="cl-text">${esc(m.text)}</span></div></li>`;
+}
+const clNearBottom = () => clList.scrollHeight - clList.scrollTop - clList.clientHeight < 60;
+function clRender(){
+  clList.innerHTML = chatLog.map(clItemHTML).join(''); $('#clEmpty').hidden = chatLog.length > 0; $('#clNew').hidden = true;
+  clList.scrollTop = clList.scrollHeight;
+}
+let clSaveT = 0;
+function logChat(o, text){
+  if (o.bot && !showBots) return;
+  const m = { id: o.id, gen: o.gen, name: o.name, av: o.av, text: String(text).slice(0, 80), ts: Date.now() };
+  chatLog.push(m); if (chatLog.length > CL_MAX) chatLog.splice(0, chatLog.length - CL_MAX);
+  clearTimeout(clSaveT); clSaveT = setTimeout(() => store.set(CL_KEY, chatLog), 800);
+  if (clEl.hidden){ if (o.id !== meId) $('.logdot').hidden = false; return; }
+  const stick = clNearBottom() || o.id === meId;
+  if (clList.children.length >= CL_MAX) clList.firstElementChild.remove();
+  clList.insertAdjacentHTML('beforeend', clItemHTML(m)); $('#clEmpty').hidden = true;
+  if (stick) clList.scrollTop = clList.scrollHeight; else $('#clNew').hidden = false;
+}
+function setChatLog(on){
+  clEl.hidden = !on; $('#logBtn').setAttribute('aria-pressed', on); $('#logBtn').setAttribute('aria-label', on ? '채팅 내역 닫기' : '채팅 내역 보기');
+  $('#logState').textContent = on ? '켜짐' : '꺼짐'; store.set('bitforest.chatlogOpen', on);
+  if (on){ $('.logdot').hidden = true; clRender(); }
+}
+$('#logBtn').addEventListener('click', () => setChatLog(clEl.hidden));
+$('#chatLogClose').addEventListener('click', () => setChatLog(false));
+$('#clNew').addEventListener('click', () => { clList.scrollTo({ top: clList.scrollHeight, behavior: 'smooth' }); $('#clNew').hidden = true; });
+clList.addEventListener('scroll', () => { if (clNearBottom()) $('#clNew').hidden = true; });
+if (store.get('bitforest.chatlogOpen', false)) setChatLog(true);
+// 휴대폰에서는 채팅 내역 창이 아래쪽 입력창과 빠른 인사 버튼을 가리지 않도록 높이를 맞춰요
+{ const tk = $('#talk'), fit = () => app.style.setProperty('--hudb', (tk.offsetHeight ? tk.offsetHeight + 12 : 2) + 'px'); fit(); if (window.ResizeObserver) new ResizeObserver(fit).observe(tk); else addEventListener('resize', fit); }
+
+/* ================= staff tools (hidden) ================= */
+// 로고를 빠르게 5번 누르거나 주소 끝에 #admin 을 붙이면 열려요. 참석자 화면에는 보이지 않아요.
+let logoTaps = [];
+document.addEventListener('click', e => { if (!e.target.closest || !e.target.closest('.logo, .entry-logo')) return; const t = performance.now(); logoTaps = logoTaps.filter(x => t - x < 2500).concat(t); if (logoTaps.length >= 5){ logoTaps = []; openAdmin(); } });
+function openAdmin(){
+  openPanel('운영진 도구', '참석자에게는 보이지 않는 메뉴예요', `<div class="admin">
+    <div class="admin-box">
+      <h3>광장 초기화</h3>
+      <p>지금 들어와 있는 모든 사람을 광장에서 내보내요. 모두의 화면이 처음 입장 화면으로 돌아가고, 다시 기수와 이름을 골라 들어와야 해요.</p>
+      <div class="admin-opts" role="radiogroup" aria-label="초기화 범위">
+        <label><input type="radio" name="admAll" value="0" checked><span><b>사람만 내보내기</b><br>방명록, 선배에게 질문, Thanks to 명단은 남겨요</span></label>
+        <label><input type="radio" name="admAll" value="1"><span><b>전체 초기화</b><br>사람, 방명록, 질문과 답변, 메시지를 모두 지워요. Thanks to 명단만 남아요</span></label>
+      </div>
+      <input id="admCode" type="password" maxlength="40" placeholder="운영진 코드" aria-label="운영진 코드" autocomplete="off" value="${esc(Cloud.code || '')}">
+      <button class="btn big danger-btn" type="button" id="admGo">초기화하기</button>
+      <p class="hint" id="admMsg">${Cloud.on ? '되돌릴 수 없으니 행사 직전 테스트를 마친 뒤에 사용해 주세요.' : '지금은 이 브라우저 혼자 쓰는 미리보기 모드라서, 이 브라우저의 기록만 지워져요.'}</p>
+    </div></div>`, body => {
+      if (!entry.hidden) panel.style.zIndex = '60';
+      let armed = 0;
+      $('#admGo', body).onclick = async () => {
+        const btn = $('#admGo', body), msg = $('#admMsg', body), code = $('#admCode', body).value.trim(), all = $('input[name=admAll]:checked', body).value === '1';
+        if (Cloud.on && !code){ msg.textContent = '운영진 코드를 입력해 주세요.'; return; }
+        if (performance.now() - armed > 5000){ armed = performance.now(); btn.textContent = all ? '정말 전체를 지울까요? 한 번 더 누르면 실행돼요' : '정말 모두 내보낼까요? 한 번 더 누르면 실행돼요'; setTimeout(() => { if (performance.now() - armed >= 5000) btn.textContent = '초기화하기'; }, 5100); return; }
+        btn.disabled = true; btn.textContent = '초기화하는 중…';
+        try {
+          let n = chars.size;
+          if (Cloud.on){ const { data, error } = await Cloud.c.rpc('admin_reset', { p_code: code, p_all: all }); if (error) throw error; n = data || 0; Cloud.code = code; }
+          else { ['bitforest.people', 'bitforest.me', CL_KEY].concat(all ? [QA_KEY] : []).forEach(k => store.del(k)); if (all) store.set(BOARD_KEY, { thanks: loadBoard().thanks, posts: [] }); }
+          Net.post('reset', { all });
+          msg.textContent = `${n}명을 내보냈어요. 잠시 뒤 이 화면도 처음으로 돌아가요.`; btn.textContent = '완료';
+          kicked(true);
+        } catch (e) {
+          console.warn('[bitforest] reset failed', e); btn.disabled = false; btn.textContent = '초기화하기'; armed = 0;
+          msg.textContent = /wrong code/.test(String(e && (e.message || e))) ? '운영진 코드가 맞지 않아요.' : (/admin_reset|function/.test(String(e && e.message)) ? '데이터베이스에 업데이트 3을 먼저 실행해 주세요.' : '초기화하지 못했어요. 잠시 뒤 다시 시도해 주세요.');
+        }
+      };
+    });
+}
+let kickedOnce = false;
+function kicked(self){
+  if (kickedOnce) return; kickedOnce = true;
+  chatLog = []; store.del(CL_KEY); store.del('bitforest.me');
+  if (!self) toast('운영진이 광장을 새로 정리했어요. 잠시 뒤 처음 화면으로 돌아가요');
+  setTimeout(() => location.reload(), self ? 1800 : 1500 + Math.random() * 2500);
+}
+function checkAdminHash(){ if (location.hash === '#admin'){ history.replaceState(null, '', location.pathname + location.search); openAdmin(); } }
+window.addEventListener('hashchange', checkAdminHash);
 
 /* ================= minimap ================= */
 const mini = $('#mini'); let islandPath2D = null;
@@ -2954,6 +3095,7 @@ const bootReady = (async () => {
   if (mine){ meId = mine.id; welcomeBack(normP(mine)); subscribeInbox(); }
   updateCount();
 })();
+checkAdminHash();
 })();
 </script>
 
