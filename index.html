@@ -239,6 +239,52 @@ button{cursor:pointer}
 
 /* gallery */
 .gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.panel.wide .ph-gal{grid-template-columns:repeat(3,minmax(0,1fr))}
+.panel.full .ph-gal{grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
+@media (max-width:560px){.panel.wide .ph-gal{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.ph-gal .polaroid{margin:0}
+.ph-gal .ph{display:block;width:100%;padding:0;border:0;cursor:zoom-in;background:#eef3ea}
+.ph-gal figcaption{display:flex;flex-direction:column;gap:1px;line-height:1.4}
+.ph-gal figcaption .cap{color:var(--ink);font-size:13.5px;overflow-wrap:anywhere}
+.ph-gal figcaption .by{font-size:11.5px}
+.ph-pick{flex-direction:row;justify-content:flex-start;gap:14px;padding:16px 18px;border-color:#9fcdb6;background:#f1faf4;color:var(--leaf);text-align:left}
+.ph-pick input{position:absolute;width:1px;height:1px;opacity:0}
+.ph-pick:focus-within{outline:3px solid var(--leaf);outline-offset:2px}
+.ph-pick span{display:flex;flex-direction:column}
+.ph-pick b{font-family:var(--font-display);font-weight:400;font-size:18px}
+.ph-pick small{font-size:12.5px;color:var(--ink-soft)}
+.upload.ph-pick{position:relative}
+.ph-up{margin:0 0 6px;padding:14px;border-radius:16px;background:#f1faf4;border:2px solid #cfe9db}
+.ph-up>p{margin:0 0 10px;color:var(--ink-soft)}
+.ph-pre{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:12px}
+.ph-pre span{position:relative;flex:none;width:76px;height:76px;border-radius:10px;overflow:hidden;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.15)}
+.ph-pre img{width:100%;height:100%;object-fit:cover}
+.ph-pre button{position:absolute;top:3px;right:3px;width:22px;height:22px;border-radius:50%;border:0;background:rgba(34,69,62,.8);color:#fff;font-size:15px;line-height:1;padding:0}
+.ph-row{display:flex;gap:8px;justify-content:flex-end}
+.notice{padding:12px 14px;border-radius:12px;background:#fff6dc;border:2px solid #f0d68a;color:#7a5a12;font-size:14px;line-height:1.5;margin-bottom:12px}
+.ph-empty{padding:34px 16px;text-align:center;border-radius:16px;border:2px dashed var(--paper-line);color:var(--ink-soft);line-height:1.7}
+.ph-empty b{font-family:var(--font-display);font-weight:400;font-size:18px;color:var(--ink)}
+.bd-h small{font-family:var(--font-body);font-size:13px;color:var(--ink-soft);margin-left:4px}
+.adm-on{margin-left:8px;font-family:var(--font-body);font-size:12px;padding:3px 9px;border-radius:999px;background:#fbe3dc;color:#b4442c;vertical-align:middle}
+.pv{position:absolute;inset:0;z-index:58;display:flex;align-items:center;justify-content:center;gap:8px;background:rgba(18,30,26,.88);padding:calc(env(safe-area-inset-top,0px) + 56px) 10px calc(env(safe-area-inset-bottom,0px) + 14px)}
+.pv[hidden]{display:none}
+.pv-fig{margin:0;flex:1;min-width:0;max-width:1100px;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}
+.pv-fig img{max-width:100%;min-height:0;flex:0 1 auto;max-height:calc(100% - 110px);object-fit:contain;border-radius:6px;box-shadow:0 10px 30px rgba(0,0,0,.4);background:#222}
+.pv-fig figcaption{display:flex;flex-direction:column;align-items:center;gap:4px;color:#f3efe2;text-align:center;font-size:14px}
+.pv-fig figcaption b{font-family:var(--font-display);font-weight:400;font-size:20px}
+.pv-act{display:flex;gap:8px;margin-top:6px}
+.pv-act .btn{height:36px;font-size:14px;padding:0 14px;display:inline-grid;place-items:center;text-decoration:none}
+.pv-act .btn.ghost{background:rgba(255,255,255,.14);color:#fff}
+.pv-act .danger-txt{color:#ffb4a3}
+.pv-x{position:absolute;top:calc(env(safe-area-inset-top,0px) + 12px);right:12px;width:42px;height:42px;border-radius:50%;border:0;background:rgba(255,255,255,.14);color:#fff;display:grid;place-items:center}
+.pv-nav{flex:none;width:46px;height:46px;border-radius:50%;border:0;background:rgba(255,255,255,.14);color:#fff;display:grid;place-items:center}
+.pv-nav:disabled{opacity:.25}
+@media (max-width:560px){.pv-nav{position:absolute;bottom:calc(env(safe-area-inset-bottom,0px) + 18px)}.pv-nav.prev{left:14px}.pv-nav.next{right:14px}.pv-fig img{max-height:calc(100% - 150px)}}
+.st-post{width:100%;margin:-2px 0 6px}
+.admin-box+.admin-box{margin-top:14px}
+.admin-box.calm{border-color:#cfe9db}
+.admin-box.calm h3{color:var(--leaf)}
+.admin #admCode{margin-bottom:14px}
 .polaroid{background:#fff;padding:8px 8px 10px;border-radius:4px;box-shadow:0 3px 10px rgba(40,30,10,.18);transform:rotate(var(--r,0deg))}
 .polaroid .ph{aspect-ratio:1;max-width:100%;border-radius:2px;display:grid;place-items:center;color:rgba(34,69,62,.55);font-size:13px;background:var(--bgc,#e8f1df);overflow:hidden}
 .polaroid .ph img{width:100%;height:100%;object-fit:cover}
@@ -612,6 +658,12 @@ button{cursor:pointer}
     </div>
   </div>
 
+  <div class="pv" id="photoView" hidden role="dialog" aria-modal="true" aria-label="사진 크게 보기">
+    <button class="pv-x" type="button" data-pv="close" aria-label="닫기"><svg width="22" height="22" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    <button class="pv-nav prev" type="button" data-pv="prev" aria-label="이전 사진"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <figure class="pv-fig"><img id="pvImg" alt=""><figcaption id="pvCap"></figcaption></figure>
+    <button class="pv-nav next" type="button" data-pv="next" aria-label="다음 사진"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
+  </div>
   <aside class="chatlog" id="chatLog" hidden aria-label="광장 채팅 내역">
     <div class="cl-head"><div><h2>광장 채팅</h2><p>이 화면을 연 뒤부터의 대화예요</p></div><button class="close" type="button" id="chatLogClose" aria-label="채팅 내역 닫기"><svg width="18" height="18" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
     <ol class="cl-list" id="clList" aria-live="polite"></ol>
@@ -640,6 +692,7 @@ button{cursor:pointer}
       <div class="pose-chips" id="stPose" role="group" aria-label="포즈"></div>
       <div class="st-frame"><img id="stImg" alt="20 동상 앞에서 찍은 내 캐릭터 사진"><div class="st-loading" id="stLoading">찰칵… 사진 만드는 중</div></div>
       <div class="st-actions"><button class="btn ghost" type="button" data-st="save">저장하기</button><button class="btn pop" type="button" data-st="share">스토리에 공유하기</button></div>
+      <button class="btn st-post" type="button" data-st="post">🖼 MEMORY LANE에 걸기</button>
       <p class="hint" style="text-align:center;margin:0">공유가 안 되면 사진을 길게 눌러 저장한 뒤 올려 주세요</p>
     </div>
   </div>
@@ -1612,6 +1665,7 @@ if (bc) bc.onmessage = e => {
   else if (type === 'gather'){ onGather(data); }
   else if (type === 'leave'){ removeChar(data.id); }
   else if (type === 'reset'){ kicked(false); }
+  else if (type === 'photos'){ photosChanged({}); }
   else if (type === 'say'){ say(data.id, data.text); }
   else if (type === 'move'){ const o = chars.get(data.id); if (o){ walkTo(o, data); o.holdUntil = performance.now() + 25000; } }
   else if (type === 'msg'){ if (data.to === meId) receive(data); }
@@ -1908,6 +1962,7 @@ function cloudSubscribe(){
     .on('postgres_changes', { event: '*', schema: 'public', table: 'posts' }, boardChanged)
     .on('postgres_changes', { event: '*', schema: 'public', table: 'post_likes' }, boardChanged)
     .on('postgres_changes', { event: '*', schema: 'public', table: 'thanks' }, boardChanged)
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'photos' }, photosChanged)
     .on('broadcast', { event: 'gather' }, ({ payload: d }) => { if (d && d.gen != null) onGather({ id: d.id, gen: d.gen, name: String(d.name || '').slice(0, 10) }); })
     .subscribe();
   Cloud.ch = ch;
@@ -1950,7 +2005,7 @@ async function boardFetch(){
   };
   return boardCache;
 }
-function boardOpen(){ return !panel.hidden && panel.classList.contains('wide'); }
+function boardOpen(){ return !panel.hidden && panel.classList.contains('wide') && !panel.dataset.kind; }
 function boardChanged(){
   clearTimeout(boardTimer);
   boardTimer = setTimeout(async () => { if (!boardOpen()) return; try { await boardFetch(); renderBoard(); } catch (e) {} }, 250);
@@ -2247,6 +2302,13 @@ $('#stPose').innerHTML = POSES.map(([k, l]) => `<button type="button" data-pose=
 studioEl.addEventListener('click', async e => {
   const t = e.target.closest('button'); if (!t){ if (e.target === studioEl) studioEl.hidden = true; return; }
   if (t.dataset.st === 'close'){ studioEl.hidden = true; return; }
+  if (t.dataset.st === 'post' && STU.canvas){
+    if (!meId) return toast('내 캐릭터를 만들면 사진을 걸 수 있어요');
+    t.disabled = true; t.textContent = '거는 중…';
+    try { await Photos.add(STU.canvas, ''); toast('MEMORY LANE에 사진을 걸었어요! 📸'); t.textContent = '걸었어요 ✓'; }
+    catch (e) { console.warn('[bitforest] photo post failed', e); toast(photoErr(e)); t.disabled = false; t.textContent = '🖼 MEMORY LANE에 걸기'; }
+    return;
+  }
   if (t.dataset.mode && t.dataset.mode !== STU.mode){ STU.mode = t.dataset.mode; if (STU.mode === 'group') gather(); studioUI(); return shoot(); }
   if (t.dataset.pose && t.dataset.pose !== STU.pose){ STU.pose = t.dataset.pose; studioUI(); return shoot(); }
   if (t.dataset.st === 'save' && STU.canvas){ const b = await canvasBlob(STU.canvas); if (b){ saveBlob(b, photoName()); toast('사진 저장을 시작했어요. 안 되면 사진을 길게 눌러 저장해 주세요'); } }
@@ -2660,7 +2722,7 @@ let panelFull = store.get('bitforest.panelFull', false);
 function setPanelFull(on){ panelFull = on; panel.classList.toggle('full', on); const b = $('#panelExpand'); b.setAttribute('aria-pressed', on); const l = on ? '반으로 줄이기' : '전체 화면으로 보기'; b.setAttribute('aria-label', l); b.title = l; store.set('bitforest.panelFull', on); }
 $('#panelExpand').addEventListener('click', () => setPanelFull(!panelFull));
 function openPanel(title, sub, html, after, wide){
-  panel.classList.toggle('wide', !!wide); setPanelFull(panelFull); panel.style.zIndex = '';
+  panel.classList.toggle('wide', !!wide); setPanelFull(panelFull); panel.style.zIndex = ''; panel.dataset.kind = '';
   $('#panelTitle').textContent = title; $('#panelSub').textContent = sub;
   const body = $('#panelBody'); body.innerHTML = html; body.onclick = null; body.onchange = null; body.oninput = null; body.onsubmit = null; body.onkeydown = null; body.scrollTop = 0;
   closeSheet(); panel.hidden = false; showScrim(); after && after(body);
@@ -2696,26 +2758,7 @@ function openBuilding(id){
       <ul class="feature-list"><li><b>BITor 등록</b><br><span class="hint">명함 사진으로 정보를 채우고, 공개 범위는 직접 정해요.</span></li><li><b>BIT 소식 · 게시판 · 캘린더</b><br><span class="hint">학회 소식과 채용, 행사, 알럼나이 세션 일정을 한곳에서 봐요.</span></li><li><b>연결 요청</b><br><span class="hint">만나고 싶은 분야를 적으면 캐비닛이 상대의 동의를 받아 연결해 줘요.</span></li></ul>
       <a class="btn big" style="display:grid;place-items:center;text-decoration:none;box-sizing:border-box;width:100%" href="${esc(CONFIG.bridgeUrl)}" target="_blank" rel="noopener">BIT Bridge 열기</a>`);
   }
-  else if (id === 'memory'){
-    const tones = ['#e8f1df','#f7e3d7','#e1eef6','#f6edd0','#ece3f6','#dff1ec'];
-    const rots = ['-2deg','1.5deg','1deg','-1.5deg','-1deg','2deg'];
-    const caps = ['창립 멤버 첫 모임','첫 MT','10주년 행사','세미나 현장','졸업 기념','오늘의 홈커밍'];
-    const html = `<label class="upload"><input type="file" id="photoIn" accept="image/*" multiple><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 16V4M6 10l6-6 6 6M4 20h16"/></svg> 사진 걸어보기 (지금은 이 기기에서만 보여요)</label>
-      <div class="gallery" id="gal">${caps.map((c, i) => `<figure class="polaroid" style="--r:${rots[i]}"><div class="ph" style="--bgc:${tones[i]}">사진 자리</div><figcaption>${c}</figcaption></figure>`).join('')}</div>
-      <p class="hint" style="margin-top:16px">캡션은 예시예요. 운영진이 사진을 올리면 모든 참석자에게 보이도록 연결할 예정이에요.</p>`;
-    openPanel('MEMORY LANE', '추억의 사진관', html, body => {
-      body.onchange = e => {
-        if (e.target.id !== 'photoIn') return;
-        [...e.target.files].forEach(file => {
-          const url = URL.createObjectURL(file);
-          const fig = document.createElement('figure'); fig.className = 'polaroid'; fig.style.setProperty('--r', (Math.random()*4-2).toFixed(1) + 'deg');
-          fig.innerHTML = `<div class="ph"><img alt=""></div><figcaption></figcaption>`;
-          fig.querySelector('img').src = url; fig.querySelector('figcaption').textContent = file.name.replace(/\.[^.]+$/, '').slice(0, 20);
-          $('#gal', body).prepend(fig);
-        });
-      };
-    });
-  }
+  else if (id === 'memory'){ openMemory(); }
   else if (id === 'people'){
     const render = body => {
       const ranges = { all: [-1, 99], a: [0, 9], b: [10, 19], c: [20, 29], d: [30, 40] };
@@ -2957,6 +3000,154 @@ menu.onclick = e => {
   }
 };
 
+/* ================= MEMORY LANE photos ================= */
+// 누구나 오늘 찍은 사진을 올려요. 공유 모드에서는 Supabase 저장소에, 미리보기에서는 이 브라우저에만 저장해요.
+const PH_LOCAL = 'bitforest.photos', PH_LOCAL_MAX = 12, PH_BATCH = 10;
+let photoCache = null, photoMissing = false, photoAdmin = false, photoTimer = 0, photoToastAt = 0;
+const phUI = { files: [], busy: false, arm: null };
+function phUrl(path){ if (!path || /^(data|blob):/.test(path) || !Cloud.on) return path || ''; return Cloud.c.storage.from('photos').getPublicUrl(path).data.publicUrl; }
+const normPhoto = x => ({ id: String(x.id), author: x.author, gen: x.author_gen === 'G' ? 'G' : (parseInt(x.author_gen, 10) || 0), name: x.author_name || 'BITor', av: cleanAv(x.author_av), path: x.path, thumb: x.thumb, caption: x.caption || '', ts: Date.parse(x.created_at) || Date.now() });
+async function photosFetch(){
+  if (!Cloud.on){ photoCache = store.get(PH_LOCAL, []); return photoCache; }
+  const { data, error } = await Cloud.c.from('photos').select('id,author,author_gen,author_name,author_av,path,thumb,caption,created_at').order('created_at', { ascending: false }).limit(400);
+  if (error){ if (/photos/.test(error.message || '') || error.code === '42P01' || error.code === 'PGRST205'){ photoMissing = true; photoCache = []; return photoCache; } throw error; }
+  photoMissing = false; photoCache = data.map(normPhoto); return photoCache;
+}
+async function shrinkImage(src, max){
+  let img = src, url = null;
+  if (!(src instanceof HTMLCanvasElement)){
+    try { img = await createImageBitmap(src, { imageOrientation: 'from-image' }); }
+    catch (e) { url = URL.createObjectURL(src); img = await loadImg(url); }
+    if (!img) throw new Error('decode');
+  }
+  const w = img.width, hh = img.height, s = Math.min(1, max / Math.max(w, hh));
+  const c = document.createElement('canvas'); c.width = Math.max(1, Math.round(w * s)); c.height = Math.max(1, Math.round(hh * s));
+  const x = c.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, c.width, c.height); x.imageSmoothingQuality = 'high'; x.drawImage(img, 0, 0, c.width, c.height);
+  if (img.close) img.close(); if (url) URL.revokeObjectURL(url);
+  return c;
+}
+const jpegBlob = (c, q) => new Promise(r => c.toBlob(r, 'image/jpeg', q));
+function photoErr(e){
+  const m = String(e && (e.message || e.error || e)) || '';
+  if (/decode/.test(m)) return '이 사진 형식은 열 수 없어요. 다른 사진으로 시도해 주세요';
+  if (/40장/.test(m)) return '사진은 한 사람당 40장까지 올릴 수 있어요';
+  if (/quota/i.test(m)) return '미리보기에서는 사진을 몇 장만 저장할 수 있어요';
+  if (photoMissing || /photos|bucket/i.test(m)) return '사진 저장소가 아직 준비되지 않았어요. 운영진에게 알려 주세요';
+  return '사진을 올리지 못했어요. 잠시 뒤 다시 시도해 주세요';
+}
+const Photos = {
+  async add(src, caption){
+    const me = chars.get(meId); if (!me) throw new Error('no character');
+    caption = String(caption || '').trim().slice(0, 60);
+    const big = await shrinkImage(src, Cloud.on ? 1600 : 1080), thumb = await shrinkImage(big, 520);
+    if (!Cloud.on){
+      const list = store.get(PH_LOCAL, []);
+      list.unshift({ id: uid(), author: meId, gen: me.gen, name: me.name, av: me.av, path: big.toDataURL('image/jpeg', .72), thumb: thumb.toDataURL('image/jpeg', .7), caption, ts: Date.now() });
+      while (list.length > PH_LOCAL_MAX) list.pop();
+      try { localStorage.setItem(PH_LOCAL, JSON.stringify(list)); } catch (e) { throw new Error('quota'); }
+      photoCache = list; Net.post('photos', {}); return;
+    }
+    const base = `${Cloud.uid}/${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`, st = Cloud.c.storage.from('photos');
+    const [b1, b2] = await Promise.all([jpegBlob(big, .82), jpegBlob(thumb, .72)]);
+    const opt = { contentType: 'image/jpeg', cacheControl: '31536000', upsert: false };
+    let r = await st.upload(base + '.jpg', b1, opt); if (r.error) throw r.error;
+    r = await st.upload(base + '_t.jpg', b2, opt); if (r.error){ st.remove([base + '.jpg']); throw r.error; }
+    const { error } = await Cloud.c.from('photos').insert({ path: base + '.jpg', thumb: base + '_t.jpg', caption });
+    if (error){ st.remove([base + '.jpg', base + '_t.jpg']); throw error; }
+    await photosFetch();
+  },
+  async remove(p){
+    if (!Cloud.on){ const list = store.get(PH_LOCAL, []).filter(x => x.id !== p.id); store.set(PH_LOCAL, list); photoCache = list; Net.post('photos', {}); return; }
+    if (p.author === meId){
+      const { error } = await Cloud.c.from('photos').delete().eq('id', +p.id); if (error) throw error;
+      Cloud.c.storage.from('photos').remove([p.path, p.thumb]).catch(() => {});
+    } else {
+      const { error } = await Cloud.c.rpc('admin_delete_photo', { p_code: Cloud.code, p_id: +p.id }); if (error) throw error;
+    }
+    await photosFetch();
+  }
+};
+function memoryOpen(){ return !panel.hidden && panel.dataset.kind === 'memory'; }
+function photosChanged(ev){
+  const n = ev && ev.new;
+  if (n && n.id && ev.eventType === 'INSERT' && n.author !== meId && performance.now() - photoToastAt > 20000 && !memoryOpen()){
+    photoToastAt = performance.now(); toast(`📸 <b>${esc(genLabel(n.author_gen === 'G' ? 'G' : (parseInt(n.author_gen, 10) || 0)))} ${esc(n.author_name || '')}</b>님이 MEMORY LANE에 사진을 걸었어요`, cleanAv(n.author_av));
+  }
+  clearTimeout(photoTimer);
+  photoTimer = setTimeout(async () => { if (!memoryOpen() && pvEl.hidden) { photoCache = null; return; } try { await photosFetch(); if (memoryOpen()) renderMemory(); pvSync(); } catch (e) {} }, 300);
+}
+const canDelPhoto = p => !!meId && (p.author === meId || photoAdmin);
+function openMemory(){
+  openPanel('MEMORY LANE', '오늘의 추억 사진관', '<p class="hint">사진을 불러오는 중…</p>', null, true);
+  panel.dataset.kind = 'memory';
+  photosFetch().then(renderMemory).catch(() => { photoCache = []; renderMemory(); });
+}
+function renderMemory(){
+  const body = $('#panelBody'); if (!memoryOpen()) return;
+  const me = chars.get(meId), list = photoCache || [];
+  let up;
+  if (photoMissing) up = `<div class="notice">운영진 안내: 데이터베이스에 업데이트 4를 실행하면 사진을 올릴 수 있어요.</div>`;
+  else if (!me) up = `<div class="ph-up"><p>내 캐릭터를 만들면 오늘 찍은 사진을 올릴 수 있어요.</p><button class="btn" type="button" data-ph="join">내 캐릭터 만들기</button></div>`;
+  else if (phUI.files.length) up = `<div class="ph-up"><div class="ph-pre">${phUI.files.map((f, i) => `<span><img src="${f.url}" alt=""><button type="button" data-ph-drop="${i}" aria-label="이 사진 빼기">×</button></span>`).join('')}</div>
+      <div class="ph-row"><button class="btn ghost" type="button" data-ph="cancel"${phUI.busy ? ' disabled' : ''}>취소</button><button class="btn" type="button" data-ph="send"${phUI.busy ? ' disabled' : ''}>${phUI.busy ? esc(phUI.busy) : `${phUI.files.length}장 올리기`}</button></div></div>`;
+  else up = `<label class="upload ph-pick"><input type="file" id="photoIn" accept="image/*" multiple><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.6"/></svg><span><b>오늘 찍은 사진 올리기</b><small>한 번에 ${PH_BATCH}장까지 · 모든 참석자에게 보여요</small></span></label>`;
+  const gal = list.length ? `<div class="gallery ph-gal">${list.map((p, i) => `<figure class="polaroid" style="--r:${((i * 37) % 7 - 3) * .6}deg"><button class="ph" type="button" data-ph-open="${i}" aria-label="사진 크게 보기${p.caption ? ': ' + esc(p.caption) : ''}"><img src="${esc(phUrl(p.thumb))}" alt="" loading="lazy" decoding="async"></button><figcaption>${p.caption ? `<span class="cap">${esc(p.caption)}</span>` : ''}<span class="by">${esc(genLabel(p.gen))} ${esc(p.name)} · ${clTime(p.ts)}</span></figcaption></figure>`).join('')}</div>`
+    : `<div class="ph-empty"><b>아직 걸린 사진이 없어요</b><br>오늘의 첫 사진을 걸어 주세요!</div>`;
+  body.innerHTML = up + `<h3 class="bd-h sec-h">오늘의 사진 <small>${list.length}장</small>${photoAdmin ? '<span class="adm-on">사진 관리 중</span>' : ''}</h3>` + gal;
+  body.onchange = e => {
+    if (e.target.id !== 'photoIn') return;
+    const fs = [...e.target.files].filter(f => /^image\//.test(f.type) || /\.(heic|heif|jpe?g|png|webp)$/i.test(f.name));
+    if (fs.length > PH_BATCH) toast(`한 번에 ${PH_BATCH}장까지 올릴 수 있어서 앞의 ${PH_BATCH}장만 골랐어요`);
+    phUI.files = fs.slice(0, PH_BATCH).map(f => ({ file: f, url: URL.createObjectURL(f) })); renderMemory();
+  };
+  body.onclick = async e => {
+    const t = e.target.closest('button'); if (!t) return;
+    if (t.dataset.ph === 'join'){ closePanel(); openEntry('who'); return; }
+    if (t.dataset.phOpen != null) return openPhoto(+t.dataset.phOpen);
+    if (t.dataset.phDrop != null){ const [f] = phUI.files.splice(+t.dataset.phDrop, 1); if (f) URL.revokeObjectURL(f.url); renderMemory(); return; }
+    if (t.dataset.ph === 'cancel'){ phUI.files.forEach(f => URL.revokeObjectURL(f.url)); phUI.files = []; renderMemory(); return; }
+    if (t.dataset.ph === 'send' && !phUI.busy){
+      const files = phUI.files.slice(); let ok = 0, err = null;
+      for (let i = 0; i < files.length; i++){
+        phUI.busy = `올리는 중 ${i + 1}/${files.length}`; renderMemory();
+        try { await Photos.add(files[i].file, ''); ok++; } catch (x) { err = x; console.warn('[bitforest] photo upload failed', x); if (/quota|40장/.test(String(x && x.message))) break; }
+      }
+      phUI.busy = false; files.forEach(f => URL.revokeObjectURL(f.url)); phUI.files = [];
+      try { await photosFetch(); } catch (x) {}
+      renderMemory();
+      if (ok) toast(`사진 ${ok}장을 MEMORY LANE에 걸었어요! 📸`); if (err) toast(photoErr(err));
+    }
+  };
+}
+/* photo viewer */
+const pvEl = $('#photoView'); let pvIdx = 0, pvArm = 0;
+function openPhoto(i){ pvIdx = i; pvEl.hidden = false; pvSync(); setTimeout(() => $('[data-pv=close]', pvEl).focus(), 50); }
+function pvSync(){
+  if (pvEl.hidden) return;
+  const list = photoCache || []; if (!list.length){ pvEl.hidden = true; return; }
+  pvIdx = Math.max(0, Math.min(pvIdx, list.length - 1)); const p = list[pvIdx]; pvArm = 0;
+  $('#pvImg').src = phUrl(p.thumb); const full = phUrl(p.path); const im = new Image(); im.onload = () => { if (list[pvIdx] === p) $('#pvImg').src = full; }; im.src = full;
+  $('#pvImg').alt = p.caption || `${genLabel(p.gen)} ${p.name}님이 올린 사진`;
+  $('#pvCap').innerHTML = `${p.caption ? `<b>${esc(p.caption)}</b>` : ''}<span>${esc(genLabel(p.gen))} ${esc(p.name)} · ${clTime(p.ts)} · ${pvIdx + 1}/${list.length}</span>
+    <span class="pv-act"><a class="btn ghost" href="${esc(full)}" target="_blank" rel="noopener" download>원본 보기</a>${canDelPhoto(p) ? `<button class="btn ghost danger-txt" type="button" data-pv="del">${p.author === meId ? '내 사진 내리기' : '사진 내리기 (운영진)'}</button>` : ''}</span>`;
+  $('[data-pv=prev]', pvEl).disabled = pvIdx === 0; $('[data-pv=next]', pvEl).disabled = pvIdx >= list.length - 1;
+}
+pvEl.addEventListener('click', async e => {
+  const t = e.target.closest('[data-pv]'); if (!t){ if (e.target === pvEl) pvEl.hidden = true; return; }
+  const a = t.dataset.pv;
+  if (a === 'close') pvEl.hidden = true;
+  if (a === 'prev'){ pvIdx--; pvSync(); }
+  if (a === 'next'){ pvIdx++; pvSync(); }
+  if (a === 'del'){
+    if (performance.now() - pvArm > 4000){ pvArm = performance.now(); t.textContent = '한 번 더 누르면 내려가요'; return; }
+    const p = (photoCache || [])[pvIdx]; if (!p) return; t.disabled = true;
+    try { await Photos.remove(p); toast('사진을 내렸어요'); if (!(photoCache || []).length) pvEl.hidden = true; else pvSync(); if (memoryOpen()) renderMemory(); }
+    catch (x) { console.warn('[bitforest] photo delete failed', x); toast(photoAdmin && p.author !== meId ? '운영진 코드를 다시 확인해 주세요' : '사진을 내리지 못했어요'); t.disabled = false; }
+  }
+});
+pvEl.addEventListener('keydown', e => { if (e.key === 'Escape') pvEl.hidden = true; if (e.key === 'ArrowLeft' && pvIdx > 0){ pvIdx--; pvSync(); } if (e.key === 'ArrowRight' && pvIdx < (photoCache || []).length - 1){ pvIdx++; pvSync(); } });
+{ let sx = null; pvEl.addEventListener('touchstart', e => { sx = e.touches[0].clientX; }, { passive: true }); pvEl.addEventListener('touchend', e => { if (sx == null) return; const dx = e.changedTouches[0].clientX - sx; sx = null; if (Math.abs(dx) > 50){ const n = pvIdx + (dx < 0 ? 1 : -1); if (n >= 0 && n < (photoCache || []).length){ pvIdx = n; pvSync(); } } }); }
+
 /* ================= chat log ================= */
 // 머리 위 말풍선은 그대로 두고, 같은 대화를 오른쪽 창에 차례로 쌓아 보여줘요 (이 기기에만 저장)
 const CL_KEY = 'bitforest.chatlog', CL_MAX = 200;
@@ -3002,18 +3193,37 @@ let logoTaps = [];
 document.addEventListener('click', e => { if (!e.target.closest || !e.target.closest('.logo, .entry-logo')) return; const t = performance.now(); logoTaps = logoTaps.filter(x => t - x < 2500).concat(t); if (logoTaps.length >= 5){ logoTaps = []; openAdmin(); } });
 function openAdmin(){
   openPanel('운영진 도구', '참석자에게는 보이지 않는 메뉴예요', `<div class="admin">
+    <input id="admCode" type="password" maxlength="40" placeholder="운영진 코드" aria-label="운영진 코드" autocomplete="off" value="${esc(Cloud.code || '')}">
+    <div class="admin-box calm">
+      <h3>사진 관리</h3>
+      <p>켜 두면 MEMORY LANE의 모든 사진에 ‘사진 내리기’ 버튼이 보여요. 이 기기에서만 켜지고, 새로고침하면 꺼져요.</p>
+      <button class="btn big" type="button" id="admPhotos">${photoAdmin ? '사진 관리 켜짐 · 끄기' : '사진 관리 켜기'}</button>
+      <p class="hint" id="admPhMsg"></p>
+    </div>
     <div class="admin-box">
       <h3>광장 초기화</h3>
       <p>지금 들어와 있는 모든 사람을 광장에서 내보내요. 모두의 화면이 처음 입장 화면으로 돌아가고, 다시 기수와 이름을 골라 들어와야 해요.</p>
       <div class="admin-opts" role="radiogroup" aria-label="초기화 범위">
         <label><input type="radio" name="admAll" value="0" checked><span><b>사람만 내보내기</b><br>방명록, 선배에게 질문, Thanks to 명단은 남겨요</span></label>
-        <label><input type="radio" name="admAll" value="1"><span><b>전체 초기화</b><br>사람, 방명록, 질문과 답변, 메시지를 모두 지워요. Thanks to 명단만 남아요</span></label>
+        <label><input type="radio" name="admAll" value="1"><span><b>전체 초기화</b><br>사람, 방명록, 질문과 답변, 메시지, MEMORY LANE 사진을 모두 지워요. Thanks to 명단만 남아요</span></label>
       </div>
-      <input id="admCode" type="password" maxlength="40" placeholder="운영진 코드" aria-label="운영진 코드" autocomplete="off" value="${esc(Cloud.code || '')}">
       <button class="btn big danger-btn" type="button" id="admGo">초기화하기</button>
       <p class="hint" id="admMsg">${Cloud.on ? '되돌릴 수 없으니 행사 직전 테스트를 마친 뒤에 사용해 주세요.' : '지금은 이 브라우저 혼자 쓰는 미리보기 모드라서, 이 브라우저의 기록만 지워져요.'}</p>
     </div></div>`, body => {
       if (!entry.hidden) panel.style.zIndex = '60';
+      $('#admPhotos', body).onclick = async () => {
+        const btn = $('#admPhotos', body), msg = $('#admPhMsg', body), code = $('#admCode', body).value.trim();
+        if (photoAdmin){ photoAdmin = false; btn.textContent = '사진 관리 켜기'; msg.textContent = '사진 관리를 껐어요.'; return; }
+        if (Cloud.on){
+          if (!code){ msg.textContent = '위에 운영진 코드를 입력해 주세요.'; return; }
+          btn.disabled = true;
+          const { data, error } = await Cloud.c.rpc('admin_check', { p_code: code }); btn.disabled = false;
+          if (error){ msg.textContent = /admin_check|function/.test(error.message || '') ? '데이터베이스에 업데이트 4를 먼저 실행해 주세요.' : '확인하지 못했어요. 잠시 뒤 다시 시도해 주세요.'; return; }
+          if (!data){ msg.textContent = '운영진 코드가 맞지 않아요.'; return; }
+          Cloud.code = code;
+        }
+        photoAdmin = true; btn.textContent = '사진 관리 켜짐 · 끄기'; msg.textContent = '이제 MEMORY LANE에서 어떤 사진이든 내릴 수 있어요.';
+      };
       let armed = 0;
       $('#admGo', body).onclick = async () => {
         const btn = $('#admGo', body), msg = $('#admMsg', body), code = $('#admCode', body).value.trim(), all = $('input[name=admAll]:checked', body).value === '1';
